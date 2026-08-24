@@ -1,0 +1,299 @@
+{
+  "main": {
+    "id": "3aeae70d52301d16",
+    "type": "split",
+    "children": [
+      {
+        "id": "fa73363d02f957c0",
+        "type": "split",
+        "children": [
+          {
+            "id": "7819494666d605f7",
+            "type": "tabs",
+            "dimension": 68.9922480620155,
+            "children": [
+              {
+                "id": "4f56f5c047dc61fb",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "00_Cisco_Switch_Configuration"
+                }
+              },
+              {
+                "id": "d352f8de600367a3",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration_Worksheet.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "00_Cisco_Switch_Configuration_Worksheet"
+                }
+              },
+              {
+                "id": "a7624b8d02552034",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "Notes/01-Beginner/01_Cisco IOS Operating System.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "01_Cisco IOS Operating System"
+                }
+              },
+              {
+                "id": "2b96594f162802f7",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "Notes/01-Beginner/01-Cisco IOS Practice Exercises/01_Static_Routing_Basic_Router_Setup.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "01_Static_Routing_Basic_Router_Setup"
+                }
+              }
+            ],
+            "currentTab": 1
+          },
+          {
+            "id": "8f008437cf6d605d",
+            "type": "tabs",
+            "dimension": 31.007751937984494,
+            "children": [
+              {
+                "id": "826e152393e0747a",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "Notes/00-CheatSheets/Switch_Commands.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Switch_Commands"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "horizontal"
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "25ced61bdd304bf5",
+    "type": "split",
+    "children": [
+      {
+        "id": "d57dcf98b80fd10a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "eda07b4ebaed34ff",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "11fc8f199c4fc2f1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "ef1be2176f1fa561",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "e5312c35852101e4",
+    "type": "split",
+    "children": [
+      {
+        "id": "dcf5595b4ee07fea",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c66f2a1e0a6b3862",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration_Worksheet.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "15cb42181152b202",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration_Worksheet.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "32a59de97354a3c2",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "e96e2f43b2885135",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "69c0df9810e92528",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration_Worksheet.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "d352f8de600367a3",
+  "lastOpenFiles": [
+    "README.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration_Worksheet.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/01_Static_Routing_Basic_Router_Setup.md",
+    "Images/Pasted image 20260824091354.png",
+    "Notes/00-CheatSheets/Router_Commands.md",
+    "Notes/00-CheatSheets",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/08_Port_Security_AAA.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/07_DHCP_NAT.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/06_STP_RapidPVST_EtherChannel.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/05_VLANs_Trunking_InterVLAN_Routing.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/03_Dynamic_Routing_OSPF.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/04_Access_Control_Lists.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/02_Dynamic_Routing_RIPv2.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises",
+    "Notes/00-CheatSheets/Switch_Commands.md",
+    "Drills/Drill 2.md",
+    "Notes/Practice.md",
+    "Notes/Unconfirmed 282335.crdownload",
+    "ipscan-3.9.3-setup.exe",
+    "Unconfirmed 693039.crdownload",
+    "Notes/01-Beginner/01_Cisco IOS Operating System.md",
+    "Misc/Cisco Academy Assessment.pdf",
+    "Images/Pasted image 20260824091742.png",
+    "Misc/00-Resources.md",
+    "Misc",
+    "00-Resources.md",
+    "Notes/01-Beginner/00_Cisco IOS Overview.md",
+    "Notes/01-Glossarick/00 - Cisco IOS Operating System.md",
+    "Notes/01 - Cisco IOS Overview.md",
+    "Misc/IMPORTANT.md",
+    "Misc/VLANS & VTP.md"
+  ]
+}
