@@ -12,3 +12,9 @@ https://www.computernetworkingnotes.com/ccna-study-guide/switching-concepts-expl
 
 https://ipcisco.com/lesson/vtp-configuration-with-packet-tracer/
 
+[Integrating Your Machine With the Network](http://ibgwww.colorado.edu/~lessem/psyc5112/usail/network/toc.html)
+
+https://www.google.com/search?q=web+desktops&oq=web+desktops&sourceid=chrome&ie=UTF-8
+
+https://windows93.net/
+

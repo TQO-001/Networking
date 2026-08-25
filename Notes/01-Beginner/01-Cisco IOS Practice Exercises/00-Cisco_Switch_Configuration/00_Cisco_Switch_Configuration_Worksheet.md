@@ -10,23 +10,23 @@ This study guide and fill-in-the-blank practice sheet is designed to help you pr
 ### Section 1: Initial Setup & Management IP
 
 1. **Enter Privileged EXEC mode:**
-   ```text
+   ```cisco
    Switch> [ ??? ]
    ```
 
 2. **Enter Global Configuration mode:**
-   ```text
+   ```cisco
    Switch# [ ??? ]
    ```
 
 3. **Access interface VLAN 1 to assign management IP `10.10.22.110` with subnet `255.255.255.0`:**
-   ```text
+   ```cisco
    Switch(config)# [ ??? ]
    Switch(config-if)# [ ??? ]
    ```
 
 4. **Return to global config mode and configure the default gateway `10.10.22.1`:**
-   ```text
+   ```cisco
    Switch(config-if)# [ ??? ]
    Switch(config)# [ ??? ]
    ```
@@ -36,26 +36,26 @@ This study guide and fill-in-the-blank practice sheet is designed to help you pr
 ### Section 2: Device Naming & Line Security
 
 5. **Set the hostname to `IND-SW-CD-PP` and domain name to `hulamin.co.za`:**
-   ```text
+   ```cisco
    Switch(config)# [ ??? ]
    IND-SW-CD-PP(config)# [ ??? ]
    ```
 
 6. **Secure VTY lines `0` to `15` with password `BigSecretDon'tT3ll@ny1`:**
-   ```text
+   ```cisco
    IND-SW-CD-PP(config)# [ ??? ]
    IND-SW-CD-PP(config-line)# [ ??? ]
    ```
 
 7. **Secure `console 0` with password `BigSecretForConsoleDon'tT3ll@ny1`:**
-   ```text
+   ```cisco
    IND-SW-CD-PP(config-line)# exit
    IND-SW-CD-PP(config)# [ ??? ]
    IND-SW-CD-PP(config-line)# [ ??? ]
    ```
 
 8. **Set the Privileged EXEC encrypted password to `Top$ecretPrivEXECpassWORD`:**
-   ```text
+   ```cisco
    IND-SW-CD-PP(config-line)# exit
    IND-SW-CD-PP(config)# [ ??? ]
    ```
@@ -65,13 +65,13 @@ This study guide and fill-in-the-blank practice sheet is designed to help you pr
 ### Section 3: SSH Hardening
 
 9. **Generate RSA keys (using default 2048-bit size) and enforce SSH Version 2:**
-   ```text
+   ```cisco
    IND-SW-CD-PP(config)# [ ??? ]
    IND-SW-CD-PP(config)# [ ??? ]
    ```
 
 10. **Restrict VTY lines `0 5` to SSH only and require local database authentication:**
-    ```text
+    ```cisco
     IND-SW-CD-PP(config)# [ ??? ]
     IND-SW-CD-PP(config-line)# [ ??? ]
     IND-SW-CD-PP(config-line)# [ ??? ]
@@ -82,20 +82,20 @@ This study guide and fill-in-the-blank practice sheet is designed to help you pr
 ### Section 4: VLAN Creation & Port Configuration
 
 11. **Create VLAN 2 and name it `Gijima`:**
-    ```text
+    ```cisco
     IND-SW-CD-PP(config)# [ ??? ]
     IND-SW-CD-PP(config-vlan)# [ ??? ]
     ```
 
 12. **Assign FastEthernet ports `0/5` through `0/7` as access ports on VLAN 2:**
-    ```text
+    ```cisco
     IND-SW-CD-PP(config)# [ ??? ]
     IND-SW-CD-PP(config-if-range)# [ ??? ]
     IND-SW-CD-PP(config-if-range)# [ ??? ]
     ```
 
 13. **Configure FastEthernet port `0/2` as a trunk port:**
-    ```text
+    ```cisco
     IND-SW-CD-PP(config)# [ ??? ]
     IND-SW-CD-PP(config-if)# [ ??? ]
     ```
@@ -105,7 +105,7 @@ This study guide and fill-in-the-blank practice sheet is designed to help you pr
 ### Section 5: Saving Configuration
 
 14. **Save the active configuration from RAM to NVRAM:**
-    ```text
+    ```cisco
     IND-SW-CD-PP# [ ??? ]
     ```
 
@@ -150,7 +150,7 @@ Below are the exact commands required for each question.
 
 ## 📜 Full Terminal Script Reference
 
-```text
+```cisco
 Switch>enable
 Switch#config t
 Switch(config)#interface vlan 1

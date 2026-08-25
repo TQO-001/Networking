@@ -13,26 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration.md",
+                "file": "Misc/IMPORTANT.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "00_Cisco_Switch_Configuration"
-            }
-          },
-          {
-            "id": "2b96594f162802f7",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Notes/Drill 1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Drill 1"
+              "title": "IMPORTANT"
             }
           },
           {
@@ -41,26 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Notes/01-Beginner/00_Cisco IOS Overview.md",
+                "file": "Notes/01-Beginner/02_Basic Network Configurations.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "00_Cisco IOS Overview"
-            }
-          },
-          {
-            "id": "a7624b8d02552034",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Notes/01-Beginner/01_Cisco IOS Operating System.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "01_Cisco IOS Operating System"
+              "title": "02_Basic Network Configurations"
             }
           },
           {
@@ -69,16 +41,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Notes/00-CheatSheets/Switch_Commands.md",
+                "file": "Misc/IMPORTANT.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Switch_Commands"
+              "title": "IMPORTANT"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -140,7 +111,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 277.5
   },
   "right": {
     "id": "e5312c35852101e4",
@@ -245,19 +216,43 @@
       "bases:Create new base": false
     }
   },
-  "active": "2b96594f162802f7",
+  "active": "4f56f5c047dc61fb",
   "lastOpenFiles": [
-    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration_Worksheet.md",
-    "Notes/Drill 1.md",
-    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00_Cisco_Switch_Configuration.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00-Other Exercises/00_Switch Configuration.md",
+    "Notes/01-Beginner/02_Basic Network Configurations.md",
+    "Misc/IMPORTANT.md",
     "Notes/00-CheatSheets/Switch_Commands.md",
-    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/01_Static_Routing_Basic_Router_Setup.md",
-    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/01_Walkthrough_Basic_Management_Hardening.md",
+    "python-automation-book-readthedocs-io-en-stable.pdf",
+    "Unconfirmed 344384.crdownload",
+    "200 1.webp",
+    "200.webp",
+    "Pasted image 20260825145117.jpg",
+    "Notes/01-Beginner/03_SSH and Telnet.md",
+    "Misc/00-Resources.md",
+    "Images/ip-settings.png",
+    "Images/Pasted image 20260825124728.jpg",
+    "Images/ip-settings-blank.png",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00-Cisco_Switch_Configuration/00_Cisco_Switch_Configuration.md",
+    "network_id_and_host_id.webp",
+    "192_168_1_0_24.webp",
+    "Images/Pasted image 20260825123847.jpg",
+    "what-is-network.webp",
+    "README.md",
     "Notes/01-Beginner/01_Cisco IOS Operating System.md",
     "Notes/01-Beginner/00_Cisco IOS Overview.md",
-    "README.md",
-    "Images/Pasted image 20260824091354.png",
+    "ssh.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/01_Static_Routing_Basic_Router_Setup.md",
+    "00_Switch Configuration.pdf",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00-Cisco_Switch_Configuration/00_Cisco_Switch_Configuration_Worksheet.md",
+    "Notes/Drill 1.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00-Cisco_Switch_Configuration/Documentation/001.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00-Other Exercises",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/Documentation/Untitled.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00-Cisco_Switch_Configuration",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/00-Cisco_Switch_Configuration/Documentation",
     "Notes/00-CheatSheets/Router_Commands.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/07_Walkthrough_Switch_Stacking.md",
+    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/01_Walkthrough_Basic_Management_Hardening.md",
     "Notes/00-CheatSheets",
     "Notes/01-Beginner/01-Cisco IOS Practice Exercises/08_Port_Security_AAA.md",
     "Notes/01-Beginner/01-Cisco IOS Practice Exercises/07_DHCP_NAT.md",
@@ -265,21 +260,8 @@
     "Notes/01-Beginner/01-Cisco IOS Practice Exercises/05_VLANs_Trunking_InterVLAN_Routing.md",
     "Notes/01-Beginner/01-Cisco IOS Practice Exercises/03_Dynamic_Routing_OSPF.md",
     "Notes/01-Beginner/01-Cisco IOS Practice Exercises/04_Access_Control_Lists.md",
-    "Notes/01-Beginner/01-Cisco IOS Practice Exercises/02_Dynamic_Routing_RIPv2.md",
     "Notes/01-Beginner/01-Cisco IOS Practice Exercises",
-    "Drills/Drill 2.md",
-    "Notes/Practice.md",
     "Notes/Unconfirmed 282335.crdownload",
-    "ipscan-3.9.3-setup.exe",
-    "Unconfirmed 693039.crdownload",
-    "Misc/Cisco Academy Assessment.pdf",
-    "Images/Pasted image 20260824091742.png",
-    "Misc/00-Resources.md",
-    "Misc",
-    "00-Resources.md",
-    "Notes/01-Glossarick/00 - Cisco IOS Operating System.md",
-    "Notes/01 - Cisco IOS Overview.md",
-    "Misc/IMPORTANT.md",
-    "Misc/VLANS & VTP.md"
+    "ipscan-3.9.3-setup.exe"
   ]
 }
