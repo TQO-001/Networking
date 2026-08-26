@@ -21,7 +21,6 @@ Assuming your PC’s serial port is COM1, if you use Putty and Windows, you can 
 Once your cable is connected and the session is set up, click open. Then press enter to get a response at the terminal window.
 
 ### Step 2: Set a management IP and default gateway
-
 The management IP address is where you can log in to the switch for future administrative tasks. Once your management IP is set up, you can use it to SSH into the switch and configure it over the network.
 
 First, we access Privileged EXEC mode with the “enable” switch configuration command:
@@ -51,6 +50,8 @@ Switch(config-if)#exit
 Switch(config)#ip default-gateway 10.10.22.1
 Switch(config)#
 ```
+
+> [!NOTE] **NOTE** - A default gateway is not needed if all devices stay on the same local network without a router. If this is a simple network with no router and if the switch is a L2 switch then there is no need to add a default-gateway, there is no traffic going in/out the network either way. 
 ### Step 3: Set hostname and domain name
 
 In addition to setting the IP address of the switch, you should give it a logical hostname. To do that, we enter global configuration mode and use the hostname command:
@@ -88,7 +89,7 @@ IND-SW-CD-PP(config-line)#exit
 IND-SW-CD-PP(config)#enable secret Top$ecretPrivEXECpassWORD
 IND-SW-CD-PP(config)#
 ```
-_Note: Because switch security is a complex topic, and we’re focused on the basics, we won’t go into [user management](https://www.auvik.com/franklyit/reports/it-pro-switch-ebook/) here. However, be sure to properly configure users or remote authentication servers before a production deployment._
+> [!NOTE] **NOTE**: Because switch security is a complex topic, and we’re focused on the basics, we won’t go into user management here. However, be sure to properly configure users or remote authentication servers before a production deployment.
 
 ### Step 6: Enable SSH
 
@@ -171,11 +172,9 @@ Building configuration...
 IND-SW-CD-PP#
 ```
 ## What does an effective switch look like?
+After you complete a network switch configuration, how do you know if it will be effective? Frankly, there is no one-size-fits-all answer. Generally, an effective switch is one that is both secure and well performing given the requirements of its specific environment. Understanding if your switch configuration is effective begins with establishing those baseline requirements and monitoring performance.
 
-After you complete a network switch configuration, how do you know if it will be effective? Frankly, there is no one-size-fits-all answer. Generally, an effective switch is one that is both secure and well performing given the requirements of its specific environment. Understanding if your switch configuration is effective begins with [establishing those baseline requirements and monitoring performance](https://www.auvik.com/franklyit/blog/network-optimization/).
-
-## Simple Bare Booty Basic Config
-
+## Basic Config
 You will find a command-and-explanation table right below, and a cisco box with the same command sequence **you can copy and paste on your device's terminal** after that.
 
 > [!NOTE] **Note:** These commands work on both Cisco routers and switches.

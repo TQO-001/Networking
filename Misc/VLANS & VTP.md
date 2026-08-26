@@ -1,4 +1,4 @@
-![[Notes/Images/network_without_vlans.webp]]# What is a VLAN?
+# What is a VLAN?
 **VLANs (Virtual LANs)** are logical grouping of devices in the same [broadcast domain](https://study-ccna.com/collision-broadcast-domain/). VLANs are usually configured on switches by placing some interfaces into one broadcast domain and some interfaces into another. Each VLAN acts as a subgroup of the switch ports in an Ethernet LAN.
 
 > Put more simply ==a VLAN (Virtual Local Area Network) is a tool that splits one physical network into many logical networks==. Devices on different VLANs cannot talk to each other without a router, even if they plug into the same switch. This setup stops extra broadcast traffic and keeps data safe. 
@@ -23,7 +23,6 @@ By placing interfaces on both switches into a separate VLAN, a broadcast from ho
 
 ![[Notes/Images/network_with_vlans.webp]]
 
-> [!NOTE] **NOTE** - To reach hosts in a different VLAN, a router is needed.
 
 # What is VTP (VLAN Trunking Protocol)?
 > [!NOTE] **NOTE** - This topic is not included in the latest version of the CCNA exam (200-301). However, knowing the basic concepts is still strongly recommended because it affects switch behavior in hands-on labs and troubleshooting.

@@ -128,4 +128,3 @@ To avoid this scenario, you need to copy your current configuration into the sta
 To copy your running configuration into the startup configuration you need to type the command _copy running-configuration startup-configuration_.
 ![[Pasted image 20260821154348.png]]
 
-PepperAndEggSwitch

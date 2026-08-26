@@ -3,6 +3,50 @@ The more you practice learning how to configure a switch in different ways, the 
 
 Unlike your walkthrough Exercises These tasks will assume you have a basic understanding of the task given. For example unless stated otherwise used the most convenient form of connection to a device, whether that be Serial-to-USB, SSH or even Telnet.
 
+---
+## Concepts explored
+- Naming a switch
+- Creating a user and user password on the switch
+- Creating a **secure** Configuration mode password
+- VLAN Configuraiton:
+	- Creating a VLAN
+	- Naming a VLAN
+	- Assign port to a VLAN
+	- Assign a IP address to a VLAN
+- SSH and Telnet Configuration
+- Testing Connectivity of devices
+- Cisco IOS [[Switch_Commands]]:
+	- `enable`, `enable secret [enable_password]`
+	- `configure terminal`
+	- `exit`
+	- `hostname [switch_name]`
+	- `username [username] secret [user_password`
+	- `do [command]`
+	- `show [data]`, `show vlan`, `do show vlan`, `show vlan brief`, `do show vlan brief`,
+	- `show ip interface`, `show ip interface brief`, `do show ip interface brief`
+	- `vlan [vlan-id]`
+	- `name [vlan_name]`
+	- `interface [type] [number]`
+	- `switchport mode access`
+	- `switchport access vlan [vlan-id]`
+	- `no [command]`, `no shutdown`
+	- `ip address [ip_address] [subnet_mask]`
+	- `ip default-gateway [default_gateway_ip_address]`
+	- `ip domain-name [domain_name]`
+	- `crypto key generate rsa`, `crypto key generate rsa modulus 2048`
+	- `ip ssh version [ssh_version]`
+	- `ip ssh time-out [seconds]`
+	- `line vty [remote_session_line_start] [remote_session_line_end]`
+	- `transport input [protocol(s)]`
+	- `login local`
+	- `copy running-config startup-config`
+	- `ping [ip_address]`
+
+	- `delete [data]`, `delete flash:vlan.dat`
+	- `erase startup-config`
+	- `reload`
+
+---
 ## What you will need
 -  A LAN cable
 - Serial-to-USB cable
@@ -10,11 +54,171 @@ Unlike your walkthrough Exercises These tasks will assume you have a basic under
 - A Cisco Switch with at *least* 6 ports (for this example we'll use a ***Cisco IE 3000***)
 - PuTTY or MobaXterm
 
+---
 ## Complete the following:
 1. Change the name of the Switch to `IND-ED-TEST`
 2. Create VLANs, assign 1 port to each VLAN and give them their own names (One of them has to be named **MGMT**) - 10, 20, 30, 40, 50
 3. Give the **MGMT (MANAGEMENT)** VLAN an IP address - `192.168.10.2/24`\
 4. Enable SSH and Telnet
+
+---
+---
+# Simulation
+Let's try and simulate the task we were given, I won't include the documentation for the simulation as it would be somewhat redundant when we actually configure the actual switch and document the same process again.
+![[Pasted image 20260826105154.png]]
+### Cisco IOS CLI: show running-config (IND-ED-TEST)
+```cisco
+IND-ED-TEST#show running-config
+
+Building configuration...
+
+Current configuration : 1355 bytes
+-----------------------------------------------------------------------
+
+version 17.6
+
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+-----------------------------------------------------------------------
+
+hostname IND-ED-TEST
+-----------------------------------------------------------------------
+
+enable secret 5 $1$mERr$N49N/oZCXZ9WPbPXa/EqU.
+-----------------------------------------------------------------------
+
+no ip cef
+no ipv6 cef
+-----------------------------------------------------------------------
+
+ptp mode e2etransparent
+username Ind-it secret 5 $1$mERr$J8RttO1C8lRkTGfOkXb.C/
+-----------------------------------------------------------------------
+
+ip ssh version 2
+ip ssh time-out 60
+ip domain-name george.local
+-----------------------------------------------------------------------
+
+spanning-tree mode pvst
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/1
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/2
+switchport access vlan 10
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/3
+switchport access vlan 10
+switchport mode access
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/4
+switchport access vlan 20
+switchport mode access
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/5
+switchport access vlan 20
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/6
+switchport access vlan 30
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/7
+switchport access vlan 30
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/8
+switchport access vlan 40
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/9
+switchport access vlan 40
+-----------------------------------------------------------------------
+
+interface GigabitEthernet1/10
+switchport access vlan 50
+-----------------------------------------------------------------------
+
+interface Vlan1
+no ip address
+shutdown
+-----------------------------------------------------------------------
+
+interface Vlan30
+mac-address 0050.0f73.8301
+ip address 192.168.10.2 255.255.255.0
+-----------------------------------------------------------------------
+
+ip default-gateway 192.168.10.1
+ip classless
+-----------------------------------------------------------------------
+
+ip flow-export version 9
+-----------------------------------------------------------------------
+
+line con 0
+-----------------------------------------------------------------------
+
+line aux 0
+-----------------------------------------------------------------------
+
+line vty 0 4
+login local
+line vty 5 15
+login local
+-----------------------------------------------------------------------
+
+end
+
+IND-ED-TEST#
+```
+
+### Cisco IOS CLI: ping 192.168.10.3 (IE-3400 - IND-ED-TEST)
+```cisco
+IND-ED-TEST#ping 192.168.10.3
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.10.3, timeout is 2 seconds:
+.!!!!
+Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/1 ms
+
+IND-ED-TEST#ping 192.168.10.3
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.10.3, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/1 ms
+IND-ED-TEST#
+```
+
+### Cicso Packet Tracer Personal PC CMD : ping 192.168.10.2 (Laptop-PT)
+```cisco
+
+Cisco Packet Tracer PC Command Line 1.0
+C:\>ping 192.168.10.2
+
+Pinging 192.168.10.2 with 32 bytes of data:
+
+Reply from 192.168.10.2: bytes=32 time=5ms TTL=255
+Reply from 192.168.10.2: bytes=32 time=1ms TTL=255
+Reply from 192.168.10.2: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.2: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.10.2:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 5ms, Average = 1ms
+
+C:\>
+```
+
+> Please refer to 00_Switch_Configuration_Simulation.pkt
+
+---
 ---
 # Documentation
 ### Step 1: Change the name of the Switch to `IND-ED-TEST`
@@ -27,7 +231,7 @@ IND-ED-TEST(config)#
 ```
 
 ### Step 2: Create VLANs, assign 1 port to each and name them
-**First let's see what we're working here bub.**
+**First let's see what we're working here.**
 ```cisco
 IND-ED-TEST(config)#do show vlan
 
@@ -44,14 +248,14 @@ VLAN Name                             Status    Ports
 
 1. ***Now let's Create them***
 ```cisco
-IND-ED-TEST(config-vlan)#vlan 50
+IND-ED-TEST(config)#vlan 50
 IND-ED-TEST(config-vlan)#vlan 40
 IND-ED-TEST(config-vlan)#vlan 30
 IND-ED-TEST(config-vlan)#vlan 20
 IND-ED-TEST(config-vlan)#vlan 10
 ```
 
-**Cool beans, how's it looking, are we cooking good looking?**
+**Cool beans, how's it looking, are we cooking good looking? Let's check if our vlan's were created.**
 ```cisco
 IND-ED-TEST(config)#do show vlan brief
 
@@ -70,7 +274,7 @@ VLAN Name                             Status    Ports
 1005 trnet-default                    act/unsup
 ```
 
-2. ***Now let's name them twin***
+2. ***Now let's name them***
 ```cisco
 IND-ED-TEST(config-vlan)#vlan 10
 IND-ED-TEST(config-vlan)#name USERS
@@ -84,7 +288,7 @@ IND-ED-TEST(config-vlan)#vlan 50
 IND-ED-TEST(config-vlan)#name GUEST
 ```
 
-**Is it coming or are you :)
+**Did we successfully rename the vlans?**
 ```cisco
 ```cisco
 IND-ED-TEST(config)#do show ip interface brief
@@ -143,7 +347,7 @@ IND-ED-TEST(config-if)#switchport access vlan 50
 IND-ED-TEST(config-if)#exit
 ```
 
-**Where we at son?**
+**Did the ports get assigned to the correct vlan? Scroll up and check the prior configuration**
 ```cisco
 IND-ED-TEST(config)#do show vlan brief
 VLAN Name                             Status    Ports
@@ -249,12 +453,12 @@ IND-ED-TEST>
 ```cisco
 IND-ED-TEST>ping 192.168.10.3
 Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.10.3, timeout is 2 seconds:
-!!!!!
+Sending 5, 100-byte ICMP Echos to 192.168.10.3, timeout is 2 seconds
+-----------------------------------------------------------------------!!!!
 Success rate is 100 percent (5/5), round-trip min/avg/max = 1/5/9 ms
 ```
 
-> [!NOTE] NOTE - If you try and ping the PC you are connected via Serial-to-USB with, you will be ghosted because these two aren't connected on a network son.
+> [!NOTE] NOTE - If you try and ping the PC you are connected via Serial-to-USB with, you will be fail because these two aren't connected on a network.
 > ```cisco
 > IND-ED-TEST>ping 10.10.22.63
 Type escape sequence to abort.
@@ -266,12 +470,7 @@ IND-ED-TEST>
 
 For a complete step-by-step walkthrough of SSH commands and key generation on Cisco switches, watch [SSH Configuration on Cisco Routers and Switches](https://www.youtube.com/watch?v=YUUj1a-gFOo). This video provides a clear visual demonstration of setting up RSA keys, user accounts, and testing SSH connections using terminal software.
 
-# One final step...
-Okay look over here...
-
-![[Pasted image 20260825145117.jpg|260]]
-
-![[200 1.webp]]
+---
 # What do you remember?
 Nothing? Cool okay, so let's start over buddy!!!
 
@@ -354,4 +553,4 @@ Switch>
 
 ```
 
-Now go back to the tippity-top like a good lil boy and **DO IT AGAIN!**
+Now go back to the tippity-top and **DO IT AGAIN!** Practice makes perfect, good luck!
