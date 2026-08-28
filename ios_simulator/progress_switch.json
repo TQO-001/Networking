@@ -1,0 +1,8 @@
+{
+  "switch": [
+    "configure_terminal",
+    "enable",
+    "exit",
+    "hostname"
+  ]
+}
