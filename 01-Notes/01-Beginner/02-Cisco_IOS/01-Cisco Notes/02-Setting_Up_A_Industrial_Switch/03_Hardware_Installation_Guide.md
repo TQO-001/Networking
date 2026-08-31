@@ -59,7 +59,36 @@ The switch and PSU ship as bare units with **no interconnecting cables**. Before
 5. Snap each unit onto the rail using its rear DIN-clip until it seats with an audible click, then give it a firm tug to confirm it's locked
 
 ---
-## 3.5 Physical Wiring & Power Connection
+## 3.5.1 Stripping the AC input cable
+The PWR-IE240W-PCAC-L uses an industrial terminal block rather than a standard appliance plug. You must strip the wires of an AC power cord and secure them into the screw terminals.
+
+### ⚠️ Critical Safety Rules
+
+- Disconnect Power: Never wire the cord while it is plugged into a wall outlet.
+- Verify Voltage: Ensure your source matches the input label (100–240V AC).
+- Wire Gauge: Use 18 AWG to 12 AWG copper wire rated for at least 75°C (167°F).
+
+### Step-by-Step Wiring Guide
+1. **Strip the Wires**
+    - Cut off the female end of the AC power cord.
+    - Strip the outer jacket back about 2 inches (50 mm).
+    - Strip the insulation off the individual Ground, Neutral, and Line wires by 0.28 inches (7 mm).
+2. **Identify Your Cord Colors**
+	- _South Africa:_ Brown is Line (L), Blue is Neutral (N), Green/Yellow is Ground (G/⏚).
+	- _North America (typical):_ Black is Line (L), White is Neutral (N), Green/Yellow is Ground (G/⏚).
+	- _Europe/International:_ Brown is Line (L), Blue is Neutral (N), Green/Yellow is Ground (G/⏚).
+![[Pasted image 20260831091935.jpg]]
+3. **Connect to the Terminal Block**
+    - Locate the AC input terminals on the power supply.
+    - Insert the Ground wire into the terminal marked with the ground symbol ($\triangleq$ or `G`) and tighten the screw. Always connect ground first.
+    - Insert the Neutral wire into the terminal marked `N` and tighten.
+    - Insert the Line/Hot wire into the terminal marked `L` and tighten.
+4. **Inspect and Power On**
+    - Tug gently on each wire to ensure it is locked tight.
+    - Ensure no bare wire strands are fraying out or touching adjacent terminals.
+    - Plug the AC cord into the wall outlet.
+
+## 3.5.2 Physical Wiring & Power Connection
 Order matters here — grounding always comes first, then AC in, then DC out.
 
 1. **Chassis Protective Grounding (mandatory first step):** Connect the earth ground lug on the IE-3300 chassis to the panel ground busbar _before_ connecting any power wires. Ground the PSU chassis/rail the same way.
@@ -68,8 +97,8 @@ Order matters here — grounding always comes first, then AC in, then DC out.
     - **N** (Neutral)
     - **PE** (Protective Earth Ground)
 3. **DC Wiring (power supply → switch):**
-    - Wire the **+54V DC output** of the PSU to the **V+** terminal on the switch's DC-A terminal block
-    - Wire the **54V DC Return (DC−)** of the PSU to the **V−** terminal on the switch's DC-A terminal block
+    - Wire the **+54V DC output** (**Brown wire**)of the PSU to the **V+** terminal on the switch's DC-A terminal block
+    - Wire the **54V DC Return (DC−)** (**Blue wire**) of the PSU to the **V−** terminal on the switch's DC-A terminal block
     - _(Optional)_ Run a second feed to **DC-B** for dual power-input redundancy, ideally from an independent source rather than the same PSU
 4. **Alarm Contact Wiring (optional):** Wire the built-in alarm relay contacts on the IE-3300 terminal block to external indicator lamps or a PLC for power-fail/link-fail monitoring
 5. Double-check every terminal screw is torqued to spec, close the AC terminal safety cover, then apply power
@@ -99,16 +128,21 @@ Once power is connected, the switch will automatically power on. Observe the pow
 
 ---
 ## 3.8 Initial CLI Configuration Steps
+> Refer to this [document](01_Switch_Configuration), or follow the steps below
 1. **Connect the console cable** from your PC/laptop to the switch's console port
 2. **Open a terminal emulator** (PuTTY, Tera Term, or similar) and set the serial connection to **9600 baud, 8 data bits, no parity, 1 stop bit, no flow control**
 3. **Power on the switch** and watch the boot sequence scroll in the terminal — this is also where you'd catch a failed SD card read or corrupted boot image
 4. **Enter Express Setup / initial setup dialog** if prompted, or drop straight to the CLI and enter privileged EXEC mode (`enable`)
-5. **Set the hostname and enable secret**, so the box isn't sitting on default credentials the moment it's on the network:
-    
-    ```
-    configure terminalhostname IE3300-SW1enable secret <your-secret>
-    ```
-    
+```cisco
+Switch> enable
+Switch# configure terminal
+```
+
+1. **Set the hostname and enable secret**, so the box isn't sitting on default credentials the moment it's on the network:
+```cisco
+Switch(Config)# hostname IE3300-SW1 enable secret <your-secret>
+```
+
 6. **Assign a management IP** (either on a VLAN 1 SVI or a dedicated management interface, depending on your design) so you can drop to SSH and stop tying up the console port
 7. **Save the configuration** with `write memory` (or `copy running-config startup-config`) before you disconnect — an unsaved config is gone on the next power cycle
 8. **Verify with `show version` and `show inventory`** to confirm IOS XE version, license level, and that the installed SFPs/expansion modules are recognized correctly

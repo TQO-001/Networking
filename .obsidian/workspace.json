@@ -48,9 +48,79 @@
               "icon": "lucide-file",
               "title": "03_Hardware_Installation_Guide"
             }
+          },
+          {
+            "id": "3121abbad44dfd44",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/04-Home-Assistant/Maintenance.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Maintenance"
+            }
+          },
+          {
+            "id": "045e423f0ee10f1c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/01-Switch_Configuration/01_Switch_Configuration.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "01_Switch_Configuration"
+            }
+          },
+          {
+            "id": "b16d113a2de2f819",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "02_Switches and VLANs"
+            }
+          },
+          {
+            "id": "d966000e96840a39",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/05-Writing Drill Exercises/00_Definitions_Drill_Sheet.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "00_Definitions_Drill_Sheet"
+            }
+          },
+          {
+            "id": "e2af116b6d1cb66b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/Driller Bill.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Driller Bill"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 7
       }
     ],
     "direction": "vertical"
@@ -217,19 +287,31 @@
       "bases:Create new base": false
     }
   },
-  "active": "cbe03741d1d69bd3",
+  "active": "e2af116b6d1cb66b",
   "lastOpenFiles": [
-    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/02_Essential_Theory.md",
+    "Driller-Bill-2.png",
+    "Driller-Bill-1.png",
+    "01-Notes/Driller Bill.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/03_Hardware_Installation_Guide.md",
-    "（1.Preparation-of-tools-for-installing-terminal-blocks-and-wiring-boards.webp",
-    "Pasted image 20260828125500.jpg",
-    "Pasted image 20260828125326.jpg",
-    "Pasted image 20260828125237.png",
-    "Cable-RJ45-RS485-USB-FTDI_rectangle.png.webp",
-    "Pasted image 20260828124913.jpg",
-    "Pasted image 20260828124819.jpg",
-    "Pasted image 20260828124214.jpg",
-    "Pasted image 20260828123923.jpg",
+    "01-Notes/01-Beginner/04-Home-Assistant/Maintenance.md",
+    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/02_Essential_Theory.md",
+    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/01_Unboxing.md",
+    "01-Notes/01-Beginner/05-Writing Drill Exercises/00_Definitions_Drill_Sheet.md",
+    "01-Notes/01-Beginner/05-Writing Drill Exercises/02_IP_Addressing_Advanced.md",
+    "01-Notes/01-Beginner/05-Writing Drill Exercises/03_Switching_VLANs_STP.md",
+    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/01-Switch_Configuration/01_Switch_Configuration.md",
+    "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
+    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/00-Cisco IOS Overview/01_Cisco IOS Operating System.md",
+    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/00-Cisco IOS Overview/00_Cisco IOS Overview.md",
+    "Pasted image 20260831135056.png",
+    "Pasted image 20260831134724.png",
+    "Pasted image 20260831134545.png",
+    "Pasted image 20260831134426.png",
+    "Pasted image 20260831134048.png",
+    "Pasted image 20260831133508.png",
+    "Pasted image 20260831124651.png",
+    "Pasted image 20260831123214.png",
+    "Pasted image 20260831123052.png",
     "ios_simulator/README.md",
     "ios_simulator/progress_switch.json",
     "ios_simulator/__pycache__/progress.cpython-312.pyc",
@@ -237,15 +319,12 @@
     "ios_simulator/__pycache__/device.cpython-312.pyc",
     "ios_simulator/__pycache__/engine.cpython-312.pyc",
     "ios_simulator/__pycache__",
-    "01-Notes/Images/2021-01-young-fig2.gif",
     "ios_simulator/engine.py",
     "ios_simulator/test_engine.py",
     "ios_simulator/progress.py",
     "ios_simulator/device.py",
     "ios_simulator/HOW_IT_WORKS.md",
-    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/01_Unboxing.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Switch/02-_Setting_Up_a_Switch.md",
-    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/01-Switch_Configuration/01_Switch_Configuration.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Switch/02- Setting_Up_a_Switch.md",
     "01-Notes/01-Beginner/03-Python for Networking/Python Automation/Chapter 1-8.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Switch/Cisco Catalyst IE-3300 Rugged Switch IE-3300-8T2S-E/Untitled.md",
@@ -255,14 +334,6 @@
     "01-Notes/01-Beginner/03-Python for Networking/00-Python_CheatSheet.md",
     "02-Misc/IMPORTANT.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/02-Cisco_IOS_Practice_Exercises/Switch_Exercises/01-Walkthroughs/00_Walkthrough_Cisco_Switch_Configuration.md",
-    "01-Notes/01-Beginner/02-Cisco_IOS/02-Cisco_IOS_Practice_Exercises/Switch_Exercises/03-Drills/00_Drill 1.md",
-    "01-Notes/01-Beginner/03-Python for Networking/03_Python Network Programming-Intro.md",
-    "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
-    "01-Notes/01-Beginner/03-Python for Networking/00-Python CheatSheet.md",
-    "01-Notes/01-Beginner/01-Networking_101/01_Basic Network Configurations.md",
-    "01-Notes/01-Beginner/02-Cisco_IOS/02-Cisco_IOS_Practice_Exercises/Switch_Exercises/02-Worksheets/00_Worksheet_Cisco_Switch_Configuration_Worksheet.md",
-    "Notes/01-Beginner/02-Cisco_IOS/02-Cisco_IOS_Practice_Exercises/00-Cisco_Switch_Configuration/Documentation/001.md",
-    "Notes/01-Beginner/02-Cisco_IOS/02-Cisco_IOS_Practice_Exercises/00-Cisco_Switch_Configuration/00_Cisco_Switch_Configuration_Worksheet.md",
-    "Notes/01-Beginner/02-Cisco_IOS/02-Cisco_IOS_Practice_Exercises/00-Cisco_Switch_Configuration/00_Cisco_Switch_Configuration.md"
+    "01-Notes/01-Beginner/02-Cisco_IOS/02-Cisco_IOS_Practice_Exercises/Switch_Exercises/03-Drills/00_Drill 1.md"
   ]
 }

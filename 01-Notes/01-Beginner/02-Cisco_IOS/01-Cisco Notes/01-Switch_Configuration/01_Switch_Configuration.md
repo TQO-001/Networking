@@ -422,7 +422,7 @@ IND-ED-TEST(config)#
 ```cisco
 IND-ED-TEST(config)#username Ind-it secret [insert password]
 IND-ED-TEST(config)#enable secret [insert enable password]
-IND-ED-TEST(config)#ip domain-name hulamin.co.za
+IND-ED-TEST(config)#ip domain name hulamin.co.za
 IND-ED-TEST(config)#crypto key generate rsa modulus 2048
 The name for the keys will be: IND-ED-TEST.hulamin.co.za
 
