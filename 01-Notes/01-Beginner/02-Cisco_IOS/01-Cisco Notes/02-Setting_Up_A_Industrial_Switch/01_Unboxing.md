@@ -3,7 +3,8 @@
 
 ---
 ## 1.1 Cisco Catalyst IE-3300 Rugged Switch IE-3300-8T2S-E
-The [Cisco Catalyst IE-3300-8T2S-E](https://www.cisco.com/site/us/en/products/networking/industrial-switches/catalyst-ie3300-rugged-series/index.html) is a ==rugged industrial managed switch featuring 8 Gigabit Ethernet copper ports and 2 SFP fiber uplink slots==, built to operate in harsh environments. ![[Cisco-IE-3300-8P2S-E-Catalyst-IE3300-Rugged-Series-Managed-Switch.webp|402]]
+The [Cisco Catalyst IE-3300-8T2S-E](https://www.cisco.com/site/us/en/products/networking/industrial-switches/catalyst-ie3300-rugged-series/index.html) is a ==rugged industrial managed switch featuring 8 Gigabit Ethernet copper ports and 2 SFP fiber uplink slots==, built to operate in harsh environments.
+![[Cisco-IE-3300-8P2S-E-Catalyst-IE3300-Rugged-Series-Managed-Switch.webp|402]]
 
 > A rugged industrial switch is ==a specialized networking device built to connect computers, sensors, and machines in harsh environments where standard office switches would fail==.
 
