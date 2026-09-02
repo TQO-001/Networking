@@ -18,9 +18,27 @@ This is the big doo doo daddy of Tasks. Once you are able to do the following ta
 4. Setup a **Virtual Firewall**
 5. Ping **VM3** from **Laptop**
 
-## Planning
+---
+# Simulation
+To simulate this environment in Cisco Packet Tracer, exact physical hardware like the Cisco Catalyst IE-3300 Rugged series or a physical HPE ProLiant RAID server are replaced with Packet Tracer equivalents. The hardware devices map to the following Packet Tracer stock models:
+
+* **Switch 1 & Switch 2 (IE-3300):** Use **Cisco 3650-24PS** or **2960-24TT** switches.
+* **Server 1 (HPE ProLiant):** Use the standard **Server** device.
+* **Virtual Firewall:** Use a **Cisco ASA 5505** or **ASA 5506-X** firewall device.
+* **VM1, VM2, VM3:** Represented by **PC** devices (since Packet Tracer cannot run nested hypervisors/VMs on a single server, each VM is represented by a separate PC connected to an interface/switch).
+* **Laptop:** Use the standard **Laptop** device.
+
+![[Pasted image 20260902095446.png]]
+
+
+> Okay so I did try to do the simulation, but I don't think I can it with a configuration which won't majorly differ from the actual network build, with packet tracer I would have to make alot concessions and "what if's" and "because's". It would be much more productive to actually just do it IRL. You can try and do it, it would be beneficial in the long run but you would have to add an additional switch and stuff, so it's up to you son, but that's a yikes from me dawg.
+
+---
+# Planning
 ### Sun Daddy Network Layout
 ![[Pasted image 20260901162245.png]]
+
+![[Sun-daddy-network 2.png]]
 
 To configure this network topology, the key requirement is that your Firewall (FW) must act as the default gateway performing inter-VLAN routing (a "Router-on-a-Stick" or multi-interface configuration).
 
@@ -40,7 +58,6 @@ Below is the structured IP assignment plan and step-by-step configuration workfl
 |**VM 3 (on SVR1)**|Virtual NIC|`192.168.11.10`|`255.255.255.0`|`192.168.11.1`|
 |**PC (on SW2)**|Physical NIC|`192.168.11.20`|`255.255.255.0`|`192.168.11.1`|
 |**SW2 Management**|SVI `interface vlan 11`|`192.168.11.254`|`255.255.255.0`|`192.168.11.1`|
-
 ### Step-by-Step Assignment Procedure
 **1. Configure Firewall Interfaces & Inter-VLAN Routing:** Establishes default gateways for both subnets.
 
@@ -65,7 +82,7 @@ On SVR1 (e.g., ESXi, Hyper-V, Proxmox, or KVM):
 - Attach **VM 1** and **VM 2** virtual network adapters to the VLAN 10 port group.
 - Attach **VM 3** virtual network adapter to the VLAN 11 port group.
 
-**4. Assign IP Addresses on End Devices: **Static assignment or DHCP scope creation.
+**4. Assign IP Addresses on End Devices:** Static assignment or DHCP scope creation.
 
 **Manual IP Configuration:**
 - **VM 1:** IP `192.168.10.10` | Mask `255.255.255.0` | Gateway `192.168.10.1`
@@ -74,10 +91,6 @@ On SVR1 (e.g., ESXi, Hyper-V, Proxmox, or KVM):
 - **PC:** IP `192.168.11.20` | Mask `255.255.255.0` | Gateway `192.168.11.1`
 
 _(Alternatively, enable DHCP services on the Firewall with Scope 1: `192.168.10.10–100` and Scope 2: `192.168.11.10–100`.)_
-
-## Simulation
-
-
 
 
 

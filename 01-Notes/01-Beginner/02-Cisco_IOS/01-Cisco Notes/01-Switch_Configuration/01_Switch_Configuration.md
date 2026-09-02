@@ -5,7 +5,7 @@ Unlike your walkthrough Exercises These tasks will assume you have a basic under
 
 ![[IE-3000-4TC.jpg|343]]
 
->Cisco Catalyst IE-3300 Rugged Switch IE-3300-8T2S-E
+>**Cisco Catalyst IE-3300 Rugged Switch IE-3300-8T2S-E**
 
 ---
 ## Concepts explored
