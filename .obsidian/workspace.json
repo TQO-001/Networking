@@ -8,6 +8,40 @@
         "type": "tabs",
         "children": [
           {
+            "id": "b16d113a2de2f819",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/03-Adding_A_Server_To_A_Network/00_Task_Breakdown.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "00_Task_Breakdown"
+            }
+          }
+        ]
+      },
+      {
+        "id": "6d11dd2d2355e003",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3121abbad44dfd44",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/04-Home-Assistant/Maintenance.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Maintenance"
+            }
+          },
+          {
             "id": "933c038feb468245",
             "type": "leaf",
             "state": {
@@ -35,70 +69,8 @@
               "title": "01_Switch_Configuration"
             }
           }
-        ]
-      },
-      {
-        "id": "6d11dd2d2355e003",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "3121abbad44dfd44",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/04-Home-Assistant/Maintenance.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Maintenance"
-            }
-          },
-          {
-            "id": "b16d113a2de2f819",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/03-Adding_A_Server_To_A_Network/00_Task_Breakdown.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "00_Task_Breakdown"
-            }
-          },
-          {
-            "id": "d966000e96840a39",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/05-Writing Drill Exercises/00_Definitions_Drill_Sheet.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "00_Definitions_Drill_Sheet"
-            }
-          },
-          {
-            "id": "e2af116b6d1cb66b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/Driller Bill.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Driller Bill"
-            }
-          }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -267,12 +239,13 @@
   },
   "active": "b16d113a2de2f819",
   "lastOpenFiles": [
-    "Sun-daddy-network.vsdx",
     "Pasted image 20260901162245.png",
-    "Sun-daddy-network.png",
-    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/03_Hardware_Installation_Guide.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/03-Adding_A_Server_To_A_Network/00_Task_Breakdown.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/01-Switch_Configuration/01_Switch_Configuration.md",
+    "01-Notes/01-Beginner/04-Home-Assistant/Maintenance.md",
+    "Sun-daddy-network.vsdx",
+    "Sun-daddy-network.png",
+    "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/03_Hardware_Installation_Guide.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/03-Adding_A_Server_To_A_Network/01_Sun_Daddy.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/02_Essential_Theory.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Industrial_Switch/01_Unboxing.md",
@@ -287,7 +260,6 @@
     "01-Notes/00-CheatSheets/Switch_Commands.md",
     "basic-management-setup-twin",
     "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
-    "01-Notes/01-Beginner/04-Home-Assistant/Maintenance.md",
     "01-Notes/Driller Bill.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/03-Adding_A_Server_To_A_Network",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/Untitled.md",
@@ -309,7 +281,6 @@
     "ios_simulator/__pycache__/device.cpython-312.pyc",
     "ios_simulator/__pycache__/engine.cpython-312.pyc",
     "ios_simulator/__pycache__",
-    "ios_simulator/engine.py",
     "ios_simulator/HOW_IT_WORKS.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Switch/02-_Setting_Up_a_Switch.md",
     "01-Notes/01-Beginner/02-Cisco_IOS/01-Cisco Notes/02-Setting_Up_A_Switch/02- Setting_Up_a_Switch.md"

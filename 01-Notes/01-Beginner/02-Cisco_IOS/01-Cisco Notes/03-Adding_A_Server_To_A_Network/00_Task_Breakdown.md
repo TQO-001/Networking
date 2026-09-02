@@ -16,6 +16,7 @@ This is the big doo doo daddy of Tasks. Once you are able to do the following ta
 	3. Connect the **Laptop** to **Switch 2**.
 3. Create **3 VMs** on the server and RAID 5
 4. Setup a **Virtual Firewall**
+5. Ping **VM3** from **Laptop**
 
 ## Planning
 ### Sun Daddy Network Layout
@@ -41,7 +42,7 @@ Below is the structured IP assignment plan and step-by-step configuration workfl
 |**SW2 Management**|SVI `interface vlan 11`|`192.168.11.254`|`255.255.255.0`|`192.168.11.1`|
 
 ### Step-by-Step Assignment Procedure
-**1. Configure Firewall Interfaces & Inter-VLAN Routing:**Establishes default gateways for both subnets.
+**1. Configure Firewall Interfaces & Inter-VLAN Routing:** Establishes default gateways for both subnets.
 
 Configure two distinct interfaces (or sub-interfaces with 802.1Q encapsulation if using a single trunk line) on your firewall:
 
@@ -49,13 +50,13 @@ Configure two distinct interfaces (or sub-interfaces with 802.1Q encapsulation i
 - **VLAN 11 Interface:** Set IP to `192.168.11.1` with netmask `255.255.255.0`.
 - Ensure firewall rules permit traffic between `192.168.10.0/24` and `192.168.11.0/24` if you want the VMs and PC to communicate across subnets.
 
-**2. Configure Switches (VLANs & Trunking):**Ensures multi-VLAN traffic reaches SVR1 and FW.
+**2. Configure Switches (VLANs & Trunking):** Ensures multi-VLAN traffic reaches SVR1 and FW.
 
 - **SW1:** Create VLAN 10 (`vlan 10`). Assign switchports connected to SVR1 and FW as `trunk` ports (carrying VLAN 10 and 11) or `access` ports on VLAN 10 depending on your hypervisor setup.
 - **SW2:** Create VLAN 11 (`vlan 11`). Assign the PC's port to `switchport access vlan 11`.
 - **Trunk Link:** Configure the trunk connection between SW1 and SW2 (or trunk links connecting both switches to the FW) to allow VLAN 10 and VLAN 11 tagged frames (`switchport trunk allowed vlan 10,11`).
 
-**3. Configure Hypervisor (SVR1) Virtual Switches:**Map VM virtual interfaces to correct VLANs.
+**3. Configure Hypervisor (SVR1) Virtual Switches:** Map VM virtual interfaces to correct VLANs.
 
 On SVR1 (e.g., ESXi, Hyper-V, Proxmox, or KVM):
 
@@ -64,10 +65,9 @@ On SVR1 (e.g., ESXi, Hyper-V, Proxmox, or KVM):
 - Attach **VM 1** and **VM 2** virtual network adapters to the VLAN 10 port group.
 - Attach **VM 3** virtual network adapter to the VLAN 11 port group.
 
-**4. Assign IP Addresses on End Devices:**Static assignment or DHCP scope creation.
+**4. Assign IP Addresses on End Devices: **Static assignment or DHCP scope creation.
 
 **Manual IP Configuration:**
-
 - **VM 1:** IP `192.168.10.10` | Mask `255.255.255.0` | Gateway `192.168.10.1`
 - **VM 2:** IP `192.168.10.11` | Mask `255.255.255.0` | Gateway `192.168.10.1`
 - **VM 3:** IP `192.168.11.10` | Mask `255.255.255.0` | Gateway `192.168.11.1`
@@ -76,3 +76,16 @@ On SVR1 (e.g., ESXi, Hyper-V, Proxmox, or KVM):
 _(Alternatively, enable DHCP services on the Firewall with Scope 1: `192.168.10.10–100` and Scope 2: `192.168.11.10–100`.)_
 
 ## Simulation
+
+
+
+
+
+
+
+
+
+
+
+
+
