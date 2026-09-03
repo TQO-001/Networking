@@ -63,14 +63,133 @@ For this task you will configure a server; more specifically a **HPE ProLiant DL
 
 ---
 # Documentation
-## Getting Started: Steps to configure iLO 5 in **HPE ProLiant DL360p Gen8 Server**
+## 1. Configuration of the Switches
+### Switch 1 : **Cisco Catalyst IE-3000 Rugged Switch IE-3300-8T2S-E**
+
+```cisco
+Switch>
+Switch>enable
+Switch#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname SW2
+SW2(config)#vlan 11
+SW2(config-vlan)#name VLAN_11
+SW2(config-vlan)#exit
+SW2(config)#interface range FastEthernet 1/1-4
+SW2(config-if-range)#switchport mode access
+SW2(config-if-range)#switchport access vlan 11
+SW2(config-if-range)#exit
+SW2(config)#do show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Gi1/1, Gi1/2
+11   VLAN_11                          active    Fa1/1, Fa1/2, Fa1/3, Fa1/4
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+SW2(config)#
+SW2(config)#interface vlan 11
+SW2(config-if)#ip address 192.168.11.254 255.255.255.0
+SW2(config-if)#no shutdown
+SW2(config-if)#exit
+SW2(config)#ip default-gateway 192.168.11.1
+SW2(config)#
+SW2(config)#do show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+Vlan1                  unassigned      YES unset  up                    down
+Vlan11                 192.168.11.254  YES manual up                    down
+FastEthernet1/1        unassigned      YES unset  down                  down
+FastEthernet1/2        unassigned      YES unset  down                  down
+FastEthernet1/3        unassigned      YES unset  down                  down
+FastEthernet1/4        unassigned      YES unset  down                  down
+GigabitEthernet1/1     unassigned      YES unset  down                  down
+GigabitEthernet1/2     unassigned      YES unset  down                  down
+SW2(config)#
+SW2(config)#interface GigabitEthernet 1/1
+SW2(config-if)#description Trunk_to_SW1
+SW2(config-if)#switchport mode trunk
+SW2(config-if)#switchport trunk allowed vlan 10,11
+SW2(config-if)#exit
+SW2(config)#exit
+SW2#copy running-config startup-config
+Destination filename [startup-config]?
+Building configuration...
+[OK]
+SW2#
+
+```
+
+### Switch 2: **Cisco Catalyst IE-3300-8T2S-A** feat. **Cisco PWR-IE240W-PCAC-L**
+```cisco
+Switch>enable
+Password:
+Switch#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname SW1
+SW1(config)#vlan 10
+SW1(config-vlan)#name VLAN_10
+SW1(config-vlan)#exit
+SW1(config)#interface range GigabitEthernet 1/3-4
+SW1(config-if-range)#switchport mode access
+SW1(config-if-range)#switchport access vlan 10
+SW1(config-if-range)#exit
+SW1(config)#do show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Te1/1, Te1/2, Gi1/5, Gi1/6
+                                                Gi1/7, Gi1/8, Gi1/9, Gi1/10
+                                                Ap1/1
+10   VLAN_10                          active    Gi1/3, Gi1/4
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+SW1(config)#interface vlan 10
+*Apr 24 04:22:41.961: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state
+SW1(config-if)#
+SW1(config-if)#ip address 192.168.10.254 255.255.255.0
+SW1(config-if)#no shutdown
+SW1(config-if)#exit
+SW1(config)#ip default-gateway 192.168.10.1
+SW1(config)#do show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+Vlan1                  192.168.1.1     YES TFTP   up                    up
+Vlan10                 192.168.10.254  YES manual down                  down
+TenGigabitEthernet1/1  unassigned      YES unset  down                  down
+TenGigabitEthernet1/2  unassigned      YES unset  down                  down
+GigabitEthernet1/3     unassigned      YES unset  down                  down
+GigabitEthernet1/4     unassigned      YES unset  down                  down
+GigabitEthernet1/5     unassigned      YES unset  down                  down
+GigabitEthernet1/6     unassigned      YES unset  down                  down
+GigabitEthernet1/7     unassigned      YES unset  down                  down
+GigabitEthernet1/8     unassigned      YES unset  down                  down
+GigabitEthernet1/9     unassigned      YES unset  down                  down
+GigabitEthernet1/10    unassigned      YES unset  down                  down
+AppGigabitEthernet1/1  unassigned      YES unset  up                    up
+SW1(config)#
+SW1(config)#interface GigabitEthernet 1/10
+SW1(config-if)#description Trunk_to_SW2
+SW1(config-if)#switchport mode trunk
+SW1(config-if)#switchport trunk allowed vlan 10,11
+SW1(config-if)#exit
+SW1(config)#exit
+SW1#copy running-config startup-config
+Destination filename [startup-config]?
+Building configuration...
+[OK]
+SW1#
+```
+
+## 2.Getting Started: Steps to configure iLO 5 in **HPE ProLiant DL360p Gen8 Server**
 Connecting to an enterprise server for the first time can feel daunting because it lacks a standard desktop power button experience.
 
-### Step 0: Connecting to the Server
-Before flipping any power switches, you must decide how you want to see the server's screen output. Choose either Method A (Local Physical Access) or Method B (Remote Network Access).
-
+### Step 0A: Connecting to the Server (**Setup the screen**)
+Before flipping any power switches, you must decide how you want to see the server's screen output. Choose either Method A (Local Physical Access) or Method B (Remote Network Access). You should see the following on your server screen after setting it up and after the boot process is finished:
+![[Pasted image 20260903133949.png]]
 ---
-
 #### Method A: Local Physical Access (KVM)
 > Use this if you are sitting directly in front of the server rack with a spare monitor and keyboard.
 
@@ -139,6 +258,20 @@ Before flipping any power switches, you must decide how you want to see the serv
 - Bypass any SSL certificate warnings and log in using the credentials from the pull tab. You can now see the server screen virtually.
 
 ---
+### Step 0B: Connecting to the Server (**Resetting the Server**)
+- Once you turn on your Server and you can see it's working, restart it and during the boot up process, press **F8** once you get to this screen:
+![[Pasted image 20260903142152.png|467]]
+- When the screen changes press **F8** again, the select Set To defaults on the blue screen, it will reset the server and wait for it to boot up and you should be done.
+### Step 0C: Connecting to the Server (**Access the VMware ESXi management interface**)
+- After resetting the server, you should have a keyboard connected on to the server for communication. 
+- To access that IP address, your computer needs to be on the same IP subnet. Because your existing basic network likely uses a different range (such as `192.168.1.x`), your router won't automatically bridge the connection. So change that.
+![[Pasted image 20260903133949 1.png]]
+- Once your PC and the Server are on the same network, open your web browser and navigate to the IP on the server screen like the above image `[https://x.x.x.x]`, you should see the following:
+![[Pasted image 20260903135239.png|439]]
+- Since you reset you server you have put back on default settings and in order to sign in to the management interface, you must look for a card on your server:
+![[97ce5e8d-9861-4c8d-8873-bfc321f6c69b.jpg|433]]
+
+
 ### Step 1: Configure the Remote Management Interface (iLO 4)
 - Boot the server, press **F8** during the POST screen to enter the iLO 4 configuration utility.
 - Change the network settings from DHCP to a **Static IP address**: `192.168.10.50` with a subnet mask of `/24` (`255.255.255.0`).
