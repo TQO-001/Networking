@@ -64,64 +64,7 @@ For this task you will configure a server; more specifically a **HPE ProLiant DL
 ---
 # Documentation
 ## 1. Configuration of the Switches
-### Switch 1 : **Cisco Catalyst IE-3000 Rugged Switch IE-3300-8T2S-E**
-
-```cisco
-Switch>
-Switch>enable
-Switch#configure terminal
-Enter configuration commands, one per line.  End with CNTL/Z.
-Switch(config)#hostname SW2
-SW2(config)#vlan 11
-SW2(config-vlan)#name VLAN_11
-SW2(config-vlan)#exit
-SW2(config)#interface range FastEthernet 1/1-4
-SW2(config-if-range)#switchport mode access
-SW2(config-if-range)#switchport access vlan 11
-SW2(config-if-range)#exit
-SW2(config)#do show vlan brief
-
-VLAN Name                             Status    Ports
----- -------------------------------- --------- -------------------------------
-1    default                          active    Gi1/1, Gi1/2
-11   VLAN_11                          active    Fa1/1, Fa1/2, Fa1/3, Fa1/4
-1002 fddi-default                     act/unsup
-1003 token-ring-default               act/unsup
-1004 fddinet-default                  act/unsup
-1005 trnet-default                    act/unsup
-SW2(config)#
-SW2(config)#interface vlan 11
-SW2(config-if)#ip address 192.168.11.254 255.255.255.0
-SW2(config-if)#no shutdown
-SW2(config-if)#exit
-SW2(config)#ip default-gateway 192.168.11.1
-SW2(config)#
-SW2(config)#do show ip interface brief
-Interface              IP-Address      OK? Method Status                Protocol
-Vlan1                  unassigned      YES unset  up                    down
-Vlan11                 192.168.11.254  YES manual up                    down
-FastEthernet1/1        unassigned      YES unset  down                  down
-FastEthernet1/2        unassigned      YES unset  down                  down
-FastEthernet1/3        unassigned      YES unset  down                  down
-FastEthernet1/4        unassigned      YES unset  down                  down
-GigabitEthernet1/1     unassigned      YES unset  down                  down
-GigabitEthernet1/2     unassigned      YES unset  down                  down
-SW2(config)#
-SW2(config)#interface GigabitEthernet 1/1
-SW2(config-if)#description Trunk_to_SW1
-SW2(config-if)#switchport mode trunk
-SW2(config-if)#switchport trunk allowed vlan 10,11
-SW2(config-if)#exit
-SW2(config)#exit
-SW2#copy running-config startup-config
-Destination filename [startup-config]?
-Building configuration...
-[OK]
-SW2#
-
-```
-
-### Switch 2: **Cisco Catalyst IE-3300-8T2S-A** feat. **Cisco PWR-IE240W-PCAC-L**
+### Switch 1: **Cisco Catalyst IE-3300-8T2S-A** feat. **Cisco PWR-IE240W-PCAC-L**
 ```cisco
 Switch>enable
 Password:
@@ -183,8 +126,66 @@ Building configuration...
 SW1#
 ```
 
+### Switch 2 : **Cisco Catalyst IE-3000 Rugged Switch IE-3300-8T2S-E**
+
+```cisco
+Switch>
+Switch>enable
+Switch#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname SW2
+SW2(config)#vlan 11
+SW2(config-vlan)#name VLAN_11
+SW2(config-vlan)#exit
+SW2(config)#interface range FastEthernet 1/1-4
+SW2(config-if-range)#switchport mode access
+SW2(config-if-range)#switchport access vlan 11
+SW2(config-if-range)#exit
+SW2(config)#do show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Gi1/1, Gi1/2
+11   VLAN_11                          active    Fa1/1, Fa1/2, Fa1/3, Fa1/4
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+SW2(config)#
+SW2(config)#interface vlan 11
+SW2(config-if)#ip address 192.168.11.254 255.255.255.0
+SW2(config-if)#no shutdown
+SW2(config-if)#exit
+SW2(config)#ip default-gateway 192.168.11.1
+SW2(config)#
+SW2(config)#do show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+Vlan1                  unassigned      YES unset  up                    down
+Vlan11                 192.168.11.254  YES manual up                    down
+FastEthernet1/1        unassigned      YES unset  down                  down
+FastEthernet1/2        unassigned      YES unset  down                  down
+FastEthernet1/3        unassigned      YES unset  down                  down
+FastEthernet1/4        unassigned      YES unset  down                  down
+GigabitEthernet1/1     unassigned      YES unset  down                  down
+GigabitEthernet1/2     unassigned      YES unset  down                  down
+SW2(config)#
+SW2(config)#interface GigabitEthernet 1/1
+SW2(config-if)#description Trunk_to_SW1
+SW2(config-if)#switchport mode trunk
+SW2(config-if)#switchport trunk allowed vlan 10,11
+SW2(config-if)#exit
+SW2(config)#exit
+SW2#copy running-config startup-config
+Destination filename [startup-config]?
+Building configuration...
+[OK]
+SW2#
+
+```
+
 ## 2.Getting Started: Steps to configure iLO 5 in **HPE ProLiant DL360p Gen8 Server**
 Connecting to an enterprise server for the first time can feel daunting because it lacks a standard desktop power button experience.
+
 
 ### Step 0A: Connecting to the Server (**Setup the screen**)
 Before flipping any power switches, you must decide how you want to see the server's screen output. Choose either Method A (Local Physical Access) or Method B (Remote Network Access). You should see the following on your server screen after setting it up and after the boot process is finished:
