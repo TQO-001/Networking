@@ -8,18 +8,18 @@ For this task you will configure a server; more specifically a **HPE ProLiant DL
 
 ---
 ## Concepts Explored
-- **Remote Management (iLO 4) Configuration:**
+- **Remote Management (iLO 4) Configuration: 
     - Setting a static IP for out-of-band management
     - Creating administrative users and assigning privileges
     - Enabling secure remote access protocols (HTTPS/SSH)
-- **Storage Array Provisioning (Smart Array P420i):**
+- **Storage Array Provisioning (Smart Array P420i): 
     - Initializing physical hard drives/SSDs
     - Creating a hardware RAID array
     - Setting up a boot volume
-- **BIOS / UEFI-Alternative Configuration (RBSU):**
+- **BIOS / UEFI-Alternative Configuration (RBSU): 
     - Changing boot order sequence
     - Configuring power management profiles
-- **HPE ProLiant Lifecycle Commands & Keys:**
+- **HPE ProLiant Lifecycle Commands & Keys: 
     - `F8` – Accessing iLO 4 ROM-Based Setup Utility (during POST)
     - `F5` – Accessing HPE Smart Storage Administrator (SSA)
     - `F9` – Accessing ROM-Based Setup Utility (RBSU / BIOS)
@@ -62,8 +62,47 @@ For this task you will configure a server; more specifically a **HPE ProLiant DL
 - Mount your Operating System ISO via the **Virtual Media** menu to prepare the server for software installation.
 
 ---
+---
 # Documentation
 ## 1. Configuration of the Switches
+### Port Breakdown
+- **SW1 (IE-3300-8T2S-A)** `192.168.10.254`
+	- **Connections:**
+		- Connected to Server on port **GigabitEthernet 1/4**.
+		- Connected to SW2 on port **GigabitEthernet 1/10**.
+    - `Gi1/3` & `Gi1/4`: **Access ports** in `VLAN 10` for end devices (`192.168.10.0/24`).
+    - `Gi1/10`: **Trunk port** allowing `VLAN 10, 11` (connects to SW2 `Gi1/1`).
+    - `Vlan10` (SVI): Virtual Layer 3 management interface (`192.168.10.254`).
+    - `Te1/1–1/2`, `Gi1/5–1/9`, `Ap1/1`: Default/unused ports in `VLAN 1`.
+ - **SW2 (IE-3300-8T2S-E)** `192.168.11.254`
+	- **Connections:**
+		- Connected to Laptop on port **FastEthernet 1/1**.
+		- Connected to SW1 on port **GigabitEthernet 1/1**.
+    - `Fa1/1` to `Fa1/4`: **Access ports** in `VLAN 11` for end devices (`192.168.11.0/24`).
+    - `Gi1/1`: **Trunk port** allowing `VLAN 10, 11` (connects to SW1 `Gi1/10`).
+    - `Vlan11` (SVI): Virtual Layer 3 management interface (`192.168.11.254`).
+    - `Gi1/2`: Unused port in `VLAN 1`.
+- **Laptop** `192.168.10.50`
+	- **Connections:**
+		- Connected to SW1 on port **GigabitEthernet 1/1** of SW1.
+- **SVR** `192.168.10.2`
+	- **Connections:**
+		- Connected to Server on port **GigabitEthernet 1/1**.
+- **VMs on SVR** `192.168.10.2`
+	- **VM1** `192.168.10.10
+	- **VM2** `192.168.10.11`
+	- **VM1** `192.168.11.10`
+	- **vFW** `192.168.10.1` & `192.168.11.1`
+
+
+* **Communication Flow**
+  * **Same VLAN:** SW1 and SW2 forward untagged local traffic directly at Layer 2. Across the trunk (`Gi1/10` ↔ `Gi1/1`), frames are tagged using **802.1Q**.
+  * **Between VLANs (VLAN 10 ↔ VLAN 11):** Traffic **requires a Layer 3 router/firewall** at gateways `192.168.10.1` and `192.168.11.1` (or local IP routing) to bridge the subnets.
+
+* **Configuration Issues to Fix**
+  * **Missing VLANs:** Create `vlan 11` on **SW1** and `vlan 10` on **SW2** so the trunk link processes traffic for both VLANs.
+  * **Link Status:** Ports currently show `down/down`; connect physical cables to bring up the interfaces.
+
 ### Switch 1: **Cisco Catalyst IE-3300-8T2S-A** feat. **Cisco PWR-IE240W-PCAC-L**
 ```cisco
 Switch>enable
@@ -183,13 +222,14 @@ SW2#
 
 ```
 
+---
 ## 2.Getting Started: Steps to configure iLO 5 in **HPE ProLiant DL360p Gen8 Server**
 Connecting to an enterprise server for the first time can feel daunting because it lacks a standard desktop power button experience.
-
 
 ### Step 0A: Connecting to the Server (**Setup the screen**)
 Before flipping any power switches, you must decide how you want to see the server's screen output. Choose either Method A (Local Physical Access) or Method B (Remote Network Access). You should see the following on your server screen after setting it up and after the boot process is finished:
 ![[Pasted image 20260903133949.png]]
+
 ---
 #### Method A: Local Physical Access (KVM)
 > Use this if you are sitting directly in front of the server rack with a spare monitor and keyboard.
@@ -211,7 +251,7 @@ Before flipping any power switches, you must decide how you want to see the serv
 ##### 2. Connect Power Cables
 - Ensure the server has at least one Power Supply Unit (PSU) firmly seated in the back.
 - Plug the power cable into the PSU.
-> [!NOTE] **NOTE:** The server fans will immediately spin loudly for a few seconds and then go quiet. This is normal; the management chip (iLO) is booting up, but the main server is still off.
+> [!NOTE] **NOTE:  The server fans will immediately spin loudly for a few seconds and then go quiet. This is normal; the management chip (iLO) is booting up, but the main server is still off.
 
 ##### 3. Power On
 - Press the physical Power Button on the front right-hand side of the server panel.
@@ -262,39 +302,104 @@ Before flipping any power switches, you must decide how you want to see the serv
 ### Step 0B: Connecting to the Server (**Resetting the Server**)
 - Once you turn on your Server and you can see it's working, restart it and during the boot up process, press **F8** once you get to this screen:
 ![[Pasted image 20260903142152.png|467]]
+
 - When the screen changes press **F8** again, the select Set To defaults on the blue screen, it will reset the server and wait for it to boot up and you should be done.
-### Step 0C: Connecting to the Server (**Access the VMware ESXi management interface**)
-- After resetting the server, you should have a keyboard connected on to the server for communication. 
-- To access that IP address, your computer needs to be on the same IP subnet. Because your existing basic network likely uses a different range (such as `192.168.1.x`), your router won't automatically bridge the connection. So change that.
-![[Pasted image 20260903133949 1.png]]
-- Once your PC and the Server are on the same network, open your web browser and navigate to the IP on the server screen like the above image `[https://x.x.x.x]`, you should see the following:
-![[Pasted image 20260903135239.png|439]]
-- Since you reset you server you have put back on default settings and in order to sign in to the management interface, you must look for a card on your server:
-![[97ce5e8d-9861-4c8d-8873-bfc321f6c69b.jpg|433]]
+- Depending on why you're resetting you might wanna change you RAID configuration, reset to default settings and such, in order not to have any problems, one such reason you might wanna do this is to install a new/different OS on the server, we will discuss that next.
 
-
-### Step 1: Configure the Remote Management Interface (iLO 4)
-- Boot the server, press **F8** during the POST screen to enter the iLO 4 configuration utility.
-- Change the network settings from DHCP to a **Static IP address**: `192.168.10.50` with a subnet mask of `/24` (`255.255.255.0`).
-- Create a new local user account named `admin_tech` and assign a secure, custom password. Ensure this user has full administrator privileges (Remote Console, Config iLO, Virtual Media).
-
-### Step 2: Provision the Storage Array
+#### OPTIONAL 
+##### Provision the Storage Array
 - Reboot the server and press **F5** to enter the HPE Smart Storage Administrator (SSA).
 - Identify your physical drives. Create a **RAID 1** array using two identical disk drives to serve as your fault-tolerant OS boot volume.
 - Name the logical drive `OS_BOOT` and format it with maximum available space.
 - _(Optional)_ If you have remaining drives, configure them into a **RAID 5** or **RAID 10** array named `DATA_STORE`.
-
-### Step 3: Adjust System BIOS (RBSU) Settings
+##### Adjust System BIOS (RBSU) Settings
 - Reboot the server and press **F9** to enter the ROM-Based Setup Utility.
 - Change the **Power Management Controller Profile** to _Balanced Power and Performance_ (optimized for home labs to reduce fan noise and power draw).
 - Navigate to the boot order menu. Set your logical drive `OS_BOOT` as the primary boot controller, followed by your internal/external USB ports.
 
-### Step 4: Deploy and Verify
-- Plug your laptop into the same network switch as the server.
-- Open a web browser on your laptop and navigate to `https://192.168.10.50`. Log in using your newly created `admin_tech` credentials.
-- Open the **HTML5 Remote Console** through the iLO dashboard to verify you have full remote video access.
-- Mount your Operating System ISO via the **Virtual Media** menu to prepare the server for software installation.
+### Step 0C: Connecting to the Server(**Install the New Operating System: VMware ESXi**)
+> Honestly just follow [this tutorial](https://www.starwindsoftware.com/blog/how-to-install-vmware-esxi-and-create-your-first-vm/), it's much more concise yet still more descriptive than what I wrote below. Basically it's a more efficient tutorial.
+
+- You've setup up the screen and depending on what you see once the boot up of the server is finished like in [[#Step 0A: Connecting to the Server (**Setup the screen**)|Step 0A]], the VMware server screen. We will setup up VMware which will be a long but short process.
+- First download the **VMware ESXi 6.5**, Good luck finding it; it's discontinued teehee, nah I'm kidding, [here's the link](https://archive.org/details/vmwareesxi6.x) you can find it from, download **VMware ESXi 6.5**. 
+- Create a bootable drive with **Rufus**, plug the USB onto the server, restart the server and wait until you see HP ProLiant screen and press Boot Menu, then choose boot from USB drive, follow the steps and complete the installation
+![[input_file_0.png|720]]
+
+> [!IMPORTANT] **IMPORTANT ** - When creating the bootable drive make sure change _Partion Scheme_ to _MBR_, otherwise you'll get this beautiful warning. 
+![[input_file_19 3.png]] ^bootable-drive
+
+- Make sure to change you network settings to a network range of your choice, make sure that the device that you will use to manage the serve with via Web Browser is on the the same network.
+![[input_file_21.png]]
+
+- Now a very important step before adding this device to a permanent network is to ping it from the PC to the server and from the server to the PC to ensure they are actually communicating.
+![[1000376266.jpg]]
+
+- Magical, now let's access the management interface
+
+### Step 0D: Connecting to the Server (**Access the VMware ESXi management interface**)
+- After resetting the server, you should have a keyboard connected on to the server for communication. 
+- To access that IP address, your computer needs to be on the same IP subnet. Because your existing basic network likely uses a different range (such as `192.168.1.x`), your router won't automatically bridge the connection. So change that.
+![[Pasted image 20260903133949 1.png]]
+
+- Once your PC and the Server are on the same network, open your web browser and navigate to the IP on the server screen like the above image `[https://x.x.x.x]`, you should see the following:
+![[Pasted image 20260903135239.png|439]]
+
+- Since you reset you server and installed a new OS you had to a have created a user during the install, the common user is **root** and whatever password you chose. In order to sign in to the management interface enter your details and you should see the following interface:
+![[d105f195-3dae-4725-8c19-806820c8e2e0.png]]
+
 
 ---
+## 3. Creating VMs
+We're gonna create 3 VMs on the server to add to our network
+![[3f1557c4-fd9d-483e-a9ce-cdd6a1c8b5f3.png]]
+
+### Create Your First Virtual Machine (Example: Windows)
+1. Navigate to **Virtual Machines** and then go to the **Create / Register VM**.
+2. Choose **Create a new virtual machine**.
+3. Enter a name (e.g., VM0).
+4. Guest OS: **Windows → Microsoft Windows 10 (64-bit)**.
+5. Select your datastore.
+6. Assign resources: 2 vCPU, 8 GB RAM, 100 GB disk.
+7. Attach your VM to the VM-Network port group or create one beforehand.
+8. Mount the Windows ISO from the datastore by uploading it from your PC to your server via the established network, just drag and drop into the datastore.
+9. Finish and power on the VM.
+10. Install Windows following the prompts.
+
+Make sure you should check the post-installation checklist:
+- Set **NTP** for accurate time.
+- Backup host configuration.
+- Apply the latest ESXi patches.
+- Monitor hardware health status in **Monitor → Hardware**.
+
+---
+- After you've done this process 3 times to create our VMs for the Sun Daddy network, you should have 3 working VMs.
+![[a991301a-6a59-4ac7-9bae-c1d5fea46e9e 2.png]]
+
+- Now let's ensure **VM1** and **VM2** are on **VLAN 10** and **VM3** is on **VLAN 11**, ensure you have created these port groups and have assigned them to the same **vSwitch (Virtual Switch)**.![[e93b0a4a-b37b-4dcb-ba75-41a84f3d4648.png]]
+
+- The vSwitch should look like this
+![[87248ec0-581a-4792-98e5-afc423380634.png|433]]
+
+- What you need to do next is ensure the VMs have an IP address within the same network(s) we created in the Sun Daddy network layout.
+![[108418e5-dfab-4641-bfdb-e0dc9a267e36.png|607]]
+> VM1
+
+## 4. Creating a virtual FireWall
+> Honestly just follow [this tutorial](https://glmdev.medium.com/how-to-set-up-virtualized-pfsense-on-vmware-esxi-6-x-2c2861b25931), it's much more concise yet still more descriptive than what I wrote below. Basically it's a more efficient tutorial. But you're gonna have to change how you do it to suit our current network.
+
+We will now create a **vFW (virtual Firewall)**, to add to our network. For the Sun Daddy network we'll create a vFW which will ***(Insert Reason here)***. 
+
+### Installing pfSense
+We will use **pfSense**  this can really be done with any firewall/router software you want to use (IPFire/OPNsense/routerOS/etc), I just chose pfSense (cause that's what I was told to do lol)
+
+Create a new virtual machine, and, for pfSense, select OS family: Other and set the OS to “FreeBSD (64-bit).”
+
+Tab through the wizard until you land on the VM’s configuration page. Here we need to modify a few things.
+![[b5d09939-3c49-4d9d-909a-726210947610.png|476]]
+
+Then, in the CD/DVD drive, select the pfSense installer ISO from the datastore. Now you can click create and start the VM. You'll have to upload it the same way as we did with the VM iso file for Windows 10 iso.
+
+
+
 
 
