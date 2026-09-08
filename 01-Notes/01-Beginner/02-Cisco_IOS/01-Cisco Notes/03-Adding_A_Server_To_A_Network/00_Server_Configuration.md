@@ -98,7 +98,7 @@ For this task you will configure a server; more specifically a **HPE ProLiant DL
   * **Hosted Virtual Machines:**
     * **VM1 (VLAN 10):** `192.168.10.10`
     * **VM2 (VLAN 10):** `192.168.10.11`
-    * **VM1 (VLAN 11):** `192.168.11.10`
+    * **VM3 (VLAN 11):** `192.168.11.10`
 * **Management Laptop:**
   * **IP Address:** `192.168.10.50` | Connected to **SW2** `Fa1/1` *(Note: Assigned to VLAN 11 port segment)*
 
@@ -338,17 +338,19 @@ Before flipping any power switches, you must decide how you want to see the serv
 - Navigate to the boot order menu. Set your logical drive `OS_BOOT` as the primary boot controller, followed by your internal/external USB ports.
 
 ### Step 0C: Connecting to the Server(**Install the New Operating System: VMware ESXi**)
-> Honestly just follow [this tutorial](https://www.starwindsoftware.com/blog/how-to-install-vmware-esxi-and-create-your-first-vm/), it's much more concise yet still more descriptive than what I wrote below. Basically it's a more efficient tutorial.
+> Honestly just follow [this tutorial](https://www.starwindsoftware.com/blog/how-to-install-vmware-esxi-and-create-your-first-vm/), it's much more concise yet still more descriptive than what I wrote below. Basically it's a more efficient tutorial. 
+
+> Here's another [link](https://www.starwindsoftware.com/blog/tag/virtual-machine-setup/) worth checking out
 
 - You've setup up the screen and depending on what you see once the boot up of the server is finished like in [[#Step 0A: Connecting to the Server (**Setup the screen**)|Step 0A]], the VMware server screen. We will setup up VMware which will be a long but short process.
-- First download the **VMware ESXi 6.5**, Good luck finding it; it's discontinued teehee, nah I'm kidding, [here's the link](https://archive.org/details/vmwareesxi6.x) you can find it from, download **VMware ESXi 6.5**. 
+- First download the **VMware ESXi 6.5**, Good luck finding it; it's discontinued teehee, nah I'm kidding (well it is discontinued though), [here's the link](https://archive.org/details/vmwareesxi6.x) you can find it from, download **VMware ESXi 6.5**. 
 - Create a bootable drive with **Rufus**, plug the USB onto the server, restart the server and wait until you see HP ProLiant screen and press Boot Menu, then choose boot from USB drive, follow the steps and complete the installation
 ![[input_file_0.png|720]]
 
 > [!IMPORTANT] **IMPORTANT ** - When creating the bootable drive make sure change _Partion Scheme_ to _MBR_, otherwise you'll get this beautiful warning. 
 ![[input_file_19 3.png]] ^bootable-drive
 
-- Make sure to change you network settings to a network range of your choice, make sure that the device that you will use to manage the serve with via Web Browser is on the the same network.
+- Once it's installed, make sure to change you network settings to a network range of your choice, make sure that the device that you will use to manage the serve with via Web Browser is on the the same network.
 ![[input_file_21.png]]
 
 - Now a very important step before adding this device to a permanent network is to ping it from the PC to the server and from the server to the PC to ensure they are actually communicating.
