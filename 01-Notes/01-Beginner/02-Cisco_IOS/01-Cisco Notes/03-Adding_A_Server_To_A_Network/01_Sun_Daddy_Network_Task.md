@@ -41,22 +41,26 @@ To simulate this environment in Cisco Packet Tracer, exact physical hardware lik
 ---
 To configure this network topology, the key requirement is that your Firewall (FW) must act as the default gateway performing inter-VLAN routing (a "Router-on-a-Stick" or multi-interface configuration).
 
+**Management VLAN (VLAN 110):** The management IP range `192.168.110.0/24` belongs to its own dedicated network segment (VLAN 110). Both switches must have VLAN 110 created and configured with SVIs (Switch Virtual Interfaces) in that subnet.
+
+**VLAN Trunking Across Switches:** Both switches must have **VLAN 10**, **VLAN 11**, and **VLAN 110** defined in their VLAN database. Trunk links carrying all three VLANs allow the Laptop in VLAN 10 connected to Switch 2 to communicate across to Switch 1 and through the firewall.
+
 Below is the structured IP assignment plan and step-by-step configuration workflow for your setup.
 
 ### Network Addressing Plan
-|**Component / Subnet**|**Interface / Object**|**IP Address**|**Subnet Mask**|**Default Gateway**|
+ 
+|**Device**|**Interface / Role**|**IP Address**|**Subnet Mask**|**Default Gateway**|
 |---|---|---|---|---|
-|**VLAN 10 Subnet**|`192.168.10.0/24`|—|`255.255.255.0`|—|
-|**FW (VLAN 10 Interface)**|Gateway|`192.168.10.1`|`255.255.255.0`|N/A|
-|**SVR1 Host (Hypervisor)**|Mgmt / PhysicalNIC|`192.168.10.2`|`255.255.255.0`|`192.168.10.1`|
-|**VM 1 (on SVR1)**|Virtual NIC|`192.168.10.10`|`255.255.255.0`|`192.168.10.1`|
-|**VM 2 (on SVR1)**|Virtual NIC|`192.168.10.11`|`255.255.255.0`|`192.168.10.1`|
-|**SW1 Management**|SVI `interface vlan 10`|`192.168.10.254`|`255.255.255.0`|`192.168.10.1`|
-|**VLAN 11 Subnet**|`192.168.11.0/24`|—|`255.255.255.0`|—|
-|**FW (VLAN 11 Interface)**|Gateway|`192.168.11.1`|`255.255.255.0`|N/A|
-|**VM 3 (on SVR1)**|Virtual NIC|`192.168.11.10`|`255.255.255.0`|`192.168.11.1`|
-|**PC (on SW2)**|Physical NIC|`192.168.11.20`|`255.255.255.0`|`192.168.11.1`|
-|**SW2 Management**|SVI `interface vlan 11`|`192.168.11.254`|`255.255.255.0`|`192.168.11.1`|
+|**Virtual Firewall**|VLAN 10 Interface|`192.168.10.1`|`255.255.255.0`|N/A|
+|**Virtual Firewall**|VLAN 11 Interface|`192.168.11.1`|`255.255.255.0`|N/A|
+|**Virtual Firewall**|VLAN 110 Interface|`192.168.110.1`|`255.255.255.0`|N/A|
+|**Switch 1**|Interface Vlan110 (Management)|`192.168.110.254`|`255.255.255.0`|`192.168.110.1`|
+|**Switch 2**|Interface Vlan110 (Management)|`192.168.110.253`|`255.255.255.0`|`192.168.110.1`|
+|**VM1 / VM2**|VLAN 10 Host|`192.168.10.10` / `.11`|`255.255.255.0`|`192.168.10.1`|
+|**VM3**|VLAN 11 Host|`192.168.11.10`|`255.255.255.0`|`192.168.11.1`|
+|**Laptop**|VLAN 10 Host|`192.168.10.50`|`255.255.255.0`|`192.168.10.1`|
+
+> Fix everything below to match the updated table above
 ### Step-by-Step Assignment Procedure
 **1. Configure Firewall Interfaces & Inter-VLAN Routing:** Establishes default gateways for both subnets.
 

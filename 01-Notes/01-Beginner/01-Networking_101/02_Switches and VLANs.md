@@ -19,7 +19,18 @@ A VLAN (Virtual Local Area Network) is ==a logical method used to divide a singl
 
 > [!NOTE] **NOTE** - To reach hosts in a different VLAN, a router is needed as stated above.
 
-### VLAN ID Ranges (Cisco Standard)
+## VLAN Segmentation
+
+Segmentation is one of the most important design principles in both enterprises and lab environments. Without it, any single compromised device could access everything else — which makes testing or defense simulations unrealistic.
+
+To enforce segmentation, I created VLANs for each network zone.
+
+In pfSense, VLANs are configured under:  
+**Interfaces → Assignments → VLANs → Add.**
+
+Each VLAN has a unique ID (e.g., VLAN 100 for Management, VLAN 200 for VMs, VLAN 250 for Servers).
+
+## VLAN ID Ranges (Cisco Standard)
 
 - **VLAN 0 and VLAN 4095:** Reserved VLAN IDs are defined by IEEE 802.1Q and used internally for protocol operations and cannot be configured or assigned to ports.
 - **VLAN 1 (Default VLAN):** The default VLAN on Cisco switches and all switch ports are assigned to VLAN 1 by default. It cannot be deleted and is commonly used for control and management protocols such as STP, CDP, and VTP.
@@ -28,7 +39,7 @@ A VLAN (Virtual Local Area Network) is ==a logical method used to divide a singl
 - **VLAN 1006 to VLAN 4094 (Extended VLAN Range):** Designed for large-scale networks requiring a high number of VLANs. VLANs in this range are stored in the **running configuration** and typically require the switch to operate in VTP transparent mode.
 ![[router.webp|411]]
 
-#### VLAN 1
+### VLAN 1
 VLAN 1 isn’t just a starter setting; on most enterprise hardware, it is the default VLAN used for the switch’s internal logic.
 
 Even if you aren’t sending your printer or laptop traffic through it, the switch itself uses VLAN 1 to “talk” to its neighbors. Many control plane protocols default to VLAN 1. For example, Cisco switches use it for CDP (Cisco Discovery Protocol), VTP, and PAgP, while the standard Spanning Tree Protocol (STP) also typically operates on VLAN 1 across vendors by default.
