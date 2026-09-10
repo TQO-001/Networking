@@ -1,107 +1,83 @@
-## 4. Creating a virtual FireWall
+## 4. Creating a Virtual FireWall
 > Honestly just follow [this tutorial](https://glmdev.medium.com/how-to-set-up-virtualized-pfsense-on-vmware-esxi-6-x-2c2861b25931), it's much more concise yet still more descriptive than what I wrote below. Basically it's a more efficient tutorial. But you're gonna have to change how you do it to suit our current network.
 
-We will now create a **vFW (virtual Firewall)**, to add to our network. For the Sun Daddy network we'll create a vFW which will ***(Insert Reason here)***. 
+We'll create a **vFW (virtual Firewall)** to add to our network. For the Sun Daddy network, the vFW's job is to route between VLAN 10 and VLAN 11 — the switches can't do that themselves, so this is what makes `ping VM3 from Laptop` (Task step 5) actually work.
 
 ### Installing pfSense
-We will use **pfSense**  this can really be done with any firewall/router software you want to use (IPFire/OPNsense/routerOS/etc), I just chose pfSense (cause that's what I was told to do lol)
+I used **pfSense** for this (any firewall/router software works — IPFire/OPNsense/routerOS/etc, I just went with what I was told to use).
 
-Create a new virtual machine, and, for pfSense, select OS family: Other and set the OS to “FreeBSD (64-bit).”
+Create a new virtual machine, and, for pfSense, select OS family: Other and set the OS to "FreeBSD (64-bit)."
 
-Tab through the wizard until you land on the VM’s configuration page. Here we need to modify a few things.
+Tab through the wizard until you land on the VM's configuration page. Here we need to modify a few things.
 ![[b5d09939-3c49-4d9d-909a-726210947610.png|476]]
 
-Then, in the CD/DVD drive, select the pfSense installer ISO from the datastore. Now you can click create and start the VM. You'll have to upload it the same way as we did with the VM iso file for Windows 10 iso.
+Then, in the CD/DVD drive, select the pfSense installer ISO from the datastore. Now you can click create and start the VM. Upload the ISO the same way you did for the Windows 10 ISO.
 
-#### WE HAVE TO CELEBRATE OUR DIFFERENCES
-To make every device in your topology communicate properly, you must configure **ESXi Virtual Networking (vSwitch & Port Groups)**, **pfSense (Virtual Firewall)**, **Physical Switches (SW1 & SW2)**, and your **Endpoints**.
+### Give it two network adapters
+pfSense needs to see VLAN 10 and VLAN 11 separately so it can route between them. I gave it two virtual NICs — one per VLAN — instead of one NIC with VLAN tags, because it's a lot easier to reason about (and to recover if I mess something up): each NIC just plugs into a differently-tagged ESXi port group, and pfSense itself never has to know VLANs exist at all.
 
-Here is the exact step-by-step configuration required for your topology:
-### Step 1: Configure ESXi Virtual Networking (vSwitch & Port Groups)
-Because your pfSense vFW, VM1, VM2, and VM3 all reside on the physical server, ESXi needs to bridge them using **VLAN tagging (802.1Q)** over a trunk line to **SW1**.
-1. Log into your ESXi Web Console.
-2. Go to **Networking** → **Virtual switches** → Select **vSwitch0**.
-    - Edit **vSwitch0** settings and ensure **Promiscuous Mode**, **MAC Address Changes**, and **Forgged Transmits** are set to **Accept** (Required for pfSense interface handling).   
-3. Go to **Port groups** and create **three distinct Port Groups** on `vSwitch0`:
-    - **PG_VLAN10**: Set **VLAN ID** to `10`.   
-    - **PG_VLAN11**: Set **VLAN ID** to `11`.   
-    - **PG_TRUNK / All (4095)**: Set **VLAN ID** to `4095` (This puts ESXi in Virtual Guest Tagging / Trunk mode).   
+- **Network Adapter 1:** attach to `PG_VLAN10` (on `vSwitch1` — see `03-Server_Setup_Documentation.md`, Step 0E).
+- **Network Adapter 2:** attach to `PG_VLAN11`.
 
-### Step 2: Assign VM Network Adapters
-1. **Virtual Firewall (pfSense):**
-    - Edit pfSense VM settings.   
-    - Add **two** Network Adapters:   
-    - **Network Adapter 1 (LAN/VLAN10 Interface):** Attach to `PG_VLAN10`.
-    - **Network Adapter 2 (OPT1/VLAN11 Interface):** Attach to `PG_VLAN11`.
-2. **VM1 & VM2:**
-    - Attach Network Adapter to `PG_VLAN10`.   
-3. **VM3:**
-    - Attach Network Adapter to `PG_VLAN11`.   
+> **Heads up about naming:** pfSense's setup wizard insists on a "WAN" and a "LAN" interface and won't let you skip WAN. I didn't fight it — my first NIC became **LAN** (VLAN 10), my second became **WAN** (VLAN 11), even though it's not actually a WAN/internet connection. I just treat "WAN" as my VLAN 11 interface and configured it accordingly below. You *can* reassign/rename it later if it bugs you, but it works fine as-is.
 
-### Step 3: Configure the Virtual Firewall (pfSense)
-1. Open the pfSense VM Console in ESXi.
-2. Assign the interfaces:
-    - **Interface 1 (em0):** Assign as LAN → IP: `192.168.10.1 /24`.   
-    - **Interface 2 (em1):** Assign as OPT1 → IP: `192.168.11.1 /24`.   
-3. Log in to the pfSense Web GUI (`[https://192.168.10.1](https://192.168.10.1)`):
-    - Go to **Firewall** → **Rules**.   
-    - Under **LAN** tab: Add a rule permitting **All Traffic** (Pass | IPv4* | Source: LAN net | Destination: Any).   
-    - Under **OPT1** tab: Enable the interface and add a rule permitting **All Traffic** (Pass | IPv4* | Source: OPT1 net | Destination: Any).   
+### Step 1: Assign Interfaces (pfSense console)
+Open the pfSense VM console in ESXi:
+1. At the console menu, type **1** for **Assign Interfaces**.
+2. Type **n** when asked to configure VLANs now — we're not using VLAN tags inside pfSense.
+3. Enter `em0` for WAN.
+4. Enter `em1` for LAN.
+5. Confirm.
 
-### Step 4: Configure Physical Switch Port to Server (SW1)
-Your physical server's NIC connects to **SW1 Port `Gi1/4`**. Since ESXi carries both VLAN 10 and VLAN 11 traffic, `Gi1/4` **must be configured as a 802.1Q Trunk Port** instead of an access port.
-Run the following commands on **SW1**:
-Cisco CLI
-
+The console banner should now show:
 ```
-SW1# configure terminal
-SW1(config)# interface GigabitEthernet 1/4
-SW1(config-if)# description Trunk_to_ESXi_Server
-SW1(config-if)# switchport mode trunk
-SW1(config-if)# switchport trunk allowed vlan 10,11
-SW1(config-if)# no shutdown
-SW1(config-if)# exit
-
-! Add missing VLAN 11 to SW1 database
-SW1(config)# vlan 11
-SW1(config-vlan)# name VLAN_11
-SW1(config-vlan)# exit
-SW1# copy running-config startup-config
+WAN (wan) -> em0 -> v4: (not yet set)
+LAN (lan) -> em1 -> v4: (not yet set)
 ```
 
-### Step 5: Fix Physical Switch SW2 Configuration
-Currently, **SW2** is missing `VLAN 10` in its database, and the Laptop port is on VLAN 11 while trying to use a VLAN 10 IP address (`192.168.10.50`).
-Run the following on **SW2**:
-Cisco CLI
+### Step 2: Set IP Addresses (pfSense console)
+From the same console menu, type **2** (Set interface(s) IP address):
+- **LAN:** `192.168.10.1`, mask `24`, no upstream gateway, decline DHCP server (or enable it if you want — I left it off since all my devices are static).
+- **WAN:** `192.168.11.1`, mask `24`, no upstream gateway.
 
+Console banner should now show:
 ```
-SW2# configure terminal
-! 1. Add missing VLAN 10 to SW2 database
-SW2(config)# vlan 10
-SW2(config-vlan)# name VLAN_10
-SW2(config-vlan)# exit
-
-! 2. Re-assign Laptop Port (Fa1/1) to VLAN 10 so 192.168.10.50 works natively
-SW2(config)# interface FastEthernet 1/1
-SW2(config-if)# switchport mode access
-SW2(config-if)# switchport access vlan 10
-SW2(config-if)# no shutdown
-SW2(config-if)# exit
-SW2# copy running-config startup-config
+WAN (wan) -> em0 -> v4: 192.168.11.1/24
+LAN (lan) -> em1 -> v4: 192.168.10.1/24
 ```
 
-### Step 6: Endpoint Gateway Configuration
-Ensure each end device is configured with its respective static IP and pfSense gateway:
-- **VM1 (`192.168.10.10`):** Subnet Mask: `255.255.255.0` | Default Gateway: `192.168.10.1`
-- **VM2 (`192.168.10.11`):** Subnet Mask: `255.255.255.0` | Default Gateway: `192.168.10.1`
-- **VM3 (`192.168.11.10`):** Subnet Mask: `255.255.255.0` | Default Gateway: `192.168.11.1`
-- **Laptop (`192.168.10.50`):** Subnet Mask: `255.255.255.0` | Default Gateway: `192.168.10.1`
+### Step 3: Log into the WebGUI
+From VM1's console (or once VM1 can reach `192.168.10.1`), browse to `https://192.168.10.1` and log in (default `admin` / whatever you set during install).
+
+### Step 4: Unblock private networks on WAN
+Since my "WAN" is actually carrying internal VLAN 11 traffic, not a real internet connection, pfSense's default WAN protections will block it:
+1. **Interfaces → WAN**
+2. Scroll to **Reserved Networks**.
+3. Uncheck **Block private networks and loopback addresses**.
+4. Uncheck **Block bogon networks**.
+5. **Save**, then **Apply Changes**.
+
+### Step 5: Add firewall pass rules
+pfSense denies all traffic by default on every interface — you have to explicitly allow it.
+
+For **both** the LAN tab and the WAN tab (**Firewall → Rules → [tab]**):
+1. Click **Add** (top rule).
+2. Action: **Pass**, Address Family: **IPv4**, Protocol: **Any**, Source: **Any**, Destination: **Any**.
+3. **Save**.
+
+Then click **Apply Changes** once both are added.
+
+### Step 6: Physical switch port to the server
+Since ESXi carries both VLAN 10 and VLAN 11 out through `vmnic1`, the switch port it lands on (**Switch 1, Gi1/4**) has to be an 802.1Q **trunk**, not an access port. This is already covered in `02-Switches_Documentation.md` — just flagging it here again because it's easy to forget and pfSense will look "broken" from the outside if this port is still set to access.
 
 ### Verification Checklist
-To verify successful communication:
-1. Ping `192.168.10.1` from **VM1** or **VM2** (Tests intra-VLAN 10 path to pfSense firewall).
-2. Ping `192.168.10.1` from **Laptop** across physical switches **SW2 → SW1 → Server**.
-3. Ping `192.168.11.10` (VM3) from **VM1** (`192.168.10.10`) to verify inter-VLAN routing through pfSense.
+1. From VM1 (`192.168.10.10`), `ping 192.168.10.1` — tests VM1 can reach its own gateway.
+2. From VM1, `ping 192.168.11.1` — tests pfSense's WAN/VLAN 11 side is reachable across the internal routing.
+3. From VM1, `ping 192.168.11.10` (VM3) — tests actual inter-VLAN routing through pfSense.
+4. From the Laptop (plugged into Switch 2, `192.168.10.50`), `ping 192.168.10.1`, then `ping 192.168.11.10`
 
+Once you can ping everything, you're done, the Sun Daddy network should work now.
 
-
+### Crash Out Time
+Go ahead, you've earned it.
+![[Pasted image 20260910160835.jpg|192]]![[Pasted image 20260910160855.jpg|160]]

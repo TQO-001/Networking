@@ -1,10 +1,10 @@
 > [Check Out](https://www.storagereview.com/review/hp-proliant-dl360p-gen8-server-review)
 # Task Breakdown
-This is the big doo doo daddy of Tasks. Once you are able to do the following task, you should be ready to work in the Plant make sure you understand the fundamentals of every part of this task.
+This is the big doo doo daddy of Tasks. Once you are able to do the following task, you should be ready to work in the Plant — make sure you understand the fundamentals of every part of this task.
 
 ## Devices on the network
-- Switch 1 : **Cisco Catalyst IE-3300 Rugged Switch IE-3300-8T2S-E**
-- Switch 2: **Cisco Catalyst IE-3300-8T2S-A** feat. **Cisco PWR-IE240W-PCAC-L**
+- Switch 1 : **Cisco Catalyst IE-3300 Rugged Switch IE-3000-4TC
+- Switch 2: **Cisco CatalystIE-3300-8T2X** feat. **Cisco PWR-IE240W-PCAC-L**
 - Server 1: **HPE ProLiant DL360p Gen8 Server**
 - Laptop: **My Personal Laptop**
 
@@ -30,78 +30,63 @@ To simulate this environment in Cisco Packet Tracer, exact physical hardware lik
 
 ![[Pasted image 20260902095446.png]]
 
-
-> Okay so I did try to do the simulation, but I don't think I can it with a configuration which won't majorly differ from the actual network build, with packet tracer I would have to make alot concessions and "what if's" and "because's". It would be much more productive to actually just do it IRL. You can try and do it, it would be beneficial in the long run but you would have to add an additional switch and stuff, so it's up to you son, but that's a yikes from me dawg.
+> Okay so I did try to do the simulation, but I don't think I can do it with a configuration which won't majorly differ from the actual network build, with packet tracer I would have to make a lot of concessions and "what if's" and "because's". It would be much more productive to actually just do it IRL. You can try and do it, it would be beneficial in the long run but you would have to add an additional switch and stuff, so it's up to you son, but that's a yikes from me dawg.
 
 ---
 # Planning
 ### Sun Daddy Network Layout
-![[Sun-daddy-network.png]]
+![[Sun-daddy-network (1).png]]
 
 ---
-To configure this network topology, the key requirement is that your Firewall (FW) must act as the default gateway performing inter-VLAN routing (a "Router-on-a-Stick" or multi-interface configuration).
+The Firewall (FW) acts as the default gateway performing inter-VLAN routing. It's a **pfSense VM with two virtual NICs** — one per VLAN, each vNIC tagged into its VLAN by ESXi's port groups, so pfSense itself never has to know about VLAN tags at all. That's simpler to reason about than router-on-a-stick with tagged sub-interfaces, and it's the design I actually landed on after a lot of back-and-forth.
 
-**Management VLAN (VLAN 110):** The management IP range `192.168.110.0/24` belongs to its own dedicated network segment (VLAN 110). Both switches must have VLAN 110 created and configured with SVIs (Switch Virtual Interfaces) in that subnet.
+**No management VLAN.** I originally tried adding a VLAN 110 management network on my mentor's suggestion, and it's what caused most of my lost-access headaches — every time I touched it I locked myself out of something. It's not part of the actual task requirements (task only asks me to route between VLAN 10 and VLAN 11 and get a successful ping), so I ripped it back out. If my mentor still wants a dedicated management subnet later, that's a clean addition on top of a *working* network — not something to fight with while I'm still getting the basics up.
 
-**VLAN Trunking Across Switches:** Both switches must have **VLAN 10**, **VLAN 11**, and **VLAN 110** defined in their VLAN database. Trunk links carrying all three VLANs allow the Laptop in VLAN 10 connected to Switch 2 to communicate across to Switch 1 and through the firewall.
+**VLAN Trunking Across Switches:** Both switches must have **VLAN 10** and **VLAN 11** defined in their VLAN database. The trunk link between them carries both VLANs so the Laptop (VLAN 10, on Switch 2) can reach VM3 (VLAN 11, on the Server) through the firewall.
 
-Below is the structured IP assignment plan and step-by-step configuration workflow for your setup.
+**Server port must be a trunk, not access.** My server sends VM1/VM2 traffic (VLAN 10) and VM3 traffic (VLAN 11) down **one physical cable** into Switch 1. An access port can only carry one VLAN — so the port connecting the server to Switch 1 has to be a trunk carrying both.
 
 ### Network Addressing Plan
- 
-|**Device**|**Interface / Role**|**IP Address**|**Subnet Mask**|**Default Gateway**|
-|---|---|---|---|---|
-|**Virtual Firewall**|VLAN 10 Interface|`192.168.10.1`|`255.255.255.0`|N/A|
-|**Virtual Firewall**|VLAN 11 Interface|`192.168.11.1`|`255.255.255.0`|N/A|
-|**Virtual Firewall**|VLAN 110 Interface|`192.168.110.1`|`255.255.255.0`|N/A|
-|**Switch 1**|Interface Vlan110 (Management)|`192.168.110.254`|`255.255.255.0`|`192.168.110.1`|
-|**Switch 2**|Interface Vlan110 (Management)|`192.168.110.253`|`255.255.255.0`|`192.168.110.1`|
-|**VM1 / VM2**|VLAN 10 Host|`192.168.10.10` / `.11`|`255.255.255.0`|`192.168.10.1`|
-|**VM3**|VLAN 11 Host|`192.168.11.10`|`255.255.255.0`|`192.168.11.1`|
-|**Laptop**|VLAN 10 Host|`192.168.10.50`|`255.255.255.0`|`192.168.10.1`|
 
-> Fix everything below to match the updated table above
+| **Device**                                       | **Interface / Role**                                               | **IP Address**          | **Subnet Mask** | **Default Gateway** |
+| ------------------------------------------------ | ------------------------------------------------------------------ | ----------------------- | --------------- | ------------------- |
+| **Virtual Firewall — em1 (LAN)**                 | VLAN 10 gateway                                                    | `192.168.10.1`          | `255.255.255.0` | N/A                 |
+| **Virtual Firewall — em0 (WAN)**                 | VLAN 11 gateway (see note below)                                   | `192.168.11.1`          | `255.255.255.0` | N/A                 |
+| **Switch 1**                                     | Interface Vlan10 (management)                                      | `192.168.10.254`        | `255.255.255.0` | `192.168.10.1`      |
+| **Switch 2**                                     | Interface Vlan11 (management)                                      | `192.168.11.254`        | `255.255.255.0` | `192.168.11.1`      |
+| **ESXi host (vmk0)**                             | Private direct link to my laptop only — never touches the switches | `192.168.10.2`          | `255.255.255.0` | N/A                 |
+| **VM1 / VM2**                                    | VLAN 10 Host                                                       | `192.168.10.10` / `.11` | `255.255.255.0` | `192.168.10.1`      |
+| **VM3**                                          | VLAN 11 Host                                                       | `192.168.11.10`         | `255.255.255.0` | `192.168.11.1`      |
+| **Laptop (plugged into Switch 2, Fa1/1)**        | VLAN 10 Host                                                       | `192.168.10.50`         | `255.255.255.0` | `192.168.10.1`      |
+| **Laptop (plugged directly into server vmnic0)** | Emergency management link only                                     | `192.168.10.3`          | `255.255.255.0` | N/A                 |
+
+> **Note on "WAN":** pfSense forces you to have a WAN interface during setup, and I didn't reassign it, so my second vNIC is still literally named "WAN" even though it's routing my internal VLAN 11, not the internet. I unblocked "private networks" and "bogon networks" on it (pfSense blocks those on WAN by default, assuming a WAN is internet-facing) and added a pass-all rule, so it behaves exactly like any other internal interface. I could rename/reassign it to something like OPT1 later, but since it already works, I'm leaving it alone for now — less to break.
+
+> **One-Ethernet-port laptop problem:** my laptop only has one Ethernet port. I can't be plugged into the server (`192.168.10.3`) and into Switch 2 (`192.168.10.50`) at the same time — I have to physically unplug/replug and change my IP settings depending on which one I'm doing. See the Fix-It Guide for the exact swap procedure.
+
+> I do wanna note something, I am very lazy so I ended up never changing the IP of the laptop for the server or switch and only use `192.168.10.50`. I know, I'm bad, but at least I know I'm bad. Lol, did you get the reference? Family Guy? Nah but for real the only reason I didn't is because while it is good practice you don't _strictly_ have to.
+
 ### Step-by-Step Assignment Procedure
-**1. Configure Firewall Interfaces & Inter-VLAN Routing:** Establishes default gateways for both subnets.
+**1. Configure Firewall Interfaces & Inter-VLAN Routing**
 
-Configure two distinct interfaces (or sub-interfaces with 802.1Q encapsulation if using a single trunk line) on your firewall:
+- **LAN (em1):** `192.168.10.1 /24`.
+- **WAN (em0):** `192.168.11.1 /24`. Uncheck "Block private networks and loopback addresses" and "Block bogon networks" on this interface (Interfaces → WAN), since it's carrying private RFC1918 traffic, not a real internet uplink.
+- Add a **Pass / IPv4 / any / any** firewall rule on both the LAN tab and the WAN tab so traffic between `192.168.10.0/24` and `192.168.11.0/24` isn't silently dropped (pfSense denies everything by default).
 
-- **VLAN 10 Interface:** Set IP to `192.168.10.1` with netmask `255.255.255.0`.
-- **VLAN 11 Interface:** Set IP to `192.168.11.1` with netmask `255.255.255.0`.
-- Ensure firewall rules permit traffic between `192.168.10.0/24` and `192.168.11.0/24` if you want the VMs and PC to communicate across subnets.
+**2. Configure Switches (VLANs & Trunking)**
 
-**2. Configure Switches (VLANs & Trunking):** Ensures multi-VLAN traffic reaches SVR1 and FW.
+- **SW1:** Create VLAN 10 (`vlan 10`). Server-facing port is a **trunk** allowing VLAN 10 and 11.
+- **SW2:** Create VLAN 11 (`vlan 11`). Laptop's port is an **access** port on VLAN 10 (matches the laptop's actual IP).
+- **Trunk Link:** SW1 ↔ SW2 trunk allows VLAN 10 and 11 (`switchport trunk allowed vlan 10,11`).
 
-- **SW1:** Create VLAN 10 (`vlan 10`). Assign switchports connected to SVR1 and FW as `trunk` ports (carrying VLAN 10 and 11) or `access` ports on VLAN 10 depending on your hypervisor setup.
-- **SW2:** Create VLAN 11 (`vlan 11`). Assign the PC's port to `switchport access vlan 11`.
-- **Trunk Link:** Configure the trunk connection between SW1 and SW2 (or trunk links connecting both switches to the FW) to allow VLAN 10 and VLAN 11 tagged frames (`switchport trunk allowed vlan 10,11`).
+**3. Configure ESXi Virtual Networking**
 
-**3. Configure Hypervisor (SVR1) Virtual Switches:** Map VM virtual interfaces to correct VLANs.
+- Two separate vSwitches — one dedicated to the direct laptop link (`vmnic0`), one dedicated to the trunk to Switch 1 (`vmnic1`). Full detail is in `03-Server_Setup_Documentation.md`, Step 0E — this split is what fixed my "plugging in the switch cable kills my direct laptop connection" problem.
+- Port groups on the trunk vSwitch, tagged per VLAN: VLAN 10 → VM1, VM2, pfSense LAN. VLAN 11 → VM3, pfSense WAN.
 
-On SVR1 (e.g., ESXi, Hyper-V, Proxmox, or KVM):
+**4. Assign IP Addresses on End Devices**
 
-- Create or configure virtual switches/port groups for **VLAN 10** and **VLAN 11**.
-- If the physical NIC on SVR1 connects to a **trunk port** on SW1, enable 802.1Q tagging on the virtual switch port groups (Tag `10` for VLAN 10, Tag `11` for VLAN 11).
-- Attach **VM 1** and **VM 2** virtual network adapters to the VLAN 10 port group.
-- Attach **VM 3** virtual network adapter to the VLAN 11 port group.
-
-**4. Assign IP Addresses on End Devices:** Static assignment or DHCP scope creation.
-
-**Manual IP Configuration:**
-- **VM 1:** IP `192.168.10.10` | Mask `255.255.255.0` | Gateway `192.168.10.1`
-- **VM 2:** IP `192.168.10.11` | Mask `255.255.255.0` | Gateway `192.168.10.1`
-- **VM 3:** IP `192.168.11.10` | Mask `255.255.255.0` | Gateway `192.168.11.1`
-- **PC:** IP `192.168.11.20` | Mask `255.255.255.0` | Gateway `192.168.11.1`
-
-_(Alternatively, enable DHCP services on the Firewall with Scope 1: `192.168.10.10–100` and Scope 2: `192.168.11.10–100`.)_
-
-
-
-
-
-
-
-
-
-
-
+- **VM 1:** `192.168.10.10 /24`, gateway `192.168.10.1`
+- **VM 2:** `192.168.10.11 /24`, gateway `192.168.10.1`
+- **VM 3:** `192.168.11.10 /24`, gateway `192.168.11.1`
+- **Laptop (via Switch 2):** `192.168.10.50 /24`, gateway `192.168.10.1`
