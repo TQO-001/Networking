@@ -36,7 +36,7 @@ To simulate this environment in Cisco Packet Tracer, exact physical hardware lik
 ---
 # Planning
 ### Sun Daddy Network Layout
-![[Sun-daddy-network (2).png]]
+![[Sun-daddy-network.png]]
 
 ---
 To configure this network topology, the key requirement is that your Firewall (FW) must act as the default gateway performing inter-VLAN routing (a "Router-on-a-Stick" or multi-interface configuration).

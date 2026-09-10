@@ -1,6 +1,7 @@
 ## 1. Configuration of the Switches##
 ### Network Topology & Configuration Summary
 #### 1. Network Devices & Connections
+> Remember to fix this part to make the configuration below
 ##### **SW1 — Cisco Catalyst IE-3300-8T2S-A**
 * **Management IP:** `192.168.110.254` (SVI `Vlan10`)
 * **Physical Connections:**
@@ -102,7 +103,7 @@ SW2(config-if)# exit
 
 SW2(config)# ip default-gateway 192.168.110.1
 
-SW2(config)# interface GigabitEthernet 1/10
+SW2(config)# interface GigabitEthernet 1/1
 SW2(config-if)# description Trunk_to_SW1
 SW2(config-if)# switchport trunk encapsulation dot1q
 SW2(config-if)# switchport mode trunk
@@ -110,7 +111,7 @@ SW2(config-if)# switchport trunk allowed vlan 10,11,110
 SW2(config-if)# no shutdown
 SW2(config-if)# exit
 
-SW2(config)# interface GigabitEthernet 1/1
+SW2(config)# interface GigabitEthernet 1/2
 SW2(config-if)# description Connection_to_Laptop
 SW2(config-if)# switchport mode access
 SW2(config-if)# switchport access vlan 10
@@ -120,7 +121,7 @@ SW2(config-if)# exit
 
 To verify: Run `do show vlan brief` on SW2 and confirm port `Gi1/1` is active under `VLAN 10`.
 
-**3.Verify Management Inter-Switch Ping:**Connectivity Test.
+**3.Verify Management Inter-Switch Ping:** Connectivity Test.
 
 Ping Switch 2's management IP directly from Switch 1 over the trunk link.
 
@@ -166,23 +167,48 @@ SW1#configure terminal
 Enter configuration commands, one per line.  End with CNTL/Z.
 SW1(config)#interface GigabitEthernet 1/10
 SW1(config-if)#switchport mode trunk
-SW1(config-if)#swi
+
 *May  1 04:26:47.841: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/10, changed state to down
 *May  1 04:26:50.854: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/10, changed state to up
 SW1(config-if)#switchport trunk allowed vlan 10,11,110
 *May  1 04:27:22.850: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan110, changed state to up
+
 SW1(config-if)#switchport trunk allowed vlan 10,11,110
 SW1(config-if)#no shutdown
 SW1(config-if)#exit
 SW1(config)#exit
-SW1#cop
+
 *May  1 04:27:59.721: %SYS-5-CONFIG_I: Configured from console by cons
 SW1#copy running-config startup-config
 Destination filename [startup-config]?
 Building configuration...
 [OK]
+
 SW1#
 *May  1 04:28:27.308: %SYS-6-PRIVCFG_ENCRYPT_SUCCESS: Successfully encrypted private config file
+SW1#
+```
+
+##### show vlan brief
+```cisco
+SW1#show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Te1/1, Te1/2, Gi1/3, Gi1/4
+                                                Gi1/5, Gi1/6, Gi1/7, Gi1/8
+                                                Gi1/9, Ap1/1
+10   VLAN0010                         active
+11   VLAN0011                         active
+110  VLAN0110                         active
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+SW1#
+```
+##### show ip interface brief
+```cisco
 SW1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 Vlan1                  unassigned      YES unset  administratively down down
@@ -190,7 +216,7 @@ Vlan110                192.168.110.254 YES manual up                    up
 TenGigabitEthernet1/1  unassigned      YES unset  down                  down
 TenGigabitEthernet1/2  unassigned      YES unset  down                  down
 GigabitEthernet1/3     unassigned      YES unset  down                  down
-GigabitEthernet1/4     unassigned      YES unset  up                    up
+GigabitEthernet1/4     unassigned      YES unset  down                  down
 GigabitEthernet1/5     unassigned      YES unset  down                  down
 GigabitEthernet1/6     unassigned      YES unset  down                  down
 GigabitEthernet1/7     unassigned      YES unset  down                  down
@@ -199,7 +225,9 @@ GigabitEthernet1/9     unassigned      YES unset  down                  down
 GigabitEthernet1/10    unassigned      YES unset  up                    up
 AppGigabitEthernet1/1  unassigned      YES unset  up                    up
 SW1#
+
 ```
+
 #### Switch 2 : **Cisco Catalyst IE-3000 Rugged Switch IE-3300-8T2S-E**
 ```cisco
 Switch>enable
@@ -220,7 +248,7 @@ SW2(config-if)#exit
 SW2(config)#
 SW2(config)#ip default-gateway 192.168.110.1
 SW2(config)#interface GigabitEthernet 1/1
-SW2(config-if)#description Trunk_to_SW2
+SW2(config-if)#description Trunk_to_SW1
 SW2(config-if)#switchport trunk encapsulation dot1q
                                 ^
 % Invalid input detected at '^' marker.
@@ -229,6 +257,14 @@ SW2(config-if)#switchport mode trunk
 SW2(config-if)#switchport trunk allowed vlan 10,11,110
 SW2(config-if)#no shutdown
 SW2(config-if)#exit
+SW2(config)#
+SW2(config)#interface GigabitEthernet 1/2
+SW2(config-if)#description Connection_to_Laptop
+SW2(config-if)#switchport mode access
+SW2(config-if)#switchport access vlan 10
+SW2(config-if)#no shutdown
+SW2(config-if)#exit
+SW2(config)#
 SW2(config)#do show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 Vlan1                  unassigned      YES unset  administratively down down
@@ -240,36 +276,26 @@ FastEthernet1/4        unassigned      YES unset  down                  down
 GigabitEthernet1/1     unassigned      YES unset  up                    up
 GigabitEthernet1/2     unassigned      YES unset  down                  down
 SW2(config)#
-
 ```
 
-#### Your name is Shun Ling, so do the computer Ping
+##### show vlan brief
 ```cisco
-SW1>enable
-Password:
-SW1#show ip interface brief
-Interface              IP-Address      OK? Method Status                Protocol
-Vlan1                  unassigned      YES unset  administratively down down
-Vlan110                192.168.110.254 YES manual up                    up
-TenGigabitEthernet1/1  unassigned      YES unset  down                  down
-TenGigabitEthernet1/2  unassigned      YES unset  down                  down
-GigabitEthernet1/3     unassigned      YES unset  down                  down
-GigabitEthernet1/4     unassigned      YES unset  up                    up
-GigabitEthernet1/5     unassigned      YES unset  down                  down
-GigabitEthernet1/6     unassigned      YES unset  down                  down
-GigabitEthernet1/7     unassigned      YES unset  down                  down
-GigabitEthernet1/8     unassigned      YES unset  down                  down
-GigabitEthernet1/9     unassigned      YES unset  down                  down
-GigabitEthernet1/10    unassigned      YES unset  up                    up
-AppGigabitEthernet1/1  unassigned      YES unset  up                    up
-SW1#ping 192.168.110.253
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.110.253, timeout is 2 seconds:
-!!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
-SW1#
-SW2>enable
-Password:
+SW2#show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/1, Fa1/2, Fa1/3, Fa1/4
+10   VLAN0010                         active    Gi1/2
+11   VLAN0011                         active
+110  VLAN0110                         active
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+SW2#
+```
+##### show ip interface brief
+```cisco
 SW2#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 Vlan1                  unassigned      YES unset  administratively down down
@@ -280,6 +306,22 @@ FastEthernet1/3        unassigned      YES unset  down                  down
 FastEthernet1/4        unassigned      YES unset  down                  down
 GigabitEthernet1/1     unassigned      YES unset  up                    up
 GigabitEthernet1/2     unassigned      YES unset  down                  down
+SW2#
+```
+
+---
+#### Your name is Shun Ling, so do the computer Ping
+##### Switch 1
+```cisco
+SW1#ping 192.168.110.253
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.110.253, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
+SW1#
+```
+##### Switch 2
+```cisco
 SW2#ping 192.168.110.254
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 192.168.110.254, timeout is 2 seconds:
@@ -287,4 +329,16 @@ Sending 5, 100-byte ICMP Echos to 192.168.110.254, timeout is 2 seconds:
 Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/8 ms
 SW2#
 
+```
+
+##### Laptop
+> The pings are failing, look through document and fix everything then
+
+```cisco
+SW2#ping 192.168.110.50
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.110.50, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+SW2#
 ```
