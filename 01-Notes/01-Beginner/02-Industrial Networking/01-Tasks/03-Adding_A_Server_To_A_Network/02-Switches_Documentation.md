@@ -54,6 +54,8 @@ This is the config I actually ended up running on each switch, cleaned up. A cou
 
 **Gotcha #2:** trunk interfaces sat at `down/down` for a while — that was just the physical cable not being plugged in yet on both ends, not a config problem. Don't panic if you see that before you've actually connected the cable.
 
+**Gotcha #3:** Okay this one isn't really a gotcha but it was a pain in my butt and it's only valid if you are setting up a Ether Channel. Once you've configured the Ether Channel on the switch, 
+
 #### Switch 1: **Cisco Catalyst IE-3300-8T2X** feat. **Cisco PWR-IE240W-PCAC-L**
 ```cisco
 Switch>enable
@@ -396,21 +398,9 @@ end
 SW1#ping 192.168.10.201
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 192.168.11.254, timeout is 2 seconds:
-.....
-Success rate is 0 percent (0/5)
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/4/9 ms
 SW1#
 
 ```
 
-Did it fail? Congratulations, you've been played son. Nah I'm kidding, your pings are failing because SW1 and SW2 are trying to talk across different subnets without a router to bridge them. If you intentionally want the switch management environments isolated on separate subnets, they will not be able to ping each other until your pfSense firewall is up, and we haven't set that up yet plus we have no router in our network so there's nothing to route network traffic **yet**.
-
-Once you've configured the pfSense firewall, come back here and check if you can ping the switches: 
-```cisco
-SW1#ping 192.168.11.254
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.11.254, timeout is 2 seconds:
-!!!!!
-Success rate is 100 percent (5/5)
-```
-
-If this still comes back at 0%, it's almost always the physical cable between `Gi1/10` and `Gi1/1` not fully seated, or one of those ports still showing `administratively down` — run `no shutdown` again on whichever one is down, or you know what? Maybe it's you, maybe you're the problem, shame on you. No but seriously I can't stress enough how important it is to run `no shutdown` again, I had the exact same problem because I did the steps correctly but still couldn't communicate the switches.

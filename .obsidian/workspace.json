@@ -162,7 +162,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 10
       }
     ],
     "direction": "vertical"
@@ -224,8 +224,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 355.5,
-    "collapsed": true
+    "width": 355.5
   },
   "right": {
     "id": "e5312c35852101e4",
@@ -330,9 +329,12 @@
       "bases:Create new base": false
     }
   },
-  "active": "191f5c20fc3ba4eb",
+  "active": "88681d7b84eb3f70",
   "lastOpenFiles": [
+    "01-Notes/01-Beginner/02-Industrial Networking/wjeofniowenf.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/06-Peace_was_never_an_option.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
@@ -366,9 +368,6 @@
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/rollup/README.md",
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/rollup/LICENSE.md",
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/json5/README.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/json5/LICENSE.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/jsesc/README.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/gensync/README.md",
     "Sun-daddy-network (2) 1.png",
     "Pasted image 20260911091358.png",
     "Pasted image 20260911091329.png",
