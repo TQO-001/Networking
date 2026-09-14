@@ -1,5 +1,11 @@
+# To do
+ - [ ] Routers on MGMT Vlan
+ - [ ] Trunk port between routers
+ - [ ] Access port between Systems and switch/router
+ - [ ] Server on a different Vlan
+---
 # Corrections
-![[Sun-daddy-network (2) 1.png]]
+![[Sun-daddy-network (3).png]]
 
 The network is split into **three distinct VLANs** so that administrative access to physical infrastructure is kept separate from standard client/VM traffic:
 
@@ -18,7 +24,8 @@ The network is split into **three distinct VLANs** so that administrative access
     - VM2 (`192.168.12.11`)
     - Gateway / pfSense Interface (`192.168.12.1`
 
-### Change the management to VLAN 10, assign new IP address, and add VLAN 12
+### 1. Routers on MGMT Vlan
+Change the management to VLAN 10, assign new IP address, and add VLAN 12
 
 #### Switch 1: **Cisco Catalyst IE-3300-8T2X** feat. **Cisco PWR-IE240W-PCAC-L**
 ```cisco
@@ -122,6 +129,21 @@ SW2#
 
 ```
 
+### 2. Trunk port between routers
+
+### Access port between Systems and switch/router
+
+
+
+
+
+
+
+
+
+
+# Take care of this later
+-----------
 ### Make 2 access ports for the Laptops
 I had one access port, for `192.168.11.3` laptop now I'm supposed to have 2 because (apparently) it's bad practice to directly connect to the server every time you need to access the web interface, instead you should connect to the switch which will connect to the server which allow us connect to the web interface.
 

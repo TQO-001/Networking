@@ -59,6 +59,30 @@ Note that some non-Cisco vendors, such as Juniper or certain Linux-based switche
 - **VLAN Trunking:** Allows multiple VLANs to share a single physical link between VLAN-aware devices.
 - **Dynamic VLANs:** VLAN membership is automatically assigned to devices based on predefined policies or authentication mechanisms.
 
+---
+## Crucial Rules: Subnets vs. VLANs (Layer 2 vs. Layer 3)
+A common mistake in network design is confusing **Layer 2 VLAN tags** with **Layer 3 IP Subnets**. Always keep the following fundamental rules in mind:
+
+### 1. The "1 Subnet = 1 VLAN" Mapping Rule
+* **Rule:** An IP Subnet (e.g., `192.168.10.0/24`) must correspond strictly to a **single** VLAN ID (e.g., VLAN 10).
+* **The Problem:** If you place two different IP subnets (e.g., `192.168.10.0/24` and `192.168.11.0/24`) inside the **same** VLAN ID (e.g., VLAN 10), devices will fail to communicate—even if a default gateway/firewall is present.
+
+### 2. How Inter-VLAN Routing Fails on SVI Mismatches
+Consider a scenario where:
+* **SW1 SVI (`interface Vlan10`):** `192.168.10.200/24`
+* **SW2 SVI (`interface Vlan10`):** `192.168.11.201/24`
+
+When SW1 attempts to ping SW2:
+1. **Routing Lookup:** SW1 sees that `192.168.11.201` is on a different subnet, so it forwards the packet to its default gateway (`192.168.10.1` on the firewall) tagged as **VLAN 10**.
+2. **Firewall Routing:** The firewall receives the packet on its VLAN 10 interface and routes it out to its **VLAN 11 interface** (`192.168.11.1`).
+3. **ARP Failure:** The firewall sends an ARP request for `192.168.11.201` tagged with **VLAN 11**. However, because SW2 has `192.168.11.201` assigned to `interface Vlan10`, SW2 ignores ARP requests arriving on **VLAN 11**. Traffic is silently dropped.
+
+### Key Takeaways
+> [!WARNING] **CRITICAL**
+> * **Switch Virtual Interfaces (SVIs):** An `interface VlanX` command tells the switch CPU to bind that IP address specifically to Ethernet frames tagged with **VLAN X**.
+> * **Matching SVIs to Subnets:** To allow a switch on Subnet `192.168.11.0/24` to talk through a router/firewall, its SVI **must** be created on `interface Vlan11`, matching the VLAN tag assigned to that subnet on the firewall.
+
+---
 ## Cisco VLAN Configuration
 To **Configure Cisco VLAN**, firstly create the **[VLAN](https://ipcisco.com/lesson/vlans-virtual-local-area-networks/)** with the **VLAN ID** and then give it a name;  
 >**REMEMBER** The standard VLAN number range is 1 to 1005. 1002 to 1005 is reserved for Token Ring and FDDI. And lastly 1006 to 4094 range is used by VTP transparent mode)

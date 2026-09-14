@@ -140,12 +140,13 @@ The server has two NICs I actually care about for this task: `vmnic0`, which I r
 - Steps: **Networking → Virtual switches → vSwitch0 → Edit settings** → under Uplinks, make sure only `vmnic0` is listed (remove `vmnic1` if it's there).
 
 **vSwitch1 — the actual production trunk**
-- Only uplink: `vmnic1`.
+- Uplinks: `vmnic1`.
 - Steps: **Networking → Virtual switches → Add standard virtual switch** → name it `vSwitch1`, uplink `vmnic1`.
 - Edit settings on `vSwitch1` → **Security** → set **Promiscuous Mode**, **MAC Address Changes**, and **Forged Transmits** to **Accept**. pfSense needs this to actually route between VLANs, otherwise ESXi silently drops the traffic pretending to be from another MAC.
-- Port groups (**Networking → Port groups → Add port group**), both attached to `vSwitch1`:
-  - `PG_VLAN10`, VLAN ID `10`
-  - `PG_VLAN11`, VLAN ID `11`
+- Port groups (**Networking → Port groups → Add port group**), attached to `vSwitch1`:
+  - `VLAN_10`, VLAN ID `10`
+  - `VLAN_11`, VLAN ID `11`
+  - `VLAN_12`, VLAN ID `12`
 
 Once this split is done, `vmnic1` being up permanently (it's connected to the switch all the time) no longer affects my direct laptop link on `vmnic0` at all — they're on completely separate vSwitches now.
 
