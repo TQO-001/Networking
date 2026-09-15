@@ -2,41 +2,34 @@
 ### Network Topology & Configuration Summary
 #### 1. Network Devices & Connections
 ##### **SW1 — Cisco Catalyst IE-3300-8T2X**
-* **Management IP:** `192.168.10.200` (SVI `Vlan10`)
+* **Management IP:** `192.168.10.200` (SVI `Vlan10`) — VLAN 10 is management-only, pfSense doesn't route it, see `01_Sun_Daddy_Network_Task.md` for why.
 * **Physical Connections:**
-  * `Gi1/3-1/5` ↔ Server, `vmnic1-3` (trunk — carries VLAN 10, 11 **and** 12)
+  * `Gi1/3-1/5` ↔ Server, `vmnic1-3` (bonded into a static EtherChannel, `Port-channel1` — trunk, carries VLAN 10, 11 **and** 12)
   * `Gi1/10` ↔ **SW2** (`Gi1/1`) — trunk
-* **Port Breakdown:**
-  * `Gi1/3-1/5`: **Trunk Port** | Allowed VLANs: `10, 11, 12` — this is the server port, it has to be a trunk because my server pushes VLAN 11 (VM1/VM2) and VLAN 12 (VM3) traffic down these cables.
-  * `Gi1/10`: **Trunk Port** | Allowed VLANs: `10, 11, 12` (connects to SW2 `Gi1/1`)
-  * `Gi1/6-1/9`, `Te1/1–1/2`, `Gi1/5–1/9`, `Ap1/1`: **Unused / Default Ports** | `VLAN 1`
 
 ---
 ##### **SW2 — Cisco Catalyst IE-3000-4TC**
-* **Management IP:** `192.168.10.201` (SVI `Vlan11`)
+* **Management IP:** `192.168.10.201` (SVI `Vlan10`) — same management VLAN as SW1, not the VLAN 11 I originally had it on. Both switches sit their management SVI on VLAN 10 now.
 * **Physical Connections:**
-  * `Fa1/1` ↔ Laptop (`192.168.10.50`)
-  * `Fa1/2` ↔ Laptop (`192.168.11.3`)
+  * `Fa1/1` ↔ Laptop, VM3-diagnostic identity (`192.168.11.3`)
+  * `Fa1/2` ↔ Laptop, management identity (`192.168.10.50`)
   * `Gi1/1` ↔ **SW1** (`Gi1/10`) — trunk
-* **Port Breakdown:**
-  * `Fa1/1`: **Access Port** | `VLAN 10` — this took me a while to get right. My laptop's IP (`192.168.10.50`) is on VLAN 10, so this port has to be VLAN 10 too, even though SW2's own management SVI lives on VLAN 11. Those are two different things — don't mix them up like I did.
-  * `Fa1/2` – `Fa1/4`: **Unused Access Ports** | `VLAN 1`
-  * `Gi1/1`: **Trunk Port** | Allowed VLANs: `10, 11`
 
 ---
 ##### **Endpoints & Host Assignments**
 * **Virtual Firewall (vFW):**
-  * `192.168.10.1` (VLAN 10 gateway, on pfSense's LAN NIC — `em1`)
-  * `192.168.11.1` (VLAN 11 gateway, on pfSense's WAN NIC — `em0`, repurposed, see `05-FireWall_Configuration.md`)
+  * `192.168.12.1` (VLAN 12 gateway, on pfSense's VLAN12 NIC — `em2`)
+  * `192.168.11.1` (VLAN 11 gateway, on pfSense's LAN NIC — `em1`)
+  * `192.168.10.1` (VLAN 10 gateway, on pfSense's WAN NIC — `em0`)
 * **Server Host (SVR):**
-  * ESXi management IP: `192.168.10.2`, but this only lives on a **private direct cable** to my laptop, it never touches these switches at all — don't go looking for it on VLAN 10 here.
+  * ESXi management IP: `192.168.10.2`, now reached over the trunk on VLAN 10, same as SW1/SW2's own management SVIs — not a private direct cable anymore.
   * **Hosted Virtual Machines:**
-    * **VM1 (VLAN 10):** `192.168.10.10`
-    * **VM2 (VLAN 10):** `192.168.10.11`
+    * **VM1 (VLAN 12):** `192.168.12.10`
+    * **VM2 (VLAN 12):** `192.168.12.11`
     * **VM3 (VLAN 11):** `192.168.11.10`
-* **Laptop:**
-  * When plugged into **SW2 `Fa1/1`**: `192.168.10.50`
-  * When plugged directly into the server's `vmnic0` port instead (for ESXi management): `192.168.10.3` — I only have one Ethernet port so I physically swap which cable is plugged in and change my IP each time. See the Fix-It Guide for the exact swap steps.
+* **Laptop (2 identities, one physical port, swapped as needed):**
+  * `Fa1/2`, VLAN 10, management: `192.168.10.50`
+  * `Fa1/1`, VLAN 11/12, VM1/2/3-diagnostic: `192.168.11.3`
 
 ---
 #### 2. Communication Flow
@@ -44,17 +37,18 @@
   * Local traffic within the same VLAN stays on the local switch, untagged.
   * Inter-switch traffic for the same VLAN crosses the trunk link (`Gi1/10` ↔ `Gi1/1`) using **802.1Q encapsulation tagging**.
 * **Inter-VLAN (Layer 3 Routing):**
-  * Traffic moving between `VLAN 10` (`192.168.10.0/24`) and `VLAN 11` (`192.168.11.0/24`) has to route through the Virtual Firewall (**vFW**) at `192.168.10.1` / `192.168.11.1`. The switches themselves never route between VLANs — that's the firewall's job dummy.
+  * Traffic moving between `VLAN 11` (`192.168.11.0/24`) and `VLAN 12` (`192.168.12.0/24`) has to route through the Virtual Firewall (**vFW**) at `192.168.11.1` / `192.168.12.1`. The switches themselves never route between VLANs — that's the firewall's job dummy.
+  * `VLAN 10` (`192.168.10.0/24`) doesn't route anywhere at all — it's management-only, and pfSense has no interface on it. A device on VLAN 10 can reach SW1, SW2, and the ESXi host, and nothing else.
 
 ---
 ### Step-by-Step Switch Configuration
 This is the config I actually ended up running on each switch, cleaned up. A couple of gotchas I hit along the way, noted inline.
 
-**Gotcha #1:** `switchport trunk encapsulation dot1q` throws `% Invalid input` as its own line on these IE-3300s. Turns out you don't need it — dot1q is the only encapsulation these switches support, so `switchport mode trunk` alone is enough. I skipped that line below. but I still included it in the configuration because this is what you'd do on a switches that requires that command.
+**Gotcha #1:** `switchport trunk encapsulation dot1q` throws `% Invalid input` as its own line on these IE-3300s. Turns out you don't need it — dot1q is the only encapsulation these switches support, so `switchport mode trunk` alone is enough. I skipped that line below, but I still included it in the write-up because this is what you'd do on a switch that actually requires that command — don't want to teach myself the wrong lesson just because my specific hardware happens to not need it.
 
 **Gotcha #2:** trunk interfaces sat at `down/down` for a while — that was just the physical cable not being plugged in yet on both ends, not a config problem. Don't panic if you see that before you've actually connected the cable.
 
-**Gotcha #3:** Okay this one isn't really a gotcha but it was a pain in my butt and it's only valid if you are setting up a Ether Channel. Once you've configured the Ether Channel on the switch, 
+**Gotcha #3, the big one — EtherChannel mode mismatch.** When I first bundled `Gi1/3-1/5` into `Port-channel1`, I used `channel-group 1 mode active` (LACP). That threw `%ETC-5-L3DONTBNDL2: ... suspended: LACP currently not enabled on the remote port` on all three links — because ESXi's Standard vSwitch (the free/non-vCenter kind) doesn't actually speak LACP at all; real LACP negotiation needs a vSphere **Distributed** Switch, which requires vCenter, which I don't have/understand. The fix was switching the Cisco side to a **static** EtherChannel instead — `channel-group 1 mode on` — which doesn't negotiate anything, it just unconditionally bundles the ports and trusts both ends to agree. That has to be paired with a matching change on the ESXi side too (setting `vSwitch1`'s teaming policy to "Route based on IP hash"), or you get exactly the asymmetric-traffic mess described in `05-FireWall_Configuration.md`, Section 6 — that's where the full explanation and fix lives, since it's really an ESXi-networking topic more than a pure switch one.
 
 #### Switch 1: **Cisco Catalyst IE-3300-8T2X** feat. **Cisco PWR-IE240W-PCAC-L**
 ```cisco
@@ -75,7 +69,7 @@ SW1(config-if)#exit
 
 SW1(config)#ip default-gateway 192.168.10.1
 
-! Gi1/4 = server port = TRUNK, not access, because ESXi sends both VLAN 10 and 11 down it
+! Bonding Gi1/3-1/5 into an EtherChannel trunk to the server
 SW1(config)#interface Port-channel 1
 SW1(config-if)#switchport mode trunk
 SW1(config-if)#switchport trunk allowed vlan 10,11,12
@@ -106,10 +100,10 @@ SW1(config-if-range)#
 SW1(config-if-range)#
 SW1#
 
-! Change Cisco to Static EtherChannel
+! Change from LACP to Static EtherChannel — this is the actual fix
 SW1(config)#interface range GigabitEthernet 1/3-5
 SW1(config-if-range)#no channel-group 1 mode active
-SW1(config-if-range)#c
+SW1(config-if-range)#
 *May  6 03:18:29.087: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/3, changed state to up
 *May  6 03:18:29.102: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/4, changed state to up
 *May  6 03:18:29.114: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/5, changed state to u
@@ -119,7 +113,6 @@ SW1(config-if-range)#
 *May  6 03:18:59.243: %LINEPROTO-5-UPDOWN: Line protocol on Interface Port-channel1, changed state to up
 SW1(config-if-range)#end
 SW1#
-
 
 ! Gi1/10 = trunk to SW2
 SW1(config)#interface GigabitEthernet 1/10
@@ -162,7 +155,6 @@ Po1            on               802.1q         trunking      1
 
 Port           Vlans allowed on trunk
 Gi1/10         1-4094
-Po1            10-12
 
 Port           Vlans allowed and active in management domain
 Gi1/10         1,10-12
@@ -174,8 +166,7 @@ Po1            10-12
 SW1#
 ```
 ##### Verify: `show ip interface brief`
-`Vlan10` should show `192.168.10.200`, status `up / up`.
-You should also see the EtherChannel we setup.
+`Vlan10` should show `192.168.10.200`, status `up / up`. You should also see the EtherChannel we set up.
 ```cisco
 SW1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
@@ -283,7 +274,7 @@ SW2(config-if)#switchport trunk allowed vlan 10,11,12
 SW2(config-if)#no shutdown
 SW2(config-if)#exit
 
-! Fa1/1 = Client laptop port 
+! Fa1/1 = Laptop, VM3-diagnostic identity, same VLAN as VM3
 SW2(config)#interface FastEthernet 1/1
 SW2(config-if)#description Connection_to_Laptop_VLAN11
 SW2(config-if)#switchport mode access
@@ -291,29 +282,37 @@ SW2(config-if)#switchport access vlan 11
 SW2(config-if)#no shutdown
 SW2(config-if)#exit
 
-! Fa1/2 = MGMT laptop port 
+! Fa1/2 = Laptop, management identity
 SW2(config)#interface FastEthernet 1/2
 SW2(config-if)#description Connection_to_Laptop_VLAN10
 SW2(config-if)#switchport mode access
 SW2(config-if)#switchport access vlan 10
 SW2(config-if)#no shutdown
 SW2(config-if)#exit
-SW2(config)#end
 
+! Fa1/3 = Laptop, production test identity — added this one so Task step 5 is actually possible
+SW2(config)#interface FastEthernet 1/3
+SW2(config-if)#description Connection_to_Laptop_VLAN12
+SW2(config-if)#switchport mode access
+SW2(config-if)#switchport access vlan 12
+SW2(config-if)#no shutdown
+SW2(config-if)#exit
+
+SW2(config)#end
 SW2#copy running-config startup-config
 ```
 
 ##### Verify: `show vlan brief`
-`Fa1/1` should be **active** under `VLAN 10` (not 11 — that mismatch was my original bug).
+`Fa1/1` active under VLAN 11, `Fa1/2` under VLAN 10, `Fa1/3` under VLAN 12.
 ```cisco
 SW2#show vlan brief
 
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------
-1    default                          active    Fa1/3, Fa1/4, Gi1/2
+1    default                          active    Fa1/4, Gi1/2
 10   VLAN0010                         active    Fa1/2
 11   VLAN0011                         active    Fa1/1
-12   VLAN0012                         active
+12   VLAN0012                         active    Fa1/3
 1002 fddi-default                     act/unsup
 1003 token-ring-default               act/unsup
 1004 fddinet-default                  act/unsup
@@ -339,7 +338,7 @@ Gi1/1       10-12
 SW2#
 ```
 ##### Verify: `show ip interface brief`
-`Vlan11` should show `192.168.10.201`, status `up / up`.
+`Vlan10` should show `192.168.10.201`, status `up / up`.
 ```cisco
 SW2#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
@@ -374,6 +373,11 @@ interface FastEthernet1/2
  switchport access vlan 10
  switchport mode access
 !
+interface FastEthernet1/3
+ description Connection_to_Laptop_VLAN12
+ switchport access vlan 12
+ switchport mode access
+!
 interface GigabitEthernet1/1
  description Trunk_to_SW1
  switchport trunk allowed vlan 10-12
@@ -397,10 +401,12 @@ end
 ```cisco
 SW1#ping 192.168.10.201
 Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.11.254, timeout is 2 seconds:
+Sending 5, 100-byte ICMP Echos to 192.168.10.201, timeout is 2 seconds:
 !!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 1/4/9 ms
-SW1#
-
+Success rate is 100 percent (5/5)
 ```
+This one should just work, no firewall involved — VLAN 10 is a single flat network both switches sit on directly, so SW1 reaching SW2's management IP is pure Layer 2/local routing, nothing to configure beyond the trunk being up.
 
+If this comes back at 0%, it's almost always the physical cable between `Gi1/10` and `Gi1/1` not fully seated, or one of those ports still showing `administratively down` — run `no shutdown` again on whichever one is down, or you know what? Maybe it's you, maybe you're the problem, shame on you. No but seriously I can't stress enough how important it is to run `no shutdown` again, I had the exact same problem because I did the steps correctly but still couldn't communicate the switches.
+
+**Don't confuse this test with an inter-VLAN routing test.** SW1 pinging SW2 proves the trunk works. It does **not** prove pfSense is routing VLAN 11 ↔ VLAN 12 correctly — that's a completely separate thing to verify, covered in `05-FireWall_Configuration.md`'s checklist, and it can't even be tested from either switch since neither one has a leg on VLAN 11 or 12 at all.

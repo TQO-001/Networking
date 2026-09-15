@@ -8,35 +8,21 @@
         "type": "tabs",
         "children": [
           {
-            "id": "d966000e96840a39",
+            "id": "42392543e90b7fe0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "00_Server_Configuration"
+              "title": "01-The_Sonoff_POW_R2"
             }
           },
           {
-            "id": "01d37026b4fa84a6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "01_Sun_Daddy_Network_Task"
-            }
-          },
-          {
-            "id": "e8fb7956c5f46806",
+            "id": "88681d7b84eb3f70",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -50,119 +36,21 @@
             }
           },
           {
-            "id": "191f5c20fc3ba4eb",
+            "id": "a879ab6a3c7ae5a3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
+                "file": "03-Projects/Silver Tongue/Scrap Inventory.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "03-Server_Setup_Documentation"
-            }
-          },
-          {
-            "id": "5ff48591314e82d9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/04-Creating_VMs_Documentation.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "04-Creating_VMs_Documentation"
-            }
-          },
-          {
-            "id": "7bd53065fec29ade",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "05-FireWall_Configuration"
-            }
-          },
-          {
-            "id": "ec363ee1e37b9caf",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/02-Notes/01-Virtualization & Network Infrastructure Essentials/Section_01_Virtualization_and_VMs.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Section_01_Virtualization_and_VMs"
-            }
-          },
-          {
-            "id": "3062d584bba180d0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/02-Notes/01-Virtualization & Network Infrastructure Essentials/Section_04_VLANs.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Section_04_VLANs"
-            }
-          },
-          {
-            "id": "42392543e90b7fe0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/04-Writing Drill Exercises/driller bill.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "driller bill"
-            }
-          },
-          {
-            "id": "7968d5f53b54ea04",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "02_Switches and VLANs"
-            }
-          },
-          {
-            "id": "88681d7b84eb3f70",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/06-Peace_was_never_an_option.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "06-Peace_was_never_an_option"
+              "title": "Scrap Inventory"
             }
           }
         ],
-        "currentTab": 10
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -329,19 +217,34 @@
       "bases:Create new base": false
     }
   },
-  "active": "88681d7b84eb3f70",
+  "active": "a879ab6a3c7ae5a3",
   "lastOpenFiles": [
-    "01-Notes/01-Beginner/02-Industrial Networking/wjeofniowenf.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/06-Peace_was_never_an_option.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
+    "03-Projects/Silver Tongue/Scrap Inventory.md",
+    "03-Projects/Silver Tongue/Untitled",
+    "03-Projects/Silver Tongue",
+    "A",
     "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
-    "Sun-daddy-network (3).png",
-    "01-Notes/01-Beginner/02-Industrial Networking/02-Notes/01-Virtualization & Network Infrastructure Essentials/Section_04_VLANs.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/README.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/Maintenance.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/driller bill.md",
+    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/scheduler/unstable_mock.js",
+    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/scheduler/index.js",
+    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/notebook.js.map",
+    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/octagon-alert.js.map",
+    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/nut.js.map",
+    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/nut-off.js.map",
+    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/notepad-text.js.map",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/04-Creating_VMs_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
+    "Sun-daddy-network.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/06-Peace_was_never_an_option.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/wjeofniowenf.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/02-Notes/01-Virtualization & Network Infrastructure Essentials/Section_04_VLANs.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/08_Device_Management_Troubleshooting.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/07_WAN_Wireless.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/06_Security_Fundamentals.md",
@@ -351,23 +254,6 @@
     "01-Notes/01-Beginner/04-Writing Drill Exercises/02_IP_Addressing_Advanced.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/01_OSI_TCP-IP_Model.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/00_Definitions_Drill_Sheet.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/02-Notes/01-Virtualization & Network Infrastructure Essentials/Section_01_Virtualization_and_VMs.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/yallist/iterator.js",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/vite/index.d.cts",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/vite/client.d.ts",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/vite/README.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/tinyglobby/dist/index.mjs",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/tinyglobby/dist/index.d.mts",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/tinyglobby/README.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/source-map-js/source-map.js",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/source-map-js/source-map.d.ts",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/source-map-js/lib/util.js",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/source-map-js/lib/source-node.js",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/source-map-js/lib/source-map-consumer.d.ts",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/scheduler/README.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/rollup/README.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/rollup/LICENSE.md",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/json5/README.md",
     "Sun-daddy-network (2) 1.png",
     "Pasted image 20260911091358.png",
     "Pasted image 20260911091329.png",
@@ -375,7 +261,6 @@
     "Pasted image 20260910160835.jpg",
     "Pasted image 20260910160752.jpg",
     "Sun-daddy-network (1).png",
-    "Sun-daddy-network.png",
     "firewal.webp"
   ]
 }

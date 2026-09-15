@@ -110,7 +110,7 @@ RAID 5 was already setup on the server but part of the task is to (know how to) 
 - Once it's installed, make sure to change your network settings to a network range of your choice, make sure that the device that you will use to manage the server with via Web Browser is on the same network.
 ![[input_file_21.png]]
 
-> [!NOTE] **NOTE** - When you're configuring the management network you ensure that the network adapters you are connected to are selected. Also if you make a mistake in the Management Interface and for some reason remove, `vmnic0` or any other basic network configuration of the server, this will be your go to lifeline, well not lifeline more like your only option really.
+> [!NOTE] **NOTE** - When you're configuring the management network you ensure that the network adapters you are connected to are selected. Also if you make a mistake in the Management Interface and for some reason remove `vmnic0` or any other basic network configuration of the server, this will be your go to lifeline, well not lifeline more like your only option really.
 
 - Now a very important step before adding this device to a permanent network is to ping it from the PC to the server and from the server to the PC to ensure they are actually communicating.
 ![[1000376266.jpg]]
@@ -131,23 +131,23 @@ RAID 5 was already setup on the server but part of the task is to (know how to) 
 ---
 
 ### Step 0E: Configure ESXi Virtual Networking (this is the part that kept costing me access, I almost crashed out)
-The server has two NICs I actually care about for this task: `vmnic0`, which I run a direct cable from straight into my laptop for host management, and `vmnic1`, which goes to Switch 1's `Gi1/4` port. My first attempt dumped both of them onto the same virtual switch (`vSwitch0`), and every time `vmnic1` came up, my laptop's direct connection through `vmnic0` dropped. Turns out (according to google) that's because ESXi was trying to bridge/load-balance across both physical links at once, with no VLAN separation, which caused a loop. Do I understand what that means? No, but the fix is to give each NIC its own vSwitch and never let them touch.
 
-**vSwitch0 — management only, never touches VLANs**
-- Only uplink: `vmnic0`.
-- Port group: **Management Network**, VLAN ID `0` (none — it's a private point-to-point cable, tags don't matter here).
-- `vmk0` static IP: `192.168.10.2 /24`, no gateway.
-- Steps: **Networking → Virtual switches → vSwitch0 → Edit settings** → under Uplinks, make sure only `vmnic0` is listed (remove `vmnic1` if it's there).
+> **This whole section changed from my original approach.** I used to keep `vmnic0` as a private direct cable straight to my laptop, permanently isolated on its own `vSwitch0`, purely as an emergency lifeline. Once VLAN 10 became a real, switched management network reachable through the switches (see `01_Sun_Daddy_Network_Task.md`), that private cable stopped being necessary — I can reach the ESXi host at `192.168.10.2` over the trunk now, the same way I reach the switches themselves. So `vmk0` moved onto the trunk, and the server's NICs got reorganized around the EtherChannel instead.
 
-**vSwitch1 — the actual production trunk**
-- Uplinks: `vmnic1`.
-- Steps: **Networking → Virtual switches → Add standard virtual switch** → name it `vSwitch1`, uplink `vmnic1`.
-- Edit settings on `vSwitch1` → **Security** → set **Promiscuous Mode**, **MAC Address Changes**, and **Forged Transmits** to **Accept**. pfSense needs this to actually route between VLANs, otherwise ESXi silently drops the traffic pretending to be from another MAC.
-- Port groups (**Networking → Port groups → Add port group**), attached to `vSwitch1`:
-  - `VLAN_10`, VLAN ID `10`
-  - `VLAN_11`, VLAN ID `11`
-  - `VLAN_12`, VLAN ID `12`
+**Current setup: `vmnic1`, `vmnic2`, and `vmnic3` bonded into one EtherChannel, feeding a single `vSwitch1`.**
 
-Once this split is done, `vmnic1` being up permanently (it's connected to the switch all the time) no longer affects my direct laptop link on `vmnic0` at all — they're on completely separate vSwitches now.
+- Cable `vmnic1`, `vmnic2`, and `vmnic3` into Switch 1's `Gi1/3`, `Gi1/4`, `Gi1/5` — these three ports are bonded on the switch side into `Port-channel1` (see `02-Switches_Documentation.md`).
+- **Networking → Virtual switches → Add standard virtual switch** (if it doesn't already exist) → name it `vSwitch1` → add all three of `vmnic1`/`vmnic2`/`vmnic3` as uplinks.
+- Edit settings on `vSwitch1` → **Teaming and failover**:
+  - **Load balancing:** change from the default "Route based on originating port ID" to **"Route based on IP hash."** This is the part that actually cost me hours — see the callout below for why it matters.
+  - Make sure all three vmnics show as **Active** adapters, not Standby or Unused.
+  - Under **Security**, set **Promiscuous Mode**, **MAC Address Changes**, and **Forged Transmits** to **Accept** — pfSense needs this to route between VLANs.
+- Port groups on `vSwitch1` (**Networking → Port groups → Add port group**):
+  - `VLAN_10`, VLAN ID `10` — `vmk0` (host management) lives here now.
+  - `VLAN_11`, VLAN ID `11` — VM3, pfSense WAN.
+  - `VLAN_12`, VLAN ID `12` — VM1, VM2, pfSense LAN.
+- Move `vmk0` onto the `VLAN_10` port group, static IP `192.168.10.2 /24`, no gateway needed (VLAN 10 isn't routed anywhere, so there's nowhere for a gateway to send traffic to).
 
-**Note for anyone with a laptop that has more than one Ethernet port:** if you can, keep a permanent cable on `vmnic0` to your laptop and never unplug it. I can't do that (single Ethernet port on my laptop because I'm **POOR**), so I unplug/replug and reconfigure my laptop's IP depending on which link I need — that whole process works and leaves me genuinely on the verge of a major crashout. But it works...
+> **Why "Route based on IP hash" specifically, and why this bit me:** a static EtherChannel (the kind I ended up with on the Cisco side, `channel-group 1 mode on`, not LACP) requires the two ends to agree on *how* traffic gets spread across the bundled links, or you get frames arriving on a different physical port than the switch expects for that MAC/IP pair — which looks like flapping, dropped packets, or "sometimes it works, sometimes it doesn't." ESXi's default teaming policy, "Route based on originating port ID," doesn't coordinate with a static EtherChannel at all — it's designed for independent uplinks, not a bundle. "Route based on IP hash" is the one ESXi teaming mode that's actually designed to pair with a static EtherChannel: it computes a hash from source/destination IP to consistently pick the same physical NIC for a given flow, matching what the switch's static bundle expects. Full story (including the LACP dead-end I went down first) is in `05-FireWall_Configuration.md`, Section 6.
+
+**What happened to the old "direct cable to laptop" safety net:** I'm not 100% sure I need it anymore, now that VLAN 10 does the same job (reachable, unrouted, management-only) without a special-case cable. I'm leaving `vmnic0` physically disconnected/unused for now rather than deleting anything — if it turns out I still want a true "nothing-else-has-to-work" emergency path, I can always recreate `vSwitch0` on it later. Flagging this here in case future-me wonders where it went.
