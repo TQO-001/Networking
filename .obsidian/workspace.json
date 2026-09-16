@@ -13,40 +13,40 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "01-The_Sonoff_POW_R2"
+              "title": "05-FireWall_Configuration"
             }
           },
           {
-            "id": "88681d7b84eb3f70",
+            "id": "24d983bcd2de1f2e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
+                "file": "01-Notes/01-Beginner/01-Networking_101/06-Thin Clients.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "02-Switches_Documentation"
+              "title": "06-Thin Clients"
             }
           },
           {
-            "id": "a879ab6a3c7ae5a3",
+            "id": "c8553c4cdc98b01d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03-Projects/Silver Tongue/Scrap Inventory.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/00_Thin_Client_Setup.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Scrap Inventory"
+              "title": "00_Thin_Client_Setup"
             }
           }
         ],
@@ -112,7 +112,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 355.5
+    "width": 317.5
   },
   "right": {
     "id": "e5312c35852101e4",
@@ -217,18 +217,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "a879ab6a3c7ae5a3",
+  "active": "c8553c4cdc98b01d",
   "lastOpenFiles": [
+    "01-Notes/01-Beginner/01-Networking_101/06-Thin Clients.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Untitled.md",
+    "01-Notes/01-Beginner/01-Networking_101/05-Firewalls and Routers.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/00_Thin_Client_Setup.md",
+    "Pasted image 20260916133502.jpg",
+    "Pasted image 20260916133415.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/Side Quests/01-Side_Quest - Access Point & Thin Client.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
     "03-Projects/Silver Tongue/Scrap Inventory.md",
     "03-Projects/Silver Tongue/Untitled",
     "03-Projects/Silver Tongue",
     "A",
     "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/README.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/Maintenance.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/driller bill.md",
@@ -238,7 +246,6 @@
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/octagon-alert.js.map",
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/nut.js.map",
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/nut-off.js.map",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/notepad-text.js.map",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/04-Creating_VMs_Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
     "Sun-daddy-network.png",
@@ -250,17 +257,12 @@
     "01-Notes/01-Beginner/04-Writing Drill Exercises/06_Security_Fundamentals.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/05_IP_Services.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/04_Routing_Fundamentals.md",
-    "01-Notes/01-Beginner/04-Writing Drill Exercises/03_Switching_VLANs_STP.md",
-    "01-Notes/01-Beginner/04-Writing Drill Exercises/02_IP_Addressing_Advanced.md",
-    "01-Notes/01-Beginner/04-Writing Drill Exercises/01_OSI_TCP-IP_Model.md",
-    "01-Notes/01-Beginner/04-Writing Drill Exercises/00_Definitions_Drill_Sheet.md",
     "Sun-daddy-network (2) 1.png",
     "Pasted image 20260911091358.png",
     "Pasted image 20260911091329.png",
     "Pasted image 20260910160855.jpg",
     "Pasted image 20260910160835.jpg",
     "Pasted image 20260910160752.jpg",
-    "Sun-daddy-network (1).png",
-    "firewal.webp"
+    "Sun-daddy-network (1).png"
   ]
 }

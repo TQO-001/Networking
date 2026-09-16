@@ -63,15 +63,167 @@ Since my "WAN" is actually carrying internal VLAN 10 traffic, not a real interne
 
 ### Step 5: Add firewall pass rules
 pfSense denies all traffic by default on every interface — you have to explicitly allow it.
-ew
-> ##### Previously on Gijima: The Intern Chronicles
-> This is how we used to define the rules:
-> For the VLAN12 tab, LAN tab and the WAN tab (**Firall → Rules → [tab]**):
-> 1. Click **Add** (top rule).
-> 2. Action: **Pass**, Address Family: **IPv4**, Protocol: **Any**, Source: **Any**, Destination: **Any**. (This will cause problems later teehee, but just do it)
-> 3. **Save**.
+
+> [!NOTE] #### Previously on Gijima: The Intern Chronicles
+> **Legacy Setup (Do Not Use in Production)**
 > 
-> Then click **Apply Changes** once all are added.
+> For the VLAN12, LAN, and WAN tabs (**Firewall → Rules → [tab]**):
+> 1. Click **Add** (top rule).
+> 2. Set **Action:** Pass | **Address Family:** IPv4 | **Protocol:** Any | **Source:** Any | **Destination:** Any. *(This will cause problems later, but just do it)*
+> 3. **Save** and click **Apply Changes**.
+> 
+> ****Critical Warnings & Security Issues***
+> 
+> * **WAN Exposure:** Placing a `Pass Any/Any` rule on WAN opens the local network to the public internet by disabling incoming firewall protection.
+> * **Broken Network Isolation:** Permissive source/destination settings let VLAN12 reach all internal subnets, local networks, and the router management GUI.
+> * **Rule Order Conflict:** pfSense evaluates rules top-to-bottom and stops at the first match. Placing a `Pass Any/Any` rule at the top makes any lower block/reject rules completely useless.
+
+#### Firewall Rules
+We're gonna add a few firewall rules to make our network more secure, and convenient to use
+On top of the firewall rules above, we also have to restrict Access to the management VLAN (10) **only**; we should only be able to access the firewall web interface via `192.168.10.1`. So we have to add the following Rules:
+- **Ping**
+- **Remote Desktop Protocol**
+- **Virtual Network Computing**
+- **File Sharing**
+- **Strict Management**
+
+To lock down pfSense so that web management is strictly allowed from VLAN 10 while opening the specific traffic types you requested, you will set up rules under **Firewall > Rules**.
+
+---
+
+#### Create an IP Alias for Management Services
+Creating an alias for your ports keeps your firewall rules organized and easy to maintain.
+
+1. Navigate to **Firewall > Aliases > Ports** and click **Add**.
+2. Set **Name** to `Admin_Ports` and **Type** to `Port(s)`.
+3. Add the following ports:
+   * `80` (HTTP)
+   * `443` (HTTPS)
+   * `22` (SSH - *optional, but recommended for administration*)
+4. Click **Save** and then **Apply Changes**.
+
+---
+
+#### Configure Rules on Management Interface (VLAN 10)
+Navigate to **Firewall > Rules > VLAN10** (or the interface corresponding to Subnet `192.168.10.0/24`). Add the rules in the order shown below. pfSense processes rules from **top to bottom**, stopping at the first match.
+
+1. **Allow Ping (ICMP): Diagnostics**  
+   Permit network diagnostic testing via ping.
+   * **Action:** Pass
+   * **Interface:** VLAN10
+   * **Address Family:** IPv4
+   * **Protocol:** ICMP (ICMP subtype: *Echo Request*)
+   * **Source:** VLAN10 net (or `192.168.10.0/24`)
+   * **Destination:** Any
+
+2. **Allow Remote Desktop Protocol (RDP): Port 3389**  
+   Permit Windows Remote Desktop access across the interface.
+   * **Action:** Pass
+   * **Interface:** VLAN10
+   * **Address Family:** IPv4
+   * **Protocol:** TCP
+   * **Source:** VLAN10 net
+   * **Destination:** Any
+   * **Destination Port Range:** MS RDP (`3389`)
+
+3. **Allow Virtual Network Computing (VNC): Port 5900**  
+   Permit VNC remote desktop access.
+   * **Action:** Pass
+   * **Interface:** VLAN10
+   * **Address Family:** IPv4
+   * **Protocol:** TCP
+   * **Source:** VLAN10 net
+   * **Destination:** Any
+   * **Destination Port Range:** `5900`
+
+4. **Allow File Sharing (SMB / CIFS): Ports 139 & 445**  
+   Permit local network file sharing across devices.
+   * **Action:** Pass
+   * **Interface:** VLAN10
+   * **Address Family:** IPv4
+   * **Protocol:** TCP
+   * **Source:** VLAN10 net
+   * **Destination:** Any
+   * **Destination Port Range:** Custom (`139` to `445` or set single port `445` for SMB)
+
+5. **Allow Web UI Management: Destination 192.168.10.1**  
+   Permit administrative access to the pfSense WebGUI strictly on VLAN 10's gateway IP.
+   * **Action:** Pass
+   * **Interface:** VLAN10
+   * **Address Family:** IPv4
+   * **Protocol:** TCP
+   * **Source:** VLAN10 net
+   * **Destination:** Single host or alias → `192.168.10.1`
+   * **Destination Port Range:** Single port/Alias → `Admin_Ports`
+
+---
+
+#### Enforce Strict Management Restriction Across Other VLANs
+To enhance the security of a network, in many environments access to the firewall GUI is limited by firewall rules. Restricting access to the management interface is the best practice, for reasons as to why, see the blog post [Securely Managing Web-administered Devices](https://www.netgate.com/blog/securely-managing-web-administered-devices).
+
+To block access to the pfSense WebGUI from every interface except VLAN 10, you need to account for all interface IPs on the firewall.
+
+Because pfSense accepts WebGUI logins on any of its gateway IPs by default (including `192.168.11.1` and `192.168.12.1`), devices on other VLANs can still reach the login screen using their own local gateway address unless explicitly stopped.
+
+
+##### Step 1: Create an "All Firewall IPs" Alias
+
+Instead of creating separate rules for `192.168.10.1`, `192.168.11.1`, and `192.168.12.1`, group them together into a single firewall alias.
+
+1. Navigate to **Firewall > Aliases > IP** and click **Add**.
+2. Set **Name** to `pfSense_Gateways`.
+3. Set **Type** to `Host(s)`.
+4. Add the IP address of every interface configured on pfSense:
+   * `192.168.10.1` (VLAN 10)
+   * `192.168.11.1` (VLAN 11)
+   * `192.168.12.1` (VLAN 12)
+   *(Add any additional interface IPs if you have more VLANs or LAN interfaces).*
+5. Click **Save** and **Apply Changes**.
+
+---
+
+##### Step 2: Block WebGUI Access on All Other VLANs
+
+Now, apply a block rule on every interface except VLAN 10 (e.g., VLAN 11, VLAN 12, etc.).
+
+On each non-management interface tab under **Firewall > Rules**:
+
+1. Click **Add** (using the Up arrow button to put this rule at the very top of the list).
+2. Configure the following parameters:
+   * **Action:** `Block`
+   * **Interface:** `[Select current interface, e.g., VLAN11]`
+   * **Address Family:** `IPv4`
+   * **Protocol:** `TCP`
+   * **Source:** `Any`
+   * **Destination:** `Single host or alias` → `pfSense_Gateways`
+   * **Destination Port Range:** `Single port/Alias` → `Admin_Ports` *(or HTTP/HTTPS / ports 80 & 443)*
+3. Click **Save** and **Apply Changes**.
+
+---
+
+##### Step 3: Restrict VLAN 10 to Only Access 192.168.10.1
+
+To prevent users on VLAN 10 from reaching the GUI via the `11.1` or `12.1` addresses, refine the VLAN 10 rule:
+
+1. Go to **Firewall > Rules > VLAN10**.
+2. Locate the **Allow Web UI Management** rule.
+3. Ensure its **Destination** is set strictly to `Single host or alias` → `192.168.10.1` *(not `VLAN10 address` or `Any`)*.
+4. Directly below that pass rule, add a **Block** rule for the rest of the gateways:
+   * **Action:** `Block`
+   * **Interface:** `VLAN10`
+   * **Protocol:** `TCP`
+   * **Destination:** `Alias` → `pfSense_Gateways`
+   * **Destination Port Range:** `Admin_Ports`
+
+---
+
+#### Verification
+
+* **From a device on VLAN 10:** Browsing to `https://192.168.10.1` should open the pfSense login page. Browsing to `https://192.168.11.1` or `https://192.168.12.1` should time out.
+* **From a device on VLAN 11 or VLAN 12:** Browsing to any of the gateway IPs (`10.1`, `11.1`, or `12.1`) on ports 80/443 should be blocked immediately.
+
+
+---
 
 > **Bidirectional Communication**
 > Bidirectional communication is ==a two-way exchange where both parties or systems can send and receive data, signals, or messages==.
