@@ -22,35 +22,21 @@
             }
           },
           {
-            "id": "24d983bcd2de1f2e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/01-Networking_101/06-Thin Clients.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "06-Thin Clients"
-            }
-          },
-          {
             "id": "c8553c4cdc98b01d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/00_Thin_Client_Setup.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/01_Thin_Client_Setup.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "00_Thin_Client_Setup"
+              "title": "01_Thin_Client_Setup"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -219,24 +205,36 @@
   },
   "active": "c8553c4cdc98b01d",
   "lastOpenFiles": [
-    "01-Notes/01-Beginner/01-Networking_101/06-Thin Clients.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks.zip",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/04-Creating_VMs_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
+    "adc58066-34b3-4630-b940-d6682a5691bc.png",
+    "a02840c7-ece5-4ef2-a74a-821cab6b6c3a.png",
+    "dd85fd8d-39a3-471d-92e6-b314473dd732.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/01_Thin_Client_Setup.md",
+    "01-Notes/01-Beginner/01-Networking_101/06-Thin Clients.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377848.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377849.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377850.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377855.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377856.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377857.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377859.jpg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Untitled.md",
     "01-Notes/01-Beginner/01-Networking_101/05-Firewalls and Routers.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/00_Thin_Client_Setup.md",
-    "Pasted image 20260916133502.jpg",
-    "Pasted image 20260916133415.jpg",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/Side Quests/01-Side_Quest - Access Point & Thin Client.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
     "03-Projects/Silver Tongue/Scrap Inventory.md",
     "03-Projects/Silver Tongue/Untitled",
     "03-Projects/Silver Tongue",
     "A",
     "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/README.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/Maintenance.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/driller bill.md",
@@ -245,10 +243,6 @@
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/notebook.js.map",
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/octagon-alert.js.map",
     "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/nut.js.map",
-    "03-Projects/Spinning-Jenny-Network-Visualizer/node_modules/lucide-react/dist/esm/icons/nut-off.js.map",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/04-Creating_VMs_Documentation.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
-    "Sun-daddy-network.png",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/06-Peace_was_never_an_option.md",
     "01-Notes/01-Beginner/02-Industrial Networking/wjeofniowenf.md",
     "01-Notes/01-Beginner/02-Industrial Networking/02-Notes/01-Virtualization & Network Infrastructure Essentials/Section_04_VLANs.md",
@@ -256,13 +250,6 @@
     "01-Notes/01-Beginner/04-Writing Drill Exercises/07_WAN_Wireless.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/06_Security_Fundamentals.md",
     "01-Notes/01-Beginner/04-Writing Drill Exercises/05_IP_Services.md",
-    "01-Notes/01-Beginner/04-Writing Drill Exercises/04_Routing_Fundamentals.md",
-    "Sun-daddy-network (2) 1.png",
-    "Pasted image 20260911091358.png",
-    "Pasted image 20260911091329.png",
-    "Pasted image 20260910160855.jpg",
-    "Pasted image 20260910160835.jpg",
-    "Pasted image 20260910160752.jpg",
-    "Sun-daddy-network (1).png"
+    "01-Notes/01-Beginner/04-Writing Drill Exercises/04_Routing_Fundamentals.md"
   ]
 }

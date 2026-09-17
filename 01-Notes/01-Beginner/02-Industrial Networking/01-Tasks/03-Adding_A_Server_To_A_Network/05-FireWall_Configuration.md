@@ -102,6 +102,8 @@ Creating an alias for your ports keeps your firewall rules organized and easy to
    * `22` (SSH - *optional, but recommended for administration*)
 4. Click **Save** and then **Apply Changes**.
 
+> From this point on, you could scroll down to the verification section to the screenshots and copy the rules there, but if you wanna follow the instructions, you could.
+
 ---
 
 #### Configure Rules on Management Interface (VLAN 10)
@@ -222,6 +224,13 @@ To prevent users on VLAN 10 from reaching the GUI via the `11.1` or `12.1` addre
 * **From a device on VLAN 10:** Browsing to `https://192.168.10.1` should open the pfSense login page. Browsing to `https://192.168.11.1` or `https://192.168.12.1` should time out.
 * **From a device on VLAN 11 or VLAN 12:** Browsing to any of the gateway IPs (`10.1`, `11.1`, or `12.1`) on ports 80/443 should be blocked immediately.
 
+This is how your rules should look like:
+
+![[dd85fd8d-39a3-471d-92e6-b314473dd732.png]]
+
+![[a02840c7-ece5-4ef2-a74a-821cab6b6c3a.png]]
+
+![[adc58066-34b3-4630-b940-d6682a5691bc.png]]
 
 ---
 
