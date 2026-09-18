@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/02-Setting_Up_A_Industrial_Switch/03_Hardware_Installation_Guide.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/01_Sun_Daddy_Network_Task.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "03_Hardware_Installation_Guide"
+              "title": "01_Sun_Daddy_Network_Task"
             }
           }
         ]
@@ -190,25 +190,28 @@
   },
   "active": "eda07b4ebaed34ff",
   "lastOpenFiles": [
-    "04-CCNA/CCNA_Study_Pack_StudioPaper.zip",
-    "04-CCNA/CCNA_Study_Calendar_Starts_21_Sep_2026.pdf",
-    "04-CCNA/CCNA_Printable_Study_Pack.pdf",
-    "04-CCNA/03_CCNA_Lab_Scenarios.pdf",
-    "04-CCNA/02_CCNA_12_Week_Calendar_Source.pdf",
-    "04-CCNA/01_CCNA_Blueprint_Breakdown.pdf",
-    "04-CCNA/00_CCNA_Study_Master_Plan.pdf",
-    "04-CCNA",
+    "04-CCNA/CCNA 200-301 Course Files/Day 63 (part 2) Flashcards - Terraform.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 63 (part 1) Flashcards - Ansible, Puppet, Chef.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 62 Flashcards - SDN.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 61 (Part 1) Flashcards - REST APIs.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 61 (Part 2) Flashcards - REST Authentication.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 59 (Part 2) Flashcards - AI & Machine Learning.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 60 Flashcards - JSON, XML, & YAML.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 59 (Part 1) Flashcards - Network Automation.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 58 Lab - Wireless LANs.pkt",
+    "04-CCNA/CCNA 200-301 Course Files/Day 57 Flashcards - Wireless Security.apkg",
+    "04-CCNA/CCNA 200-301 Course Files/Day 58 Flashcards - Wireless Configuration.apkg",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
+    "basic-management-setup-twin/Areas-of-improvement.md",
     "basic-management-setup-twin/Cue-Cards.md",
     "basic-management-setup-twin/Errors.md",
     "basic-management-setup-twin/Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/02-Setting_Up_A_Industrial_Switch/03_Hardware_Installation_Guide.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/02-Setting_Up_A_Industrial_Switch/02_Essential_Theory.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/02-Setting_Up_A_Industrial_Switch/01_Unboxing.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/00_Server_Configuration.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/01-Switch_Configuration/01_Switch_Configuration.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/01_Thin_Client_Setup.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks.zip",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/04-Creating_VMs_Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
@@ -224,17 +227,14 @@
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377856.jpg",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377857.jpg",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377859.jpg",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Untitled.md",
     "01-Notes/01-Beginner/01-Networking_101/05-Firewalls and Routers.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/Side Quests/01-Side_Quest - Access Point & Thin Client.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
     "02-Projects/Silver Tongue/Scrap Inventory.md",
     "01-Notes/01-Beginner/01-Networking_101/02_Switches and VLANs.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/README.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/Maintenance.md",
-    "01-Notes/01-Beginner/04-Writing Drill Exercises/driller bill.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/06-Peace_was_never_an_option.md"
+    "01-Notes/01-Beginner/04-Writing Drill Exercises/driller bill.md"
   ]
 }
