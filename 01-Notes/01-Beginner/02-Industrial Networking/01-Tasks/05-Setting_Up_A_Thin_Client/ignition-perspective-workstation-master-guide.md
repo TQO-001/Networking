@@ -1,7 +1,9 @@
 # Ignition Perspective Workstation on HP ThinPro — Master Deployment Guide
 
 This is the complete, start-to-finish procedure for installing Ignition Perspective
-Workstation on an HP ThinPro thin client.
+Workstation on an HP ThinPro thin client, fixing the "Unable to create browser instances"
+error, and configuring it to start automatically with no terminal interaction. It
+supersedes earlier draft attempts, which are summarized in Part 8 for reference.
 
 **Background — why standard Linux autostart does not apply here:** system diagnostics
 confirm this is genuine HP ThinPro (the `hptc-*` services, `adaemon`, and
@@ -362,3 +364,61 @@ ps aux | grep java
 # Check for Smart Zero / Connection Manager tooling if the GUI is not visible
 which hptc-connection-admin hptc-config-wizard 2>/dev/null
 ```
+
+---
+
+## Part 9 — Full uninstall / rollback
+
+Use this to remove the installation completely and return the thin client to its
+pre-deployment state. Steps are ordered so the running application is stopped before its
+supporting configuration is removed.
+
+- [ ] **9.1 — Stop the running application.**
+  ```bash
+  pkill -f perspectiveworkstation
+  pkill -f java
+  ```
+  Confirm nothing remains:
+  ```bash
+  ps aux | grep -E 'perspective|java'
+  ```
+
+- [ ] **9.2 — Remove the Connection Manager entry.**
+  - Open **Connections** in the ThinPro control center (switch to Administrator Mode
+    first if required).
+  - Select the **Perspective Workstation** connection and choose **Delete**.
+  - Confirm it no longer appears in either the admin or non-admin connection list.
+
+- [ ] **9.3 — Remove the lock file, if the `flock` safety net was used.**
+  ```bash
+  rm -f /tmp/perspective.lock
+  ```
+
+- [ ] **9.4 — Remove any leftover XDG autostart entry** (only relevant if this was
+      created at any point and not already cleaned up):
+  ```bash
+  rm -f /home/<NON_ROOT_USER>/.config/autostart/ignition-perspective-workstation.desktop
+  ```
+
+- [ ] **9.5 — Remove the application's local data for the session user.**
+  ```bash
+  rm -rf /home/<NON_ROOT_USER>/.ignition
+  ```
+
+- [ ] **9.6 — Remove the installed application files from persistent storage.**
+  ```bash
+  rm -rf /persistent/ignition
+  ```
+
+- [ ] **9.7 — Reboot and confirm.**
+  - Cold reboot the machine.
+  - Confirm no Perspective Workstation window opens automatically.
+  - Confirm the Connections list no longer includes the entry.
+  - Confirm `/persistent/ignition` no longer exists:
+    ```bash
+    ls /persistent/ignition 2>&1
+    ```
+    (Expected: "No such file or directory")
+
+**Note:** this removes the application and its configuration only. It does not modify
+ThinPro system settings, network configuration, or any other connections on the machine.
