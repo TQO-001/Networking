@@ -1,6 +1,7 @@
 Learn at least a general amount of how everything you're working with works
 
-==You do not need deep electrical engineering knowledge to work in Operational Technology (OT)==, but you do need a foundational understanding of how software, networks, and controllers interact with physical equipment.
+> [!info] Info
+> ==You do not need deep electrical engineering knowledge to work in Operational Technology (OT)==, but you do need a foundational understanding of how software, networks, and controllers interact with physical equipment.
 
 Operational Technology (OT) networking involves connecting physical industrial systems—like factory machines, valves, and power grids—using network cables and protocols
 
