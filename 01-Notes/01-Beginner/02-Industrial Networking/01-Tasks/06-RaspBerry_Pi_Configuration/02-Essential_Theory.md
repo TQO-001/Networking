@@ -298,9 +298,6 @@ PXE (Preboot Execution Environment) is the same idea you may have seen with PCs:
 ### Basic backup habit
 Because the whole OS is one card, you can **image the card** to a file on your PC and restore it later. Do this once your Pi is set up the way you like. It takes minutes and saves hours.
 
-- [ ] I can explain the difference between NOOBS, Imager and a boot device
-- [ ] I know the three ways the Pi can boot and why an SSD is better than an SD card long-term
-
 ---
 ## 2.6 Raspberry Pi OS and Linux Basics
 
@@ -379,10 +376,6 @@ journalctl -xe                # read recent system logs
 
 ### Python is already there
 Python 3 comes preinstalled, which suits your development path. For GPIO, current Pi OS includes libraries such as **gpiozero** (the easy one for beginners). Use virtual environments (`python3 -m venv`) for your projects so you don't disturb the system's own Python packages.
-
-- [ ] I can move around the filesystem and edit a file from the command line
-- [ ] I know what `sudo`, `apt` and `systemctl` do
-- [ ] I know what "headless" and "Lite" mean
 
 ---
 ## 2.7 Networking on the Pi (SSH, static IP, VLANs)
@@ -474,10 +467,6 @@ This ties directly to the industrial switching and segmentation material in your
 | `nmcli device status` | Status of network devices |
 | `sudo tcpdump -i eth0` | Capture packets (your Wireshark-in-terminal) |
 
-- [ ] I can connect to the Pi with SSH and set up key login
-- [ ] I know two ways to give the Pi a fixed IP
-- [ ] I understand when the Pi needs VLAN configuration and when the switch handles it
-
 ---
 ## 2.8 Heat, Throttling and Health Checks
 
@@ -502,8 +491,6 @@ htop                           # live process view (install with apt if needed)
 ### Reading `get_throttled`
 If the result is not `0x0`, something has happened since boot. The most common causes are **under-voltage** (bad power supply or cable, see 2.3) and **overheating** (see above). Fix the power first, it is by far the most frequent culprit.
 
-- [ ] I know how to check the Pi's temperature and power health
-
 ---
 ## 2.9 Safety Rules (know these by heart)
 
@@ -519,7 +506,6 @@ If the result is not `0x0`, something has happened since boot. The most common c
 > 9. **Handle boards by the edges.** Static electricity can damage electronics, so touch a grounded metal object first.
 > 10. **Follow the sequence: verify, then power.** It is the same idea as "ground first, verify, then power" from the electrical wiring notes.
 
-- [ ] I can recite the safety rules
 
 ---
 ## Quick Reference Card
@@ -561,9 +547,3 @@ If the result is not `0x0`, something has happened since boot. The most common c
 | Under-voltage | Supply voltage too low, causes instability |
 | apt | Debian package manager |
 | systemd | Linux service manager |
-
----
-## Overall Completion
-- [ ] All section checkboxes above are ticked
-- [ ] I can explain in my own words how a Pi is powered, stores its OS, and connects to a network
-- [ ] I am ready for Section 3: Setup and Configuration

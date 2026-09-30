@@ -1,7 +1,7 @@
 ## 1.1 AWK-3131A Series
 The [AWK-3131A Series](https://www.moxa.com/en/products/industrial-network-infrastructure/wireless-ap-bridge-client/wlan-ap-bridge-client/awk-3131a-series) is ==a line of 3-in-1 industrial wireless access points, bridges, and clients built by Moxa==. The AWK-3131A Series is a range of 3-in-1 industrial wireless AP/bridge/clients designed to build reliable and interference-resistant indoor networks. They are ideal for creating robust Wi-Fi coverage in factories, warehouses, and complex RF environments. Through 5 GHz DFS channel support, the AWK-3131A Series automatically selects less congested frequencies to avoid interference and ensure stable communication.
 
-![[Pasted image 20260928100229.jpg|263]]
+![[Pasted image 20260928100229.jpg|263]]![[Pasted image 20260903114230.png|440]]
 
 ### What Comes in the Box
 - **AWK-3131A wireless AP/client:** The main hardware unit that connects your devices to the Wi-Fi network.
