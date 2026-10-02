@@ -42,6 +42,8 @@ Assemble components in the following sequence:
 **Raspberry Pi Imager** is the recommended utility to write an OS image to your microSD card or storage media from Windows, macOS, or Linux.
 
 > You could just follow [this tutorial](https://www.raspberrypi.com/documentation/computers/getting-started.html#install), I pretty much stole the pictures from there.
+
+> I don't quite know what [this tutorial](https://wiki.seeedstudio.com/Raspberry_Pi_3_Model_B/) is but you could check it out too.
 #### Prerequisites
 To install an OS on a storage device, you need:
 - A blank storage device to be your boot media, typically a microSD card.
@@ -101,14 +103,128 @@ I'm sure you noticed I didn't put any steps above, I feel some things don't requ
 > [!info] ✨✨***The Magical Power Of Common Sense***!✨✨
 
 ---
+## 3.4.1 Raspberry Pi Remote Access Guide (MobaXterm Edition)
+This guide covers setting up remote access to control a Raspberry Pi over a local network using **MobaXterm** for both SSH terminal control and VNC desktop screen sharing.
 
-## 3.4 Setting up the Sensor: Grove - Temperature&Humidity Sensor Pro(DHT22)
-> [!note] If this is the first time you work with Arduino, I recommend you to see [Getting Started with Arduino](https://wiki.seeedstudio.com/Getting_Started_with_Arduino/) before the start. Follow [this tutorial](https://wiki.seeedstudio.com/Grove-Temperature_and_Humidity_Sensor_Pro/#software) as a more descriptive guide
+### 1. Prerequisites & Finding the Pi's IP Address
+Ensure your Raspberry Pi and your Windows host computer running MobaXterm are connected to the same local network.
 
-Connect the Grove - Temperature&Humidity Sensor Pro (DHT22) to a PWM or digital port on a Grove Base Hat for your Raspberry Pi using a 4-pin Grove cable
+#### Find the IP Address:
+- **Terminal Command:** Run `hostname -I` on the Pi to display its local IP address (e.g., `192.168.1.50`). 
+or
+- **Desktop Interface:** Hover over the network icon in the top system tray. 
 
-- **Step 1.** Download the [Seeed DHT library](https://github.com/Seeed-Studio/Grove_Temperature_And_Humidity_Sensor) from Github.
-- **Step 2.** Refer to [How to install library](https://wiki.seeedstudio.com/How_to_install_Arduino_Library) to install library for Arduino.
-- **Step 3.** Restart the Arduino IDE. Open “ DHTtester” example via the path: **File --> Examples --> Grove_Humidity_Temperature_Sensor-master --> DHTtester**. Through this demo, we can read the temperature and relative humidity information of the environment.
+### 2. Enabling Remote Access on the Raspberry Pi
+Before connecting via MobaXterm, enable **VNC** interfaces on the Pi.
 
+#### Step 1: Via Raspberry Pi Configuration (GUI)
+1. Navigate to **Menu** > **Preferences** > **Raspberry Pi Configuration**. 
+2. Go to the **Interfaces** tab. 
+3. Toggle both **VNC** to **Enabled**. 
+4. Click **OK**. 
+![[Pasted image 20261001131828.png]]
+#### Step 2: Via Command Line (`raspi-config`)
+1. Open terminal and run: `sudo raspi-config`
+2. Navigate to **Interface Options**. 
+![[Pasted image 20261001133057.png|341]]![[Pasted image 20261001133146.png|342]]
+3. Select **VNC** > Select **Yes**. 
+![[Pasted image 20261001133225.png|335]]
+4. Exit and reboot if prompted (`sudo reboot`). 
+
+### 3. Connecting via MobaXterm: Built-in VNC Graphical Session
+MobaXterm has a built-in VNC viewer, allowing you to view and control the full graphical desktop without installing additional server software on the Pi.
+
+1. Open **MobaXterm**. 
+2. Click **Session** (top-left) > Select **VNC**. 
+3. **Remote host:** Enter your Pi's IP address (e.g., `10.10.22.63`). 
+4. **Port:** Leave as default `5900` (standard native VNC display port). 
+5. Click **OK**. 
+6. When prompted, enter your Raspberry Pi user password (or the VNC password set in `raspi-config` / Raspberry Pi OS settings). 
+
+After that you're done! **NOT!!!** Now comes the fun part, apparently the Standard used by Gijima is TightVNC so here's a special for you.
+
+
+## 3.4.2 Raspberry Pi OS (Bookworm) WayVNC Configuration for TightVNC Viewer
+> [!note] It was a major headache figuring this one out only to find out that the issue was the firewall was blocking me from downloading the TightVNC server software. This guide documents the diagnosis and resolution to configure `wayvnc` so that TightVNC Viewer can successfully connect without installing additional software on the Raspberry Pi. 
+
+> I'm sure if works but if you aren't restricted by firewall rules, you can follow [this tutorial](https://raspi.tv/2012/install-and-use-tightvnc-remote-desktop-on-raspberry-pi-through-windows-android-or-ios) my guy
+
+### Overview
+Raspberry Pi OS (Bookworm and later) uses **WayVNC** as its default VNC server under the Wayland desktop environment. By default, `wayvnc` mandates modern TLS authentication, which causes legacy clients like **TightVNC Viewer** to fail with the following error:
+
+![[Pasted image 20261001161400.png]]
+
+---
+
+### 1. System Identification & Verification
+First, verify the active VNC process and installed packages to confirm `wayvnc` is running under Wayland.
+
+#### Check Running VNC Processes
+```bash
+ps aux | grep -iE 'vnc|vncserver' | grep -v grep
+````
+
+**Expected Output:**
+```bash
+vnc        937  0.0  0.0   2416  1552 ?        Ss   02:38   0:00 /bin/sh /usr/sbin/wayvnc-run.sh
+vnc        964  0.0  1.6 747492 130484 ?        Sl   02:38   0:05 wayvnc --detached --gpu --config /etc/wayvnc/config --socket /tmp/wayvnc/wayvncctl.sock
+root      1111  0.0  0.2  33040 20280 ?        Ss   02:38   0:00 python /usr/sbin/wayvnc-control.py
+```
+
+#### Check Installed VNC Packages
+```Bash
+dpkg -l | grep -i vnc
+```
+
+Put it into Gemini or some other AI if you can't read it.
+
+### 2. Solution: Configure WayVNC for Legacy Client Compatibility
+To allow TightVNC Viewer to connect without encryption negotiation errors, disable the mandatory TLS authentication requirement in `wayvnc`.
+
+#### Step 1: Open the WayVNC Configuration File
+```Bash
+sudo nano /etc/wayvnc/config
+```
+
+#### Step 2: Update Configuration
+Replace or edit the file content to match the following configuration:
+```bash
+address=0.0.0.0
+enable_auth=false
+```
+
+- **`address=0.0.0.0`**: Listens on all IPv4 network interfaces.
+- **`enable_auth=false`**: Bypasses the strict TLS security requirements, allowing TightVNC Viewer to complete the RFB protocol handshake.
+
+Save the file (**Ctrl + O**, **Enter**) and exit nano (**Ctrl + X**).
+
+#### Step 3: Restart the WayVNC Service
+Apply the new configuration by restarting `wayvnc`:
+```Bash
+sudo systemctl restart wayvnc
+```
+
+### 3. Connecting via TightVNC Viewer
+
+1. Launch **TightVNC Viewer** on your client machine.
+2. In the **VNC Server** field, enter the IP address of your Raspberry Pi (e.g., `10.10.22.63`).
+3. Click **Connect**.
+4. Leave the password field blank if prompted, as authentication is handled by network binding.
+
+![[Pasted image 20261001162115.jpg]]
+
+![[Pasted image 20261002075526.png|442]]
+
+---
+
+## 3.5 Safe Remote Shutdown
+
+Always shut down or reboot gracefully through your terminal before disconnecting power to avoid micro-SD card corruption:
+```bash
+# Soft Reboot
+sudo reboot
+
+# Power Off
+sudo shutdown -h now
+```
 
