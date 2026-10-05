@@ -7,6 +7,7 @@ This guide covers connecting a Grove AM2302 (DHT22) Temperature & Humidity Senso
 
 ## 6.1 Wiring & Pinout
 Insert **Male-to-Female jumper wires** into the female socket at the free end of your Grove cable, then connect the female ends to the Raspberry Pi GPIO header:  
+![[Pasted image 20261005103037.jpg|298]]
 
 |**Grove PCB Label**|**Cable Wire Color**|**Raspberry Pi Physical Pin**|**Header Function**|
 |---|---|---|---|
@@ -14,6 +15,7 @@ Insert **Male-to-Female jumper wires** into the female socket at the free end of
 |**NC**|**White**|_Not Connected_|Leave disconnected|
 |**VCC**|**Red**|**Pin 1**|**3.3V Power**|
 |**GND**|**Black**|**Pin 6**|**Ground (GND)**|
+![[Pasted image 20260929150700.png]]
 
 > [!note] **Note:** The white wire (NC) is not connected because single-bus digital sensors only require a single data line._
 
@@ -56,7 +58,7 @@ You can import this flow directly into Node-RED (**Menu** -> **Import** -> paste
         "id": "dht22_node",
         "type": "rpi-dht22",
         "z": "flow_dht22",
-        "name": "Grove AM2302",
+        "name": "DHT22 Sensor",
         "topic": "dht22",
         "dhttype": "22",
         "pin": "4",
@@ -88,10 +90,13 @@ You can import this flow directly into Node-RED (**Menu** -> **Import** -> paste
 ]
 ```
 
-Your flow should look like this: ![[Pasted image 20261002151614.png]]
+## 6.4 Final Steps
+Your flow should look like this: 
+![[Pasted image 20261005092043.png]]
 
+One final steps would be to click on your sensor and check the settings to see if they match the ones below:
+![[Pasted image 20261005092009.png]]
 
-
-
+> Don't forget to **Deploy**
 
 

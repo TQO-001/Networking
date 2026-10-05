@@ -75,34 +75,49 @@ sudo systemctl enable nodered.service
 > npm install -g pm2
 > ```
 > 
-> 1. **Find the full path to your `node-red` executable:**
+> 2. **Find the full path to your `node-red` executable:**
 > ```
 > which node-red
 > ```
 > 
-> 1. **Start Node-RED with PM2:**
+> 3. **Start Node-RED with PM2:**
 > ```
 > pm2 start $(which node-red) -- --max-old-space-size=128
 > ```
 >
 > ![[Pasted image 20261002144951.png]]
 > 
-> 1. **Configure PM2 to start on boot:**
+> 4. **Configure PM2 to start on boot:**
 > ```
 > pm2 startup
 > ```
 > 
-> 1. **Save the running state:**
+> **CRITICAL STEP: `pm2 startup` does not configure systemd automatically. You MUST execute the generated command string that PM2 prints out (e.g., `sudo env PATH=$PATH:... pm2 startup systemd -u admin --hp /home/admin`).**
+> 
+> 5. **Save the running state:**
 > ```
 > pm2 save
 > ```
 > 
 >![[Pasted image 20261002154712.png]]
+> 
+> 6. **Test whether the PM2 daemon properly resurrects Node-RED across system restarts:**
+>```bash
+>sudo reboot
+>```
+>
+>7. **After the Pi boots back up, open a terminal and verify:**
+>```bash
+>pm2 status
+>```
+>
+> **Verification:** Node-RED should automatically show as `online` with an active uptime without needing to manually run `pm2 resurrect` or `pm2 start`.
 >
 > **Useful PM2 commands:**
 > - Check status: `pm2 status`
 > - View logs: `pm2 logs node-red`
 > - Stop/restart: `pm2 stop node-red` / `pm2 restart node-red`
+
 
 ##### Manual Start (NVM Setup):
 When Node.js is managed via **NVM**, background service setup and shortcut commands (`node-red-start`, etc.) are **disabled**.
