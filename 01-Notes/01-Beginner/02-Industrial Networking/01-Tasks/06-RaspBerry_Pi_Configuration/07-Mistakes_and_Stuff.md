@@ -1,41 +1,10 @@
-# 07 - Mistakes and Stuff
+# I'm tired
+> [!warning] ### Disclaimer
+> ***This specific file was entirely made with AI, after compiling all the mistakes I made and research I've done.***
 
 Troubleshooting history and lessons learned from getting the Grove AM2302 (DHT22) working on a Raspberry Pi 4 B with Node-RED.
 
-The point of this file is **not** to look good. It is to keep the real failures so they can be recognised faster next time. Everything below actually happened during this project.
-
-**Where the project ended up:**
-
-```
-Hardware -> Linux -> IIO -> Exec -> Parser -> Timestamp -> Validation -> Dashboard
-```
-
-The final working design is in `06-Sensor_Setup.md`. The flow is `DHT22_Environmental_Monitor_Flow.json`.
-
-## Contents
-
-| #  | Mistake / problem                                  | Category        |
-| -- | -------------------------------------------------- | --------------- |
-| 1  | Python GPIO reader timeout                         | Sensor reading  |
-| 2  | GPIO ownership conflict                            | Sensor reading  |
-| 3  | IIO device not initially existing                  | Linux config    |
-| 4  | Overlay configuration in the wrong hardware section | Linux config   |
-| 5  | Old Node-RED DHT node approach                     | Architecture    |
-| 6  | Raw value scaling                                  | Data handling   |
-| 7  | Property-name mismatch                             | JavaScript      |
-| 8  | Validation Function output mistake                 | Node-RED        |
-| 9  | Debug node wiring mistake                          | Node-RED        |
-| 10 | Testing only the happy path                        | Method          |
-| 11 | Dashboard too early                                | Method          |
-| 12 | Wrong pin numbering mode in the old node           | Sensor reading  |
-| 13 | Chasing hardware that was not broken               | Method          |
-| 14 | Wrong system clock broke `apt update`              | Linux config    |
-| 15 | `file in` nodes failing on the sysfs files         | Node-RED        |
-| 16 | Smoothing filter that hides sensor faults          | Data handling   |
-| 17 | NVM hides the `node-red-start` commands            | Environment     |
-| 18 | Non-UTF-8 character in a Python file               | Python          |
-| 19 | Occasional I/O errors and wild readings            | Sensor reading  |
-| 20 | Two generations of Dashboard nodes                 | Dashboard       |
+The point of this file is **not** to look good. It is to keep the real failures so they can be recognized faster next time. Everything below actually happened during this project and experiencing it wasn't fun.
 
 ---
 
@@ -497,29 +466,3 @@ The final flow uses Dashboard 2 nodes only, and the setup guide says to install 
 > Check the node type names in an imported flow. An underscore (`ui_gauge`) usually means the old Dashboard, a hyphen (`ui-gauge`) means Dashboard 2.
 
 ---
-
-## Summary of the Big Lessons
-
-| Lesson                                                                     | Seen in problems |
-| -------------------------------------------------------------------------- | ---------------- |
-| Let the layer closest to the hardware do the timing-critical work          | 1, 2, 5          |
-| Look at what the system actually has before assuming a path or name        | 3, 4             |
-| Build and test one layer at a time, then walk backwards when it breaks     | 11, 13           |
-| Test that failures fail correctly                                          | 10               |
-| Be exact: case, output counts, wiring, pin numbering                       | 7, 8, 9, 12      |
-| Verify conversions against real-world values                               | 6                |
-| Show bad data, do not hide it                                              | 16, 19           |
-| Check basics when errors look strange (clock, install method, encoding)    | 14, 17, 18       |
-
-## Debugging Checklist (Next Time)
-
-- [ ] Is the input actually changing the output? (Unplug it and see)
-- [ ] Does the path or file exist? (`ls` before `cat`)
-- [ ] Is the config line in the right section for this board?
-- [ ] Does the conversion match a value I can verify physically?
-- [ ] Do property names match exactly, including capital letters?
-- [ ] Does the Function node's output count match its `return` array?
-- [ ] Does each Debug node hang off the output it is named after?
-- [ ] Have I tested the failure path as well as the success path?
-- [ ] Is the Pi's clock correct?
-- [ ] Am I debugging layer by layer, from the data source forwards?

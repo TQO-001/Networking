@@ -1,4 +1,7 @@
 # Cisco IOS Switch Configuration Task
+This is not a configuration task (entirely) for learning purposes, this is a task delegation I volunteered for, this will probably be the hardest configuration I will encounter and every idea explored here is an concept worth exploring further.
+
+This documentation is not written in a learning style rather in a sequence of processes taken.
 
 ![[cisco-catalyst-9200l-24-port-poe-4x1g-uplink-switch-network-advantage-c9200l-24p-4g-a-refurbished-889728170284-29952923238470.jpg]]
 ## Concepts Explored

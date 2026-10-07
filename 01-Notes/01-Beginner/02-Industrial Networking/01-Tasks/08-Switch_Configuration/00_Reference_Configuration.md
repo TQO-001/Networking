@@ -1,8 +1,5 @@
 # Startup Configuration: Cisco Catalyst 9300L (CM-S6-H001)
 ```Cisco
-
-CM-S6-H001>en
-Password:
 CM-S6-H001#show run
 Building configuration...
 
