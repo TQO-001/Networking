@@ -128,7 +128,7 @@ Once power is connected, the switch will automatically power on. Observe the pow
 
 ---
 ## 3.8 Initial CLI Configuration Steps
-> Refer to this [document](01-Notes/01-Beginner/02-Industrial%20Networking/01-Tasks/01-Switch_Configuration/01_Switch_Configuration.md), or follow the steps below
+> Refer to this [document](01-Notes/01-Beginner/02-Industrial%20Networking/01-Tasks/01-Switch_Configuration/01-Switch_Configuration.md), or follow the steps below
 1. **Connect the console cable** from your PC/laptop to the switch's console port
 2. **Open a terminal emulator** (PuTTY, Tera Term, or similar) and set the serial connection to **9600 baud, 8 data bits, no parity, 1 stop bit, no flow control**
 3. **Power on the switch** and watch the boot sequence scroll in the terminal — this is also where you'd catch a failed SD card read or corrupted boot image

@@ -118,9 +118,23 @@
               "icon": "lucide-file",
               "title": "08-Essential_Theory_OPC-UA_Server"
             }
+          },
+          {
+            "id": "36e114abfd3207c5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/00_Info.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "00_Info"
+            }
           }
         ],
-        "currentTab": 7
+        "currentTab": 8
       }
     ],
     "direction": "vertical"
@@ -287,28 +301,42 @@
       "bases:Create new base": false
     }
   },
-  "active": "6630596ec11fb442",
+  "active": "36e114abfd3207c5",
   "lastOpenFiles": [
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/07-Mistakes_and_Stuff.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/01-Troubleshooting.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/00_Info.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/02-Setting_Up_A_Industrial_Switch/01-Unboxing.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/01-Thin_Client_Setup.md",
+    "Pasted image 20261009094555.jpg",
+    "product-jpeg.jpg",
+    "Pasted image 20261009093446.jpg",
+    "Pasted image 20261009093441.jpg",
+    "rpf-products-0faba38e-f3be-4da0-a9a3-bb64f04ba863_eu_psu_white_255-9aa4503a.webp",
+    "Pasted image 20261009093006.jpg.~tmp",
+    "Pasted image 20261009093015.jpg.~tmp",
+    "Pasted image 20261009093015.jpg",
+    "Pasted image 20261009093006.jpg",
+    "pinout-1.png~RF66840e93.TMP",
+    "pinout-1.png.~tmp",
+    "pinout-1 1.png",
+    "pinout-1.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/01-Switch_Configuration/01-Switch_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/03-Final_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/02-Issues_&_Changes.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/01-Switch_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00-Reference_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00-Initial_Configuration.md",
+    "Pasted image 20261008105809.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/Untitled.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-Essential_Theory_OPC-UA_Server.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/07-Mistakes_and_Stuff.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-OPC-UA Server.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/06-Sensor_Setup.md",
-    "Pasted image 20261007131132.png",
-    "Pasted image 20261007131108.png",
-    "Pasted image 20261007123504.png",
-    "Pasted image 20261007123351.png",
-    "Pasted image 20261007122952.png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/01_Switch_Configuration.md",
-    "Pasted image 20261007115755.png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/03_Final_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/02_Issues_&_Changes.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00_Reference_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00_Initial_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/01-Switch_Configuration/01_Switch_Configuration.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/Maintenance.md",
     "cisco-catalyst-9200l-24-port-poe-4x1g-uplink-switch-network-advantage-c9200l-24p-4g-a-refurbished-889728170284-29952923238470.jpg.~tmp",
-    "cisco-catalyst-9200l-24-port-poe-4x1g-uplink-switch-network-advantage-c9200l-24p-4g-a-refurbished-889728170284-29952923238470.jpg",
-    "cisco-catalyst-9200l-24-port-poe-4x1g-uplink-switch-network-advantage-c9200l-24p-4g-a-refurbished-889728170284-29952923238470.webp",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/DHT22_Environmental_Monitor_Flow.json",
     "01-Notes/01-Beginner/06-Node-RED/00-Index-Tracker-and-Lab-Setup.md",
@@ -319,21 +347,7 @@
     "01-Notes/01-Beginner/06-Node-RED/01-Workplace-Flows-Walkthrough.md",
     "01-Notes/01-Beginner/06-Node-RED/03-Fake-Sensor-Alerts-Dashboard.md",
     "01-Notes/01-Beginner/06-Node-RED/15-CV-and-Portfolio.md",
-    "01-Notes/01-Beginner/06-Node-RED/06-Sensor-Triggers-and-Thresholds.md",
-    "01-Notes/01-Beginner/06-Node-RED/05-Home-Assistant-Lab-and-Connection.md",
-    "01-Notes/01-Beginner/06-Node-RED/04-MQTT-and-Python-Devices.md",
-    "01-Notes/01-Beginner/06-Node-RED/14-Capstone-Smart-Office-Monitor.md",
-    "01-Notes/01-Beginner/06-Node-RED/13-Raspberry-Pi-Deployment.md",
-    "01-Notes/01-Beginner/06-Node-RED/12-Refactoring-and-Reliable-Flows.md",
-    "01-Notes/01-Beginner/06-Node-RED/11-SQL-Data-Transfer.md",
     "01-Notes/01-Beginner/06-Node-RED",
-    "Pasted image 20261005103037.jpg",
-    "Pasted image 20261005092043.png",
-    "02-Projects/Driller Bill",
-    "02-Projects/New folder",
-    "02-Projects/Driller Bill/driller-bill-guide",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/driller-bill-v35-ui-ux-overhaul.zip",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/Unconfirmed 99494.crdownload",
-    "[[01-Notes/01-Beginner"
+    "02-Projects/Driller Bill"
   ]
 }
