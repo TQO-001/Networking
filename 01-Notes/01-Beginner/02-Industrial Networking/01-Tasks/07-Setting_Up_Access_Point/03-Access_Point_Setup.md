@@ -1,4 +1,4 @@
-# 3. Setup your Access Point
+                   # 3. Setup your Access Point
 ## 3.1 Hardware Connections & Powering Up
 * **Power Supply:** Connect **12 to 48 VDC** redundant power to the removable 10-pin terminal block (`V1+`/`V1-` or `V2+`/`V2-`), or connect an Ethernet cable from an **IEEE 802.3af PoE** switch/injector to the LAN port.
 * **Antennas:** Fasten external Wi-Fi antennas securely to the RP-SMA antenna connectors.
