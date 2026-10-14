@@ -22,20 +22,6 @@
             }
           },
           {
-            "id": "6d4aead6f67e5e9b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/01-Unboxing.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "01-Unboxing"
-            }
-          },
-          {
             "id": "f4cf57284c2ae879",
             "type": "leaf",
             "state": {
@@ -125,16 +111,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/00_Info.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-Essential_Theory_OPC-UA_Server.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "00_Info"
+              "title": "08-Essential_Theory_OPC-UA_Server"
+            }
+          },
+          {
+            "id": "35083ac6b43c7f14",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/02_New_Server_Info.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "02_New_Server_Info"
             }
           }
         ],
-        "currentTab": 8
+        "currentTab": 7
       }
     ],
     "direction": "vertical"
@@ -303,50 +303,51 @@
   },
   "active": "36e114abfd3207c5",
   "lastOpenFiles": [
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/03-Access_Point_Setup.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/00_Info.md",
-    "Pasted image 20261013154239.jpg.~tmp",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/Unconfirmed 553967.crdownload",
-    "Pasted image 20261013160435.jpg",
-    "Pasted image 20261013160357.jpg",
-    "Pasted image 20261013155850.jpg.~tmp",
-    "Pasted image 20261013155850.jpg",
-    "Pasted image 20261013154848.jpg",
-    "Pasted image 20261013154434.jpg",
-    "Pasted image 20261013154239.jpg",
-    "Pasted image 20261013153834.jpg",
-    "Pasted image 20261013153714.png~RF813d81c5.TMP",
-    "Pasted image 20261013153714.png.~tmp",
-    "Pasted image 20261013153714.png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/01-Unboxing.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/02.1-Initial-Switch_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/02.2-Switch_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/01-Troubleshooting.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/02-Setting_Up_A_Industrial_Switch/01-Unboxing.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/01-Thin_Client_Setup.md",
-    "Pasted image 20261009094555.jpg",
-    "product-jpeg.jpg",
-    "Pasted image 20261009093006.jpg.~tmp",
-    "Pasted image 20261009093015.jpg.~tmp",
-    "pinout-1.png~RF66840e93.TMP",
-    "pinout-1.png.~tmp",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/01-Switch_Configuration/01-Switch_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/03-Final_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/02-Issues_&_Changes.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/01-Switch_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00-Reference_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00-Initial_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/Untitled.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses",
+    "01-Notes/Twin Jin/Untitled.md",
+    "01-Notes/course-15-secure-self-hosted-systems/README.md",
+    "01-Notes/Twin Jin",
+    "01-Notes/course-15-secure-self-hosted-systems/REFERENCES.md",
+    "01-Notes/course-15-secure-self-hosted-systems/13-capstone-and-assessment.md",
+    "01-Notes/course-15-secure-self-hosted-systems/12-testing-and-hardening.md",
+    "01-Notes/course-15-secure-self-hosted-systems/11-observability-and-operations.md",
+    "01-Notes/course-15-secure-self-hosted-systems/10-postgres-and-backups.md",
+    "01-Notes/course-15-secure-self-hosted-systems/09-task-manager-build.md",
+    "01-Notes/course-15-secure-self-hosted-systems/08-task-manager-spec.md",
+    "01-Notes/course-15-secure-self-hosted-systems/07-identity-and-threat-model.md",
+    "01-Notes/course-15-secure-self-hosted-systems/06-secure-access-and-tunneling.md",
+    "01-Notes/course-15-secure-self-hosted-systems/05-container-platform.md",
+    "01-Notes/course-15-secure-self-hosted-systems/04-vmware-networking.md",
+    "01-Notes/course-15-secure-self-hosted-systems/03-lab-prerequisites.md",
+    "01-Notes/course-15-secure-self-hosted-systems/02-reference-architecture.md",
+    "01-Notes/course-15-secure-self-hosted-systems/01-course-map.md",
+    "01-Notes/course-15-secure-self-hosted-systems/00-glossarick.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-Essential_Theory_OPC-UA_Server.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/07-Mistakes_and_Stuff.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-OPC-UA Server.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/06-Sensor_Setup.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/Maintenance.md",
-    "01-Notes/01-Beginner/06-Node-RED/00-Index-Tracker-and-Lab-Setup.md",
-    "01-Notes/01-Beginner/06-Node-RED/02-Node-RED-Basics.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-Sensor_Setup-2.md"
+    "01-Notes/course-15-secure-self-hosted-systems/theme/course.css",
+    "01-Notes/course-15-secure-self-hosted-systems/theme",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks/[id]/route.js",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks/[id]",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks/route.js",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/lib/db.js",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/lib/auth.js",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/db/init.sql",
+    "01-Notes/course-15-secure-self-hosted-systems/task-manager/README.md",
+    "firewal.webp",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/03-Troubleshooting.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/Untitled.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/04-Shadowing.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/03-Access_Point_Setup.md",
+    "Pasted image 20261014112434.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/02_New_Server_Info.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/01-Old_Server_Info.md",
+    "Pasted image 20261014112159.jpg",
+    "Pasted image 20261014111549.jpg",
+    "Pasted image 20261014102852.jpg",
+    "01-Notes/course-15-secure-self-hosted-systems/course-15-secure-self-hosted-systems/task-manager/README.md",
+    "Pasted image 20261014090150.jpg",
+    "Pasted image 20261014085741.jpg",
+    "Pasted image 20261014085223.jpg",
+    "Pasted image 20261014084644.jpg",
+    "Pasted image 20261014081148.jpg"
   ]
 }

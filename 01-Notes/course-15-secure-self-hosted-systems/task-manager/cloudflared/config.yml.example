@@ -1,0 +1,10 @@
+# Reference only for a locally-managed, named Cloudflare Tunnel in an approved lab.
+# Obtain tunnel ID and credentials using the provider's normal, authorized setup.
+# Do not commit credentials-file JSON or real tokens.
+tunnel: REPLACE_WITH_APPROVED_TUNNEL_UUID
+credentials-file: /etc/cloudflared/REPLACE_WITH_APPROVED_TUNNEL_UUID.json
+
+ingress:
+  - hostname: tasks.example.net
+    service: http://web:3000
+  - service: http_status:404

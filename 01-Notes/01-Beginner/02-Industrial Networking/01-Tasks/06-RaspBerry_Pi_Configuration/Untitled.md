@@ -1,4 +1,0 @@
-Foilmill
-temp & humi
-
-MCC

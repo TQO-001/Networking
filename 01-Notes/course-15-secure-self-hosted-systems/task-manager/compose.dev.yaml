@@ -1,0 +1,6 @@
+# Local-development override. This maps PostgreSQL to loopback only so `npm run dev`
+# on the workstation can access it. Do not use this override for deployment.
+services:
+  db:
+    ports:
+      - "127.0.0.1:5432:5432"
