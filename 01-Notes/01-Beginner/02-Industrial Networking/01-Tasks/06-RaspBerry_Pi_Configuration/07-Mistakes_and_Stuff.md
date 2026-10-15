@@ -8,7 +8,7 @@ The point of this file is **not** to look good. It is to keep the real failures 
 
 ---
 
-## 1. Python GPIO reader timeout
+## 7.1 Python GPIO reader timeout
 
 ### What went wrong
 Running a Python script using `adafruit-circuitpython-dht` first gave:
@@ -31,7 +31,7 @@ We stopped asking Python to do the timing. The **kernel driver** (device tree ov
 
 ---
 
-## 2. GPIO ownership conflict
+## 7.2 GPIO ownership conflict
 
 ### What went wrong
 After the kernel overlay was working, running the Python script gave:
@@ -50,7 +50,7 @@ It was not a fault, it was proof the overlay was working. We stopped using Pytho
 
 ---
 
-## 3. IIO device not initially existing
+## 7.3 IIO device not initially existing
 
 ### What went wrong
 ```
@@ -81,7 +81,7 @@ Hard-coding `iio:device0` is convenient and fine for this single-sensor project,
 
 ---
 
-## 4. Overlay configuration in the wrong hardware section
+## 7.4 Overlay configuration in the wrong hardware section
 
 ### What went wrong
 The line
@@ -104,7 +104,7 @@ The same file is shared by many Pi models. The section headers decide which sett
 
 ---
 
-## 5. Old Node-RED DHT node approach
+## 7.5 Old Node-RED DHT node approach
 
 ### What went wrong
 The first version of the setup guide used:
@@ -127,7 +127,7 @@ The kernel does the hardware work, Node-RED just reads text.
 
 ---
 
-## 6. Raw value scaling
+## 7.6 Raw value scaling
 
 ### What went wrong (potential)
 The IIO files return numbers like `25400` and `48000`. Used as-is, the dashboard would show a temperature of 25,400.
@@ -148,7 +148,7 @@ The Parse node does `Number(value) / 1000`. We did not just trust the number 100
 
 ---
 
-## 7. Property-name mismatch
+## 7.7 Property-name mismatch
 
 ### What went wrong
 The Parse node produced:
@@ -173,7 +173,7 @@ Standardised on lowercase `temperature` and `humidity` in the parser and everywh
 
 ---
 
-## 8. Validation Function output mistake
+## 7.8 Validation Function output mistake
 
 ### What went wrong
 The **Validate Sensor Reading** Function node was set to `Outputs: 1`, but the code did:
@@ -200,7 +200,7 @@ Set `Outputs: 2` in the node and wired output 1 to VALID and output 2 to INVALID
 
 ---
 
-## 9. Debug node wiring mistake
+## 7.9 Debug node wiring mistake
 
 ### What went wrong
 Both Debug nodes (VALID and INVALID) were connected to the **same** output:
@@ -228,7 +228,7 @@ Validate
 
 ---
 
-## 10. Testing only the happy path
+## 7.10 Testing only the happy path
 
 ### What went wrong (avoided)
 It is tempting to check "does it work?" when the sensor gives normal numbers and stop there. Then the error path is untested until the day something really breaks.
@@ -252,7 +252,7 @@ Error handling code normally runs rarely, so bugs in it stay hidden. Triggering 
 
 ---
 
-## 11. Dashboard too early
+## 7.11 Dashboard too early
 
 ### What went wrong
 Early attempts went from sensor straight to gauges and charts. When the dashboard displayed `0`, `100` or `110`, there was no way to tell which layer was wrong: the sensor, the driver, the parser or the dashboard.
@@ -285,7 +285,7 @@ Each layer has a simple test: `cat` the file, check the Exec output in Debug, ch
 
 ---
 
-## 12. Wrong pin numbering mode in the old node
+## 7.12 Wrong pin numbering mode in the old node
 
 ### What went wrong
 The `rpi-dht22` node returned:
@@ -312,7 +312,7 @@ Switching to BCM GPIO 4 stopped the 100/110 values, but then the node returned `
 
 ---
 
-## 13. Chasing hardware that was not broken
+## 7.13 Chasing hardware that was not broken
 
 ### What went wrong
 A lot of advice focused on hardware: pull-up resistors, trying 5V instead of 3.3V, replacing wires. The new sensor and tested jumper wires made no difference.
@@ -327,7 +327,7 @@ The hardware was fine from the start. The deciding evidence was:
 
 ---
 
-## 14. Wrong system clock broke `apt update`
+## 7.14 Wrong system clock broke `apt update`
 
 ### What went wrong
 ```
@@ -352,7 +352,7 @@ The flow stamps every reading with the Pi's clock. A wrong clock means wrong tim
 
 ---
 
-## 15. `file in` nodes failing on the sysfs files
+## 7.15 `file in` nodes failing on the sysfs files
 
 ### What went wrong
 A pure Node-RED attempt used two `file in` nodes to read the IIO files directly. The debug panel showed errors like `EIO: i/o error, read` and `ETIMEDOUT`.
@@ -372,7 +372,7 @@ Use one Exec node with `cat` for both files (see `06-Sensor_Setup.md`).
 
 ---
 
-## 16. Smoothing filter that hides sensor faults
+## 7.16 Smoothing filter that hides sensor faults
 
 ### What went wrong (avoided)
 One suggested fix for jumpy readings was a "smoothing" function that remembered the last good value and, if a new reading jumped too far, **replaced it with the old value** silently.
@@ -390,7 +390,7 @@ Validate honestly: accept real values, reject impossible ones, and **show** the 
 
 ---
 
-## 17. NVM hides the `node-red-start` commands
+## 7.17 NVM hides the `node-red-start` commands
 
 ### What went wrong
 The `node-red-start`, `node-red-stop` and `node-red-log` helper commands were not available.
@@ -406,7 +406,7 @@ Run `node-red` directly in a terminal and stop it with `Ctrl+C`, or manage it wi
 
 ---
 
-## 18. Non-UTF-8 character in a Python file
+## 7.18 Non-UTF-8 character in a Python file
 
 ### What went wrong
 ```
@@ -426,7 +426,7 @@ Removed the special character from the comment (and opened files with `encoding=
 
 ---
 
-## 19. Occasional I/O errors and wild readings
+## 7.19 Occasional I/O errors and wild readings
 
 ### What went wrong
 Even with the kernel driver, the debug panel sometimes showed:
@@ -451,7 +451,7 @@ Range validation cannot catch a wrong value that is still physically possible. T
 
 ---
 
-## 20. Two generations of Dashboard nodes
+## 7.20 Two generations of Dashboard nodes
 
 ### What went wrong
 An earlier generated flow used `ui_gauge`, `ui_chart`, `ui_group` and `ui_tab` nodes. Those belong to the **older Dashboard 1** (`node-red-dashboard`). The project is meant to use **FlowFuse Dashboard** (Dashboard 2), whose nodes are `ui-gauge`, `ui-chart`, `ui-group`, `ui-page`, `ui-base` and `ui-theme`.

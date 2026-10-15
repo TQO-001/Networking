@@ -6,8 +6,8 @@ Learn at least a general amount of how everything you're working with works
 > [!tip] Check this out
 > https://softwaretoolbox.com/resources
 
-# 2. Theory
-## 2.1 What OPC UA is and why industry uses it
+# 8. Theory
+## 8.1 What OPC UA is and why industry uses it
 
 **OPC UA** (Open Platform Communications **Unified Architecture**) is a **vendor-neutral standard** for moving industrial data between machines and software in a structured, secure way. It is published by the **OPC Foundation** and standardised as **IEC 62541**.
 
@@ -48,7 +48,7 @@ The key difference is that an OPC UA server **describes its own data**. A client
 - [ ] I can explain how it differs from Modbus and MQTT
 
 ---
-## 2.2 The Client/Server Model
+## 8.2 The Client/Server Model
 
 ### The two roles
 | **Role** | **Job** | **Examples** |
@@ -94,7 +94,7 @@ OPC UA also defines a **publish/subscribe** mode (often over MQTT or UDP). It is
 - [ ] I can read an endpoint URL and say what each part means
 
 ---
-## 2.3 The Address Space: How a Server Organises Data
+## 8.3 The Address Space: How a Server Organises Data
 
 This is the heart of OPC UA. A server's data is arranged as a **tree-like network of nodes** called the **address space**. A client **browses** it, much like opening folders on a computer.
 
@@ -165,7 +165,7 @@ A client connects, opens **Objects**, opens **Environment** and sees four named 
 - [ ] I can tell which meaning of "node" is meant (Node-RED or OPC UA)
 
 ---
-## 2.4 NodeIds: How Every Item Is Addressed
+## 8.4 NodeIds: How Every Item Is Addressed
 
 Every OPC UA node has a unique address called a **NodeId**. You will type these constantly, so learn the format.
 
@@ -205,7 +205,7 @@ Do not guess. **Browse** with a client tool (see 2.10), find the variable, and c
 - [ ] I know the namespace index can change and the URI is the stable identity
 
 ---
-## 2.5 Data Types, Values and Quality
+## 8.5 Data Types, Values and Quality
 
 ### A value is more than a number
 When a client reads a variable it does not just get `25.4`. It gets a **DataValue** containing several things:
@@ -250,7 +250,7 @@ Units (like °C or %) are usually carried as **properties** (for example an "Eng
 - [ ] I know what Good / Uncertain / Bad quality mean and why it matters
 
 ---
-## 2.6 The Services: What a Client Can Do
+## 8.6 The Services: What a Client Can Do
 
 A client uses a small set of **services** to work with a server.
 
@@ -288,7 +288,7 @@ Reading is low risk. **Writing to a variable can change a physical process** (a 
 - [ ] I can explain why subscriptions are usually better than polling
 
 ---
-## 2.7 Security in OPC UA
+## 8.7 Security in OPC UA
 
 OPC UA was designed with security in mind. You still have to **configure** it properly, since a server set to "no security" is as open as Modbus.
 
@@ -336,7 +336,7 @@ Typical error when this step is missed: `BadSecurityChecksFailed` or `BadCertifi
 - [ ] I can describe the certificate trust steps and what error appears if they are skipped
 
 ---
-## 2.8 OPC UA in Node-RED
+## 8.8 OPC UA in Node-RED
 
 > [!info] **Check the package's own help**
 > Node names, options and defaults vary between versions. Treat this section as a map, then confirm exact settings in the **Help** sidebar of each node and the package's documentation page.
@@ -404,7 +404,7 @@ The first time such a message arrives, the variable is created. Later messages w
 - [ ] I know which package to install and where to read the exact node settings
 
 ---
-## 2.9 Applying It: Publishing the DHT22 Readings
+## 8.9 Applying It: Publishing the DHT22 Readings
 
 This section is an **idea sketch**, not a tested flow. It shows how your existing sensor project could feed an OPC UA server.
 
@@ -464,7 +464,7 @@ A client that sees `Temperature = 25.4` cannot tell whether that number is 5 sec
 - [ ] I can explain why only VALID readings go to the server and why a timestamp variable is useful
 
 ---
-## 2.10 What the Task Might Actually Be (and What to Ask)
+## 8.10 What the Task Might Actually Be (and What to Ask)
 
 You said you are not sure what you are supposed to do. "OPC UA server" can mean several quite different jobs. Here is how to tell them apart.
 
@@ -492,7 +492,7 @@ You said you are not sure what you are supposed to do. "OPC UA server" can mean 
 - [ ] I have a list of questions to ask to find out which one applies
 
 ---
-## 2.11 Testing with a Client and Troubleshooting
+## 8.11 Testing with a Client and Troubleshooting
 
 ### Test clients (free options)
 | **Tool** | **Notes** |
@@ -543,7 +543,7 @@ If it fails, the server is not listening, the port is wrong, or a firewall is bl
 - [ ] I can match a common OPC UA error to its likely cause
 
 ---
-## 2.12 Security Rules (know these by heart)
+## 8.12 Security Rules (know these by heart)
 
 > [!danger] **Why this matters**
 > An OPC UA server is a **doorway into your process data**. If it allows anonymous access with no security, anyone who can reach the port can read it (and write to it, if writes are allowed).
@@ -566,7 +566,7 @@ If it fails, the server is not listening, the port is wrong, or a firewall is bl
 - [ ] I can recite the security rules and explain why anonymous, no-security servers are risky
 
 ---
-## 2.13 Good Habits
+## 8.13 Good Habits
 
 - **Browse before you write code.** Know the real NodeIds first.
 - **Name things clearly** (`Environment.Temperature`, not `var1`).

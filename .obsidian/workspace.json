@@ -97,12 +97,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-Essential_Theory_OPC-UA_Server.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/06-Sensor_Setup.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "08-Essential_Theory_OPC-UA_Server"
+              "title": "06-Sensor_Setup"
             }
           },
           {
@@ -111,12 +111,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-Essential_Theory_OPC-UA_Server.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/09-Setting_Up_A_OPCUA_Server.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "08-Essential_Theory_OPC-UA_Server"
+              "title": "09-Setting_Up_A_OPCUA_Server"
             }
           },
           {
@@ -303,6 +303,29 @@
   },
   "active": "36e114abfd3207c5",
   "lastOpenFiles": [
+    "Pasted image 20261015160629.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/06-Sensor_Setup.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/09-Setting_Up_A_OPCUA_Server.md",
+    "Pasted image 20261015155542.png",
+    "Pasted image 20261015155438.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/03-Raspberry_Setup_&_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/02-Essential_Theory.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/05-Install Node-RED.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/DHT22_Environmental_Monitor_&_OPC_UA_Server_Flow.json",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/DHT22_Environment_&_OPC_UA_Server_Flow.json",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/flows (2).json",
+    "Pasted image 20261015152324.png",
+    "Pasted image 20261015151600.png",
+    "Pasted image 20261015144036.png",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-Essential_Theory_OPC-UA_Server.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/07-Mistakes_and_Stuff.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/00-Raspberry_Pi.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/01-Unboxing.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/04-Essential_Theory_Node-RED.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/03-Troubleshooting.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/02_New_Server_Info.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/01-Old_Server_Info.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration.zip",
     "01-Notes/Twin Jin/Untitled.md",
     "01-Notes/course-15-secure-self-hosted-systems/README.md",
     "01-Notes/Twin Jin",
@@ -316,38 +339,15 @@
     "01-Notes/course-15-secure-self-hosted-systems/07-identity-and-threat-model.md",
     "01-Notes/course-15-secure-self-hosted-systems/06-secure-access-and-tunneling.md",
     "01-Notes/course-15-secure-self-hosted-systems/05-container-platform.md",
-    "01-Notes/course-15-secure-self-hosted-systems/04-vmware-networking.md",
-    "01-Notes/course-15-secure-self-hosted-systems/03-lab-prerequisites.md",
-    "01-Notes/course-15-secure-self-hosted-systems/02-reference-architecture.md",
-    "01-Notes/course-15-secure-self-hosted-systems/01-course-map.md",
-    "01-Notes/course-15-secure-self-hosted-systems/00-glossarick.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/08-Essential_Theory_OPC-UA_Server.md",
     "01-Notes/course-15-secure-self-hosted-systems/theme/course.css",
     "01-Notes/course-15-secure-self-hosted-systems/theme",
     "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks/[id]/route.js",
     "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks/[id]",
     "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks/route.js",
-    "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks",
-    "01-Notes/course-15-secure-self-hosted-systems/task-manager/lib/db.js",
-    "01-Notes/course-15-secure-self-hosted-systems/task-manager/lib/auth.js",
-    "01-Notes/course-15-secure-self-hosted-systems/task-manager/db/init.sql",
-    "01-Notes/course-15-secure-self-hosted-systems/task-manager/README.md",
     "firewal.webp",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/03-Troubleshooting.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/Untitled.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/04-Shadowing.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/03-Access_Point_Setup.md",
     "Pasted image 20261014112434.png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/02_New_Server_Info.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/01-Old_Server_Info.md",
     "Pasted image 20261014112159.jpg",
     "Pasted image 20261014111549.jpg",
-    "Pasted image 20261014102852.jpg",
-    "01-Notes/course-15-secure-self-hosted-systems/course-15-secure-self-hosted-systems/task-manager/README.md",
-    "Pasted image 20261014090150.jpg",
-    "Pasted image 20261014085741.jpg",
-    "Pasted image 20261014085223.jpg",
-    "Pasted image 20261014084644.jpg",
-    "Pasted image 20261014081148.jpg"
+    "Pasted image 20261014102852.jpg"
   ]
 }

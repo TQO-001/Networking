@@ -3,8 +3,8 @@ Learn at least a general amount of how everything you're working with works
 > [!info] **Info**
 > ==You do not need to be a full-time programmer to use Node-RED==, but you do need to understand how data moves through it, what a message is, and how it connects to the industrial protocols and devices you already know. This file starts from zero and builds up to a working mental model.
 
-# 2. Theory
-## 2.1 What Node-RED is and why OT uses it
+# 4. Theory
+## 4.1 What Node-RED is and why OT uses it
 
 **Node-RED** is a **low-code, flow-based programming tool**. Instead of writing code line by line, you drag **nodes** onto a canvas in your browser and connect them with **wires**. Data flows along the wires from one node to the next.
 
@@ -39,7 +39,7 @@ Node-RED is great for integration and prototypes, but it is **not a safety syste
 - [ ] I can explain what Node-RED does and what it should not be used for
 
 ---
-## 2.2 The Editor and Core Concepts
+## 4.2 The Editor and Core Concepts
 
 ### The editor layout (default address `http://<ip-address>:1880`)
 | **Area** | **What it is** |
@@ -87,7 +87,7 @@ Node-RED is great for integration and prototypes, but it is **not a safety syste
 - [ ] I can build and run inject → debug
 
 ---
-## 2.3 The Message Object (`msg`)
+## 4.3 The Message Object (`msg`)
 
 This is the single most important concept. **Everything in Node-RED is a message.** A message is a **JavaScript object**, which is like a dictionary of named values (the same as a Python `dict`).
 
@@ -133,7 +133,7 @@ A `change` or `switch` node uses the same path style, e.g. `payload.temp`.
 - [ ] I know why a string "23.5" can break maths
 
 ---
-## 2.4 Essential Core Nodes
+## 4.4 Essential Core Nodes
 
 You will use a small group of nodes for most flows. Learn these first.
 
@@ -201,7 +201,7 @@ Choose **Scale and limit to target range** so values outside the range can't go 
 - [ ] I can choose between `change`, `switch` and `function` for a simple job
 
 ---
-## 2.5 The Function Node and JavaScript Basics
+## 4.5 The Function Node and JavaScript Basics
 
 When the built-in nodes aren't enough, the **function** node runs your code. If you know Python, here is a translation of the syntax.
 
@@ -275,7 +275,7 @@ if (typeof msg.payload !== "number" || isNaN(msg.payload)) {
 - [ ] I understand `return msg`, `return null` and returning to multiple outputs
 
 ---
-## 2.6 Context: Remembering Things
+## 4.6 Context: Remembering Things
 
 Normally a flow forgets everything between messages. **Context** is Node-RED's memory.
 
@@ -307,7 +307,7 @@ Don't hardcode passwords in function nodes. Use **credentials fields** inside no
 - [ ] I know the three context scopes and that default context is wiped on restart
 
 ---
-## 2.7 Industrial Protocols: MQTT, Modbus, OPC UA
+## 4.7 Industrial Protocols: MQTT, Modbus, OPC UA
 
 You will use these through add-on nodes. Here is the theory behind each.
 
@@ -377,7 +377,7 @@ This takes data from a device that only speaks Modbus and makes it available to 
 - [ ] I know Modbus needs a register map and I know the standard ports (1883, 502, 4840)
 
 ---
-## 2.8 Dashboards, Databases and Alerts
+## 4.8 Dashboards, Databases and Alerts
 
 ### Dashboard
 A **dashboard** is a web page of gauges, charts, buttons and text built from Node-RED nodes.
@@ -410,7 +410,7 @@ A value hovering around its limit (e.g. 79.9, 80.1, 79.9) will fire again and ag
 - [ ] I know where dashboards, databases and alerts fit in a flow
 
 ---
-## 2.9 Installing and Running Node-RED (on a Pi)
+## 4.9 Installing and Running Node-RED (on a Pi)
 
 > [!info] Check the official docs
 > Supported Node.js versions and install commands change over time. Always confirm against **nodered.org/docs/getting-started** before installing.
@@ -464,7 +464,7 @@ Node-RED has an optional **Projects** feature that links your flows to a Git rep
 - [ ] I know to back up `flows.json`
 
 ---
-## 2.10 Security Rules (know these by heart)
+## 4.10 Security Rules (know these by heart)
 
 > [!danger] Why this matters more than usual
 > The Node-RED editor can run **arbitrary code on the machine** (via function and exec nodes) and can reach every device the machine can reach. Anyone who gets into the editor effectively controls the host and everything it can talk to. In an OT network, that is a serious risk.
@@ -485,7 +485,7 @@ Node-RED has an optional **Projects** feature that links your flows to a Git rep
 - [ ] I can recite the security rules and explain why the editor must not be exposed
 
 ---
-## 2.11 Debugging and Good Habits
+## 4.11 Debugging and Good Habits
 
 ### Debugging toolkit
 | **Tool** | **Use** |
