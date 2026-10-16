@@ -1,4 +1,6 @@
 # Ignition Perspective Workstation on HP ThinPro — Master Deployment Guide
+> [!warning] ### Disclaimer
+> ***This specific file was entirely made with AI, after compiling all the mistakes I made and research I've done.***
 
 This is the complete, start-to-finish procedure for installing Ignition Perspective
 Workstation on an HP ThinPro thin client, fixing the "Unable to create browser instances"

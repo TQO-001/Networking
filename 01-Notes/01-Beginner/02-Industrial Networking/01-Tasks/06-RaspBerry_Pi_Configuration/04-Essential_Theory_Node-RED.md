@@ -36,8 +36,6 @@ Node-RED is great for integration and prototypes, but it is **not a safety syste
 - **Python skills:** The logic ideas (variables, if/else, loops) are identical. Only the syntax changes: Node-RED's code nodes use **JavaScript**.
 - **Raspberry Pi notes:** A Pi 4 is a very common home for Node-RED.
 
-- [ ] I can explain what Node-RED does and what it should not be used for
-
 ---
 ## 4.2 The Editor and Core Concepts
 
@@ -83,9 +81,6 @@ Node-RED is great for integration and prototypes, but it is **not a safety syste
 4. Click **Deploy**, then click the button on the inject node.
 5. Open the **Debug** tab (bug icon). A timestamp appears. You have just sent a message through a flow.
 
-- [ ] I can explain nodes, wires, flows and Deploy
-- [ ] I can build and run inject → debug
-
 ---
 ## 4.3 The Message Object (`msg`)
 
@@ -128,9 +123,6 @@ msg.payload[0]            // first item of an array
 msg.payload.sensors[2].value
 ```
 A `change` or `switch` node uses the same path style, e.g. `payload.temp`.
-
-- [ ] I can describe what a message is and what `msg.payload` and `msg.topic` do
-- [ ] I know why a string "23.5" can break maths
 
 ---
 ## 4.4 Essential Core Nodes
@@ -196,9 +188,6 @@ Choose **Scale and limit to target range** so values outside the range can't go 
 [inject every 10s] → [read sensor] → [switch: > 80?] → [template: "Too hot: {{payload}}"] → [email / mqtt out]
                                           └ otherwise → [debug]
 ```
-
-- [ ] I can name the core input, processing and output nodes
-- [ ] I can choose between `change`, `switch` and `function` for a simple job
 
 ---
 ## 4.5 The Function Node and JavaScript Basics
@@ -271,9 +260,6 @@ if (typeof msg.payload !== "number" || isNaN(msg.payload)) {
 }
 ```
 
-- [ ] I can write a function node that changes a value and returns the message
-- [ ] I understand `return msg`, `return null` and returning to multiple outputs
-
 ---
 ## 4.6 Context: Remembering Things
 
@@ -303,8 +289,6 @@ It lives in memory. If Node-RED restarts, it resets. To keep values across resta
 
 ### Config values and secrets
 Don't hardcode passwords in function nodes. Use **credentials fields** inside nodes that support them (stored encrypted in a separate file) or environment variables.
-
-- [ ] I know the three context scopes and that default context is wiped on restart
 
 ---
 ## 4.7 Industrial Protocols: MQTT, Modbus, OPC UA
@@ -373,9 +357,6 @@ You will use these through add-on nodes. Here is the theory behind each.
 ```
 This takes data from a device that only speaks Modbus and makes it available to anything that can read MQTT.
 
-- [ ] I can explain publish/subscribe, topics and the role of a broker
-- [ ] I know Modbus needs a register map and I know the standard ports (1883, 502, 4840)
-
 ---
 ## 4.8 Dashboards, Databases and Alerts
 
@@ -406,8 +387,6 @@ Pair InfluxDB with **Grafana** for professional trend charts.
 
 ### Alarm hygiene: avoid flapping
 A value hovering around its limit (e.g. 79.9, 80.1, 79.9) will fire again and again. Use **hysteresis**: alarm at 80, only clear once below 75.
-
-- [ ] I know where dashboards, databases and alerts fit in a flow
 
 ---
 ## 4.9 Installing and Running Node-RED (on a Pi)
@@ -460,9 +439,6 @@ Then open `http://<pi-ip>:1880` from any computer on the network.
 ### Projects feature
 Node-RED has an optional **Projects** feature that links your flows to a Git repository, giving you version history. Worth enabling once you build anything serious.
 
-- [ ] I know how to start/stop Node-RED, where my flows are saved and how to install extra nodes
-- [ ] I know to back up `flows.json`
-
 ---
 ## 4.10 Security Rules (know these by heart)
 
@@ -482,7 +458,6 @@ Node-RED has an optional **Projects** feature that links your flows to a Git rep
 > 10. **Writing to controllers is different from reading.** Reading Modbus registers is low risk. Writing setpoints or coils can change the physical process, so get permission and test carefully.
 > 11. **Back up before you change** a flow that is in production use.
 
-- [ ] I can recite the security rules and explain why the editor must not be exposed
 
 ---
 ## 4.11 Debugging and Good Habits
@@ -523,8 +498,6 @@ Node-RED has an optional **Projects** feature that links your flows to a Git rep
 5. Add a dashboard gauge
 6. Read a Modbus (or simulated) value, scale it, publish to MQTT
 7. Store it in a database and chart it
-
-- [ ] I can troubleshoot a flow that isn't working using the checklist
 
 ---
 ## Quick Reference Card
@@ -577,10 +550,3 @@ Node-RED has an optional **Projects** feature that links your flows to a Git rep
 | Dashboard | Web page of gauges and charts from Node-RED |
 | InfluxDB / Grafana | Time-series database and charting tool |
 | systemd | Linux service manager that runs Node-RED at boot |
-
----
-## Overall Completion
-- [ ] All section checkboxes above are ticked
-- [ ] I can explain in my own words how a message moves through a flow
-- [ ] I can describe how Node-RED connects a Modbus or MQTT device to a dashboard or database
-- [ ] I am ready for Section 3: Setup and Configuration

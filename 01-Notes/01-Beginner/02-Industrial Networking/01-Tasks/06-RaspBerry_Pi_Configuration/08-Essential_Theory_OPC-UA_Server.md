@@ -44,9 +44,6 @@ The key difference is that an OPC UA server **describes its own data**. A client
 - **Node-RED notes (04):** OPC UA was listed there as one of three industrial protocols. This file is the deep dive.
 - **Sensor project (06 / 07):** the DHT22 flow produces clean validated readings. An OPC UA server is one way to make those readings available to industrial software (see 2.9).
 
-- [ ] I can explain what OPC UA is and why it replaced classic OPC
-- [ ] I can explain how it differs from Modbus and MQTT
-
 ---
 ## 8.2 The Client/Server Model
 
@@ -89,9 +86,6 @@ Example: `opc.tcp://192.168.1.50:4840`
 
 ### Optional second mode: Pub/Sub
 OPC UA also defines a **publish/subscribe** mode (often over MQTT or UDP). It is useful for one-to-many data distribution. For the first steps, **ignore it** and focus on client/server.
-
-- [ ] I can explain the difference between an OPC UA server and a client
-- [ ] I can read an endpoint URL and say what each part means
 
 ---
 ## 8.3 The Address Space: How a Server Organises Data
@@ -161,9 +155,6 @@ Objects
 
 A client connects, opens **Objects**, opens **Environment** and sees four named values. No register numbers and no manual needed.
 
-- [ ] I can explain the address space and the difference between an Object and a Variable
-- [ ] I can tell which meaning of "node" is meant (Node-RED or OPC UA)
-
 ---
 ## 8.4 NodeIds: How Every Item Is Addressed
 
@@ -200,9 +191,6 @@ ns=<namespace index>;<type>=<identifier>
 
 ### Finding a NodeId
 Do not guess. **Browse** with a client tool (see 2.10), find the variable, and copy its NodeId from the attributes panel.
-
-- [ ] I can read a NodeId and say what `ns`, `i` and `s` mean
-- [ ] I know the namespace index can change and the URI is the stable identity
 
 ---
 ## 8.5 Data Types, Values and Quality
@@ -246,9 +234,6 @@ In your DHT22 flow, a rejected reading is sent down the **INVALID** path instead
 ### Engineering units
 Units (like °C or %) are usually carried as **properties** (for example an "EngineeringUnits" property) or just put in the variable's description. A client cannot assume units unless the server says so.
 
-- [ ] I can describe what a DataValue contains
-- [ ] I know what Good / Uncertain / Bad quality mean and why it matters
-
 ---
 ## 8.6 The Services: What a Client Can Do
 
@@ -283,9 +268,6 @@ A client uses a small set of **services** to work with a server.
 
 ### Read versus Write: the risk difference
 Reading is low risk. **Writing to a variable can change a physical process** (a setpoint, a motor command). In real plants, writes need permission, an access-control plan and careful testing. For this learning project, keep variables **read-only to clients** unless you have a reason.
-
-- [ ] I can name the main services and what each does
-- [ ] I can explain why subscriptions are usually better than polling
 
 ---
 ## 8.7 Security in OPC UA
@@ -331,9 +313,6 @@ Typical error when this step is missed: `BadSecurityChecksFailed` or `BadCertifi
 | **Expired certificate** | Connection refused |
 | **Hostname/URI mismatch** | The certificate's name does not match the endpoint, so it can be rejected |
 | **Wrong clock** | A device with a wrong clock sees valid certificates as "not yet valid" or "expired" (the same cause as the `apt` "Not live until" problem in 07) |
-
-- [ ] I can explain the three security layers
-- [ ] I can describe the certificate trust steps and what error appears if they are skipped
 
 ---
 ## 8.8 OPC UA in Node-RED
@@ -400,9 +379,6 @@ The first time such a message arrives, the variable is created. Later messages w
 > [!warning] **Redeploying restarts the server.**
 > Deploying changes that touch the server node restarts it. Connected clients are disconnected, and variables only exist again after the next message creates them. If a variable is missing after a deploy, trigger the flow once to repopulate it.
 
-- [ ] I can tell Node-RED as client from Node-RED as server
-- [ ] I know which package to install and where to read the exact node settings
-
 ---
 ## 8.9 Applying It: Publishing the DHT22 Readings
 
@@ -460,9 +436,6 @@ return [[
 ### Checking staleness
 A client that sees `Temperature = 25.4` cannot tell whether that number is 5 seconds or 5 hours old. That is why `LastUpdate` (or the node's timestamps) matters. A sensible rule for clients: **if the update time is older than a few polling cycles, treat the value as unreliable.**
 
-- [ ] I can sketch how a validated reading becomes OPC UA variables
-- [ ] I can explain why only VALID readings go to the server and why a timestamp variable is useful
-
 ---
 ## 8.10 What the Task Might Actually Be (and What to Ask)
 
@@ -487,9 +460,6 @@ You said you are not sure what you are supposed to do. "OPC UA server" can mean 
 
 > [!tip] **If you can't ask yet**
 > Option C (publish the DHT22 readings from Node-RED and read them with a free client tool) is the best practice exercise. It makes you handle every concept in this file (namespaces, NodeIds, data types, a server endpoint, security, testing) without needing any special equipment.
-
-- [ ] I know the main things "OPC UA server" could mean
-- [ ] I have a list of questions to ask to find out which one applies
 
 ---
 ## 8.11 Testing with a Client and Troubleshooting
@@ -539,9 +509,6 @@ If it fails, the server is not listening, the port is wrong, or a firewall is bl
 | **Variables missing after a redeploy** | The server restarted and rebuilt its address space | Trigger the flow again so the variables are re-created |
 | **Values look wrong by a factor of 1000** | Raw sensor scaling was not applied before publishing | Publish the converted value (see 07, problem 6) |
 
-- [ ] I can test a server with a client tool in a sensible order
-- [ ] I can match a common OPC UA error to its likely cause
-
 ---
 ## 8.12 Security Rules (know these by heart)
 
@@ -563,7 +530,6 @@ If it fails, the server is not listening, the port is wrong, or a firewall is bl
 > 12. **Get permission before connecting to production equipment**, and test on a simulator first.
 > 13. **Back up before you change** a server flow that is in production use.
 
-- [ ] I can recite the security rules and explain why anonymous, no-security servers are risky
 
 ---
 ## 8.13 Good Habits
@@ -585,8 +551,6 @@ If it fails, the server is not listening, the port is wrong, or a firewall is bl
 6. Publish the **DHT22 readings** into the server (section 2.9).
 7. Add **security**: certificates, then a user.
 8. Document everything.
-
-- [ ] I can follow the learning order above
 
 ---
 ## Quick Reference Card
@@ -648,11 +612,3 @@ If it fails, the server is not listening, the port is wrong, or a firewall is bl
 | Purdue model | Layered reference model for industrial network architecture |
 | node-opcua | The JavaScript OPC UA library used by `node-red-contrib-opcua` |
 | UaExpert | Free OPC UA test client |
-
----
-## Overall Completion
-- [ ] All section checkboxes above are ticked
-- [ ] I can explain in my own words what an OPC UA server does and how a client uses it
-- [ ] I can describe how the DHT22 readings could be published through an OPC UA server
-- [ ] I know which questions to ask to find out what the task actually is
-- [ ] I am ready for the next section: Setup and Configuration

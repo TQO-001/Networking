@@ -11,7 +11,7 @@ The **Check Point Quantum Spark 1570R** is an excellent and highly rated ruggedi
 
 ----
 ## Concepts explored
-
+None son
 
 ---
 ## What you will need

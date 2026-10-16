@@ -21,7 +21,7 @@
 - [x] Initial link test (devices could ping each other)
 - [ ] Resolve intermittent connection drops
 - [ ] Resolve network address range issue
-- [ ] Confirm support date with Morris
+- [x] Confirm support date with Morris
 - [ ] Complete installation and commissioning
 - [ ] Move HMI back onto the OT network
 

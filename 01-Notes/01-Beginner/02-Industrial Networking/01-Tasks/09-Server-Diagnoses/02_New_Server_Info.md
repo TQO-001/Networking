@@ -1,15 +1,15 @@
 # New Server Info
 
-| | |
-|---|---|
-| **Chassis / PC** | HP Compaq Elite 8300 CMT |
-| **Motherboard** | HP Edison (656941-001 / 657096-001 / 657096-501) |
-| **CPU** | Intel Core i7-3770 |
-| **CPU Cooler** | HP heatsink and fan assembly 625257-001 |
-| **RAM** | Micron 4GB DDR3 |
-| **PSU** | HP 320W (613764-001 / 611483-001 / 600457-001) |
-| **DAQ** | NI PCI-6255 |
-| **NIC** | HP Intel I210-T1 GbE |
+|                  |                                                  |
+| ---------------- | ------------------------------------------------ |
+| **Chassis / PC** | HP Compaq Elite 8300 CMT                         |
+| **Motherboard**  | HP Edison (656941-001 / 657096-001 / 657096-501) |
+| **CPU**          | Intel Core i7-3770                               |
+| **CPU Cooler**   | HP heatsink and fan assembly 625257-001          |
+| **RAM**          | Micron 4GB DDR3                                  |
+| **PSU**          | HP 320W (613764-001 / 611483-001 / 600457-001)   |
+| **DAQ**          | NI PCI-6220/6255                                 |
+| **NIC**          | HP Intel I210-T1 GbE                             |
 
 ---
 
@@ -139,13 +139,13 @@ Original cooler for the Elite 8300 CMT.
 
 ## Build Summary
 
-| Part | Item |
-|---|---|
-| **PC** | HP Compaq Elite 8300 CMT |
-| **Board** | HP Edison (Q77 Express) |
-| **CPU** | Core i7-3770 |
-| **Cooler** | HP 625257-001 |
-| **RAM** | Micron 4GB DDR3 |
-| **PSU** | HP 320W (613764-001) |
-| **DAQ** | NI PCI-6255 (PCI) |
-| **NIC** | HP Intel I210-T1 (PCIe x1) |
+| Part       | Item                       |
+| ---------- | -------------------------- |
+| **PC**     | HP Compaq Elite 8300 CMT   |
+| **Board**  | HP Edison (Q77 Express)    |
+| **CPU**    | Core i7-3770               |
+| **Cooler** | HP 625257-001              |
+| **RAM**    | Micron 4GB DDR3            |
+| **PSU**    | HP 320W (613764-001)       |
+| **DAQ**    | NI PCI-6220/6255 (PCI)     |
+| **NIC**    | HP Intel I210-T1 (PCIe x1) |

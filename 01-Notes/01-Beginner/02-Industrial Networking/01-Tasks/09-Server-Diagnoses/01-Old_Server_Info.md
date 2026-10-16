@@ -1,15 +1,15 @@
 # Old Server Info
 
-| | |
-|---|---|
-| **Chassis** | ICOM409 4U rackmount |
-| **Motherboard** | Supermicro X7SBA |
-| **CPU** | Intel Core 2 Quad Q9550 |
-| **CPU Cooler** | Arctic Cooling Freezer 7 Pro |
-| **RAM** | 2 × 2GB DDR2-800 (4GB) |
-| **PSU** | Seasonic M12II-500W |
-| **DAQ** | NI PCI-6254 |
-| **OS** | Windows XP Professional SP3 |
+|                 |                              |
+| --------------- | ---------------------------- |
+| **Chassis**     | ICOM409 4U rackmount         |
+| **Motherboard** | Supermicro X7SBA             |
+| **CPU**         | Intel Core 2 Quad Q9550      |
+| **CPU Cooler**  | Arctic Cooling Freezer 7 Pro |
+| **RAM**         | 2 × 2GB DDR2-800 (4GB)       |
+| **PSU**         | Seasonic M12II-500W          |
+| **DAQ**         | NI PCI-6220/6255             |
+| **OS**          | Windows XP Professional SP3  |
 
 ---
 
@@ -31,7 +31,7 @@
 - **OS Version:** Microsoft Windows XP Professional (Version 2002, Service Pack 3)
 - **Registered To:** admin / ACIDA GmbH
 - **Product Key / PID:** 76487-018-8849857-22795
-- **Processor (CPU):** Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz (Quad-Core, Ivy Bridge, LGA1155)
+- **Processor (CPU):** Intel(R) Core(TM) 2 Quad CPU Q9550 @ 2.83GHz
 - **Usable RAM:** 3.39 GB of RAM (Physical Address Extension enabled)
 
 > **Technical Note on RAM & OS:** Because a 32-bit (x86) build of Windows XP Professional is installed, system memory is capped at ~3.4 GB usable due to the 32-bit 4GB physical address space limitation, despite higher physical RAM installed on the board. Physical Address Extension (PAE) is active.
@@ -113,7 +113,7 @@ The National Instruments PCI-6255 (Manufacturer Part Number: `779546-01`) is a 1
 ## 1.3 RAM
 ### 1.3.1 Kingston 2GB 800MHz DDR2 DIMM
 ![[Pasted image 20261013154239.jpg]]
-> Ignore the brand in the picture, I couldn't find a good one from Kingston
+> Ignore the brand in the picture, I couldn't find a **good** one from Kingston
 
 2 matching 2GB DDR2 sticks, 4GB total. The X7SBA only supports DDR2.
 
@@ -198,15 +198,15 @@ The **Arctic Cooling Freezer 7 Pro** is a tower-style CPU cooler with copper hea
 
 ## Build Summary
 
-| Part | Item |
-|---|---|
-| **Chassis** | ICOM409 4U |
-| **Board** | Supermicro X7SBA |
-| **CPU** | Core 2 Quad Q9550 |
-| **Cooler** | Arctic Cooling Freezer 7 Pro |
-| **RAM** | 2 × 2GB DDR2-800 |
-| **PSU** | Seasonic M12II-500W (SS-500GM) |
-| **DAQ** | NI PCI-6254 (PCI) |
-| **OS** | Windows XP Professional SP3 |
+| Part        | Item                           |
+| ----------- | ------------------------------ |
+| **Chassis** | ICOM409 4U                     |
+| **Board**   | Supermicro X7SBA               |
+| **CPU**     | Core 2 Quad Q9550              |
+| **Cooler**  | Arctic Cooling Freezer 7 Pro   |
+| **RAM**     | 2 × 2GB DDR2-800               |
+| **PSU**     | Seasonic M12II-500W (SS-500GM) |
+| **DAQ**     | NI PCI-6220/6255 (PCI)         |
+| **OS**      | Windows XP Professional SP3    |
 
 ---

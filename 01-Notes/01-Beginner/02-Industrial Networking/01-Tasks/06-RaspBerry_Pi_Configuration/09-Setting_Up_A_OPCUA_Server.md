@@ -16,7 +16,7 @@ The two most common official packages are `node-red-contrib-opcua` (for Client, 
 
 We gonna download it via the Node-RED Palette Manager but you could also use the command line if you're bored (`npm install node-red-contrib-opcua`).
 
-- Open your Node-RED editor in a web browser (usually at `http://localhost:1880` on your server and `http://<YOUR-IP-ADDRESS>:1880).
+- Open your Node-RED editor in a web browser (usually at `http://localhost:1880` on your server and `http://<YOUR-IP-ADDRESS>:1880`).
 - Click the **Menu icon** (three horizontal lines) in the top-right corner.
 - Select **Manage palette** from the dropdown menu.
 - Click on the **Install** tab.
@@ -59,7 +59,17 @@ Donesies! Not really...
 ### Old Flow
 > 😘**Don't hit me but....** 
 
-I won't lie I absolutely used AI initially (fight me), but mainly because there is no information on this particular topic or least not clear enough information, but that's not the point. The main point I'm trying to convey is while doing this task, I absolutely didn't understand what I was doing and it led to a lot of headaches. The initial flow was initially as shown below, this was made by AI:
+I won't lie I absolutely used AI for the OPC UA Server flow initially (fight me), but mainly because there is no information on this particular topic or least not clear enough information, but that's not the point.
+
+> [!note] The only useful useless info I found (I know it's kinda a oxymoron but still...)
+> https://www.umh.app/insight/creating-a-node-red-flow-with-simulated-opc-ua-data
+> https://flows.nodered.org/collection/gzu0bJiFfpEb
+> https://flows.nodered.org/flow/a5bf4adbf30620665710544b357b7934/in/gzu0bJiFfpEb
+> https://flowfuse.com/blog/2023/07/how-to-deploy-a-basic-opc-ua-server-in-node-red/
+> https://www.industry40.tv/blog-post/how-to-create-an-opc-ua-server-using-node-red-for-industrial-data
+> 
+
+The main point I'm trying to convey is while doing this task, I absolutely didn't understand what I was doing and it led to a lot of headaches. The initial flow was initially as shown below, this was made by AI:
 
 ```mermaid
 graph TD
@@ -80,7 +90,7 @@ graph TD
     linkStyle default stroke:#ffffff,stroke-width:3px;
 ```
 
-### Where the problem started
+### Where the problem started...
 ![[Pasted image 20261007123351.png]]
 As you can see in the above image, this is my **DHT22 Environment Flow (Flow 1)**, and initially, I created a separate flow for the **OPC UA Server (Flow 2)** that reads the temperature and humidity by adding a function and connecting it to the **Validate Sensor Reading**. The above sensor flow already does the hard work of obtaining and validating the readings. We didn't need to rebuild it in **Flow 2**, we just needed to take the output of that and present it to the OPCUA Server, right? Even for me (a total beginner) it made sense but this is where I should clocked the red flags.
 
@@ -756,13 +766,19 @@ graph TD
 | 8   | **Debug: EXEC ERROR**          | debug    | Shows the command's error text (stderr)                                             | Shows kernel read failures like `Input/output error`                                    |
 | 9   | **Prepare Dashboard Messages** | function | Splits one valid reading into 4 messages (one per widget)                           | Dashboard widgets read `msg.payload`, so each needs its own message with just its value |
 | 10  | **Build Error Status**         | function | Turns a rejection into text such as `SENSOR ERROR: Humidity outside expected range` | The dashboard shows a failure instead of silently freezing                              |
-| 11  | **link out 1**                 | function |                                                                                     |                                                                                         |
+| 11  | **link out 1**                 | link out | Sends a copy of every valid reading to the `link in` node on the OPC UA tab         | Lets the OPC UA tab reuse this sensor pipeline instead of reading the sensor a second time |
+| 12  | **Temperature Gauge**          | ui-gauge | Shows the current temperature as a needle gauge (-10 to 50 °C, colour bands)        | At-a-glance reading for a human                                                         |
+| 13  | **Humidity Gauge**             | ui-gauge | Shows the current relative humidity as a gauge                                      | At-a-glance reading for a human                                                         |
+| 14  | **System Status**              | ui-text  | Shows `OK` or the `SENSOR ERROR: ...` text                                          | Failures are visible instead of the gauges silently freezing                            |
+| 15  | **Last Updated**               | ui-text  | Shows the time of the last valid reading in SAST                                    | Tells you whether the data is fresh or stale                                            |
+| 16  | **Temperature Chart**          | ui-chart | Line chart of temperature over the last hour                                        | Shows trends, not just the current value                                                |
+| 17  | **Humidity Chart**             | ui-chart | Line chart of humidity over the last hour (fixed 0 to 100 scale)                    | Shows trends, not just the current value                                                |
 
 ---
 
 After struggling with this entire thing for a while I decided to question what I was actually doing, the new flow takes a different approach. I decided I should combine the two flows at `Validate Sensor Reading`, not make the OPC UA flow independently read the sensor. The new problem was figuring out **how???**
 
-**Flow 2** already does the difficult work: it reads the Linux IIO values, converts them into °C and % RH, timestamps them, and rejects invalid readings. So why not just reuse that pipeline rather than duplicate it: 
+**Flow 1** already does the difficult work: it reads the Linux IIO values, converts them into °C and % RH, timestamps them, and rejects invalid readings. So why not just reuse that pipeline rather than duplicate it: 
 ```mermaid
 graph TD
     A["<b>🌡️ DHT22 / LINUX SENSOR INPUT</b><br/><small>Physical sensor or the existing Linux IIO interface</small>"]
@@ -786,7 +802,7 @@ graph TD
     linkStyle default stroke:#ffffff,stroke-width:3px;
 ```
 
-After coming to the conclusion that we can just reuse the output from **Flow 2**, it made things easier and all we had to do was link the 2 flows with we can by using the **link in/out** nodes to connect the two tabs.
+After coming to the conclusion that we can just reuse the output from **Flow 1**, it made things easier and all we had to do was link the 2 flows by using the **link in/out** nodes to connect the two tabs.
 
 ```mermaid
 graph TD
@@ -800,7 +816,6 @@ graph TD
 
     A ==> B
     A ==> C
-    B ==> D
     C ==> D
     D ==> E
 
@@ -818,22 +833,195 @@ Once the connection is deployed, the sensor's five-second polling cycle should f
 ## 9.5 The NEW Flow, Node by Node: OPC UA Server - Live DHT22
 ### Node-RED vocabulary used here
 
-| Term                | Meaning                                                                                                    |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Term                      | Meaning                                                                                                                  |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Server**                | The program that holds the data and waits for clients to ask for it. Here: the OPC UA Server node inside Node-RED        |
+| **Client**                | The program that connects to the server and reads the data. Here: UaExpert                                               |
+| **Endpoint**              | The address a client connects to, e.g. `opc.tcp://<YOUR-IP-ADDRESS>:53880`                                               |
+| **Address space**         | The tree of folders and variables the server exposes. A client "browses" it the way you browse folders in File Explorer  |
+| **Namespace (`ns`)**      | A numbered group of names so two items with the same name can't clash. We use `ns=1`                                     |
+| **NodeId**                | The unique ID of one item, e.g. `ns=1;s=Temperature` (`s` = the ID is a string)                                          |
+| **Folder**                | A container in the address space. Ours is called `DHT22`                                                                 |
+| **Variable**              | One readable value. Ours: `Temperature` and `Humidity`                                                                   |
+| **Datatype**              | What kind of value a variable holds. `Double` = a decimal number such as `25.4`                                          |
+| **`opcuaCommand`**        | A special instruction inside `msg.payload` that tells the server node to *build* something (`addFolder`, `addVariable`) instead of storing a value |
 
+### The big picture
+Two jobs happen in this flow, and they happen at different times:
+
+1. **Setup (once per Deploy):** build the empty shelves, a `DHT22` folder with a `Temperature` and a `Humidity` variable.
+2. **Updates (every 5 seconds):** put the newest valid reading onto those shelves.
+
+```mermaid
+graph TD
+    S["<b>⏱️ Create Address Space</b><br/><small>Inject: fires once, shortly after Deploy</small>"]
+    T["<b>🏗️ Build Address Space</b><br/><small>Function: addFolder, setFolder, addVariable x2</small>"]
+    L["<b>🔗 link in</b><br/><small>Receives the validated reading from the DHT22 tab</small>"]
+    F["<b>🔄 Send DHT22 values to OPC UA</b><br/><small>Function: one reading becomes two messages</small>"]
+    O["<b>🖥️ OPC UA Server (lab)</b><br/><small>Holds DHT22 / Temperature and DHT22 / Humidity</small>"]
+    D["<b>🐞 Debug: OPC UA</b><br/><small>Shows what the server node answers with</small>"]
+
+    S ==> T
+    T ==> O
+    L ==> F
+    F ==> O
+    O ==> D
+
+    style S fill:#27272a,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style T fill:#27272a,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style L fill:#27272a,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style F fill:#27272a,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style O fill:#4f46e5,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style D fill:#27272a,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+
+    linkStyle default stroke:#ffffff,stroke-width:3px;
+```
 
 ### The nodes
 ![[Pasted image 20261015160629.png]]
 
-| #   | Node name                      | Type     | What it does                                                                        | Why it exists                                                                           |
-| --- | ------------------------------ | -------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| #   | Node name                       | Type         | What it does                                                                                               | Why it exists                                                                                           |
+| --- | ------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| 1   | **link in 1**                   | link in      | Receives the valid reading sent by `link out 1` on the DHT22 tab                                           | This is the bridge between the two tabs. Its ID matches the link out, so the wire is invisible but real |
+| 2   | **Send DHT22 values to OPC UA** | function     | Turns one reading into two messages: one for `Temperature`, one for `Humidity`                             | The server wants one message per variable: `msg.topic` = which variable, `msg.payload` = the value      |
+| 3   | **Create Address Space**        | inject       | Fires once, a couple of seconds after Deploy                                                               | The server starts empty. Something has to ask it to build the folder and variables                      |
+| 4   | **Build Address Space**         | function     | Sends 4 commands in order: `addFolder`, `setFolder`, `addVariable` (Temperature), `addVariable` (Humidity) | Variables must exist before you can write to them                                                       |
+| 5   | **OPC UA Server (lab)**         | OpcUa-Server | Runs the actual OPC UA server, builds what it is told to, stores the values, answers clients               | This is the whole point of the task                                                                     |
+| 6   | **Debug: OPC UA**               | debug        | Shows the server node's output in the debug sidebar                                                        | Lets you see whether commands and values were accepted                                                  |
 
+> ⚠️ **Check against your screenshot:** node names, count and IDs above are written from how the flow is described in this document. If your Flow 2 has extra or differently named nodes, edit the table to match what's on your canvas.
 
+### Node 2: Send DHT22 values to OPC UA
+Input is the valid reading from the DHT22 tab: `{ temperature, humidity, timestamp, valid, status }`.
+
+```javascript
+// Takes ONE valid reading and turns it into TWO messages for the OPC UA server.
+//   msg.topic   = the NodeId of the variable to update
+//   msg.payload = the new value (a plain number)
+// Wrapping the two messages in [[ ... ]] sends both out of output 1.
+
+const reading = msg.payload;
+
+return [[
+    { topic: "ns=1;s=Temperature", payload: reading.temperature },
+    { topic: "ns=1;s=Humidity",    payload: reading.humidity }
+]];
+```
+
+Only the valid output of `Validate Sensor Reading` reaches this node, so the OPC UA variables never receive garbage. If a reading is rejected, they simply keep their last good value.
+
+### Node 4: Build Address Space
+Order matters here: folder first, then tell the server to put the next things *inside* that folder, then the variables.
+
+```javascript
+// Runs once after Deploy. Sends four commands to the OPC UA server node.
+// opcuaCommand in msg.payload = "build something", not "store a value".
+//   addFolder   -> creates the DHT22 folder
+//   setFolder   -> makes DHT22 the parent for what comes next
+//   addVariable -> creates a variable; datatype=Double means decimal number
+
+return [[
+    { topic: "ns=1;s=DHT22",                       payload: { opcuaCommand: "addFolder" } },
+    { topic: "ns=1;s=DHT22",                       payload: { opcuaCommand: "setFolder" } },
+    { topic: "ns=1;s=Temperature;datatype=Double", payload: { opcuaCommand: "addVariable" } },
+    { topic: "ns=1;s=Humidity;datatype=Double",    payload: { opcuaCommand: "addVariable" } }
+]];
+```
+
+**Why this runs on every Deploy:** each time you click Deploy, Node-RED restarts the OPC UA server and its address space is wiped. The inject node has *Inject once after Deploy* ticked, so the shelves get rebuilt automatically. Without it the server comes back empty and your values have nowhere to go.
+
+### Node 5: OPC UA Server (lab) settings
+Open the node and check these. For this lab we keep security off so we can focus on getting data flowing:
+
+| Setting                     | Value                                   | Note                                                              |
+| --------------------------- | --------------------------------------- | ----------------------------------------------------------------- |
+| **Port**                    | `53880` (default) or your own           | Write it down, you need it for the endpoint URL in UaExpert       |
+| **Allow anonymous**         | ✅ ticked                                | Lets UaExpert connect without a username                          |
+| **Security: None endpoint** | ✅ ticked                                | Lets UaExpert connect with Security Mode `None`                   |
+| **Everything else**         | Default                                 |                                                                   |
+
+> 🔒 **Lab only.** Anonymous access with no encryption is fine on a bench Raspberry Pi. On a real plant network you would use usernames and `SignAndEncrypt`. Never leave a setup like this reachable from an office or production network.
 
 ---
 
+## 9.6 Connect UaExpert to your server
+### Find the endpoint URL
+It is built from three parts:
+
+```
+opc.tcp://<YOUR-IP-ADDRESS>:<PORT>
+```
+
+Example: `opc.tcp://192.168.1.50:53880`. Use the Raspberry Pi's IP address and the port from the server node. `localhost` only works if UaExpert runs on the Pi itself.
+
+### Connect
+1. Open **UaExpert**.
+2. Click **Server** in the top menu, then **Add...** (or click the **+** icon in the toolbar).
+3. Double-click **<Double click to Add Server...> ** under **Custom Discovery**.
+4. Paste your endpoint URL into the **Endpoint Url** box.
+5. Open the **Authentication Settings** tab and make sure **Anonymous** is selected.
+6. Click **OK**.
+7. Under **Project** on the left, right-click the new server and choose **Connect** (or select it and press the plug icon).
+8. If a **certificate** window appears, choose **Trust Server Certificate** (or Continue), then **Connect**.
+
+When it works, the server name in the project tree turns solid and the **Address Space** window fills with items.
+
+![[Pasted image 20261016084819.png]]
+
+### Find your values
+1. In **Address Space**, expand **Root → Objects**.
+2. Open the **DHT22** folder.
+3. Drag **Temperature** and **Humidity** into the **Data Access View** in the middle.
+4. Watch the **Value** column.
+
+The values should change roughly every 5 seconds, which is the inject interval on the DHT22 tab.
 
 ![[Pasted image 20261015161044.png]]
-
 ![[Pasted image 20261015161417.png]]
 
+---
+
+## 9.7 Troubleshooting
+
+| Symptom                                           | Likely cause                                                                         | Fix                                                                                                    |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| UaExpert can't connect / times out                | Wrong IP or port, flow not deployed, or a firewall in the way                        | Re-check the port in the server node, confirm Deploy, then try `opc.tcp://<IP>:<PORT>` again           |
+| Certificate error (`BadCertificateUntrusted`)     | UaExpert or the server doesn't trust the other's certificate yet                     | Choose **Trust Server Certificate** in UaExpert. In the server node, tick *auto accept unknown certificate* if needed |
+| Connected, but the `DHT22` folder is missing      | Address space was never built, or Deploy wiped it and the setup inject didn't fire   | Make sure **Create Address Space** has *Inject once after Deploy* ticked, then Deploy again            |
+| Variables exist but never change                  | `link out` / `link in` not connected, or no valid readings arriving                  | Check **Debug: VALID** on the DHT22 tab, then check both link nodes target each other                  |
+| Variables exist but show `Bad` / empty            | Value sent before the variable existed, or wrong NodeId                              | Make sure NodeIds are identical in both function nodes: `ns=1;s=Temperature` and `ns=1;s=Humidity`    |
+| Everything vanished after a Deploy                | Deploy restarts the OPC UA server and clears its address space                       | Reconnect UaExpert. The setup inject rebuilds the folder and variables on its own                      |
+| `BadNodeIdUnknown` in UaExpert                    | Namespace or name mismatch                                                           | Compare the NodeId in UaExpert (right-click → Attributes) with the one in your function nodes          |
+
+---
+
+## 9.9 Recap
+```mermaid
+graph TD
+    A["<b>🌡️ DHT22</b><br/><small>Linux IIO · read every 5 s</small>"]
+    B["<b>⚡ DHT22 TAB</b><br/><small>Exec · Parse · Timestamp · Validate</small>"]
+    C["<b>📈 FLOWFUSE DASHBOARD</b><br/><small>Gauges, charts, status for humans</small>"]
+    D["<b>🔗 LINK OUT → LINK IN</b><br/><small>Hands the valid reading to the OPC UA tab</small>"]
+    E["<b>🖥️ OPC UA SERVER</b><br/><small>DHT22 / Temperature, DHT22 / Humidity</small>"]
+    F["<b>💻 UAEXPERT</b><br/><small>Browses and reads the values over opc.tcp</small>"]
+
+    A ==> B
+    B ==> C
+    B ==> D
+    D ==> E
+    E == "OPC UA (TCP)" ==> F
+
+    style A fill:#0284c7,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style B fill:#059669,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style C fill:#4f46e5,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style D fill:#27272a,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style E fill:#0d9488,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+    style F fill:#27272a,stroke:#ffffff,stroke-width:3px,color:#ffffff,rx:0px,ry:0px
+
+    linkStyle default stroke:#ffffff,stroke-width:3px;
+```
+
+### Lessons from the headaches
+- Only one flow talks to the sensor. The dashboard and the OPC UA server both consume its validated output. Two flows reading the same hardware means two places to break. 
+- Because bad readings are rejected before the link out, nothing downstream needs its own checks.
+- If you can't say what a node does, stop and find out before wiring on top of it. That's what turned the AI-made flow into a mess.
