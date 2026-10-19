@@ -27,36 +27,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/03-Final_Configuration.md",
+                "file": "01-Notes/01-Beginner/02-Industrial Networking/00-HOLLY BIBLEY/SL7.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "03-Final_Configuration"
+              "title": "SL7"
             }
           }
         ],
         "currentTab": 1
-      },
-      {
-        "id": "73152662b7acdea7",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "a1bd15df71b444fc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/03-Final_Configuration_2.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "03-Final_Configuration_2"
-            }
-          }
-        ]
       }
     ],
     "direction": "vertical"
@@ -225,20 +205,32 @@
   },
   "active": "ee288be04293eaed",
   "lastOpenFiles": [
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/Screenshot (71).png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/Screenshot (70).png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/Screenshot (69).png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/Screenshot (68).png",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/Screenshot (67).png",
+    "a8047b26-fde1-406d-95c5-f2a281eed9f4.jpg",
+    "e80bda32-0b9d-4a8e-8a6e-af425324257a.jpg",
+    "c18f6e7a-8b00-44e4-9634-d33c361475dd 1.jpg",
+    "5de39a01-75f9-406c-9378-3f542bea932e.jpg",
+    "c18f6e7a-8b00-44e4-9634-d33c361475dd.jpg",
+    "bc556298-6e8d-49a8-b27b-ee3e0a4e51bb.jpg",
+    "aeb8191a-8e22-49cf-9271-24794a6b0f5c.jpg",
+    "49b9324d-d0da-4b51-8941-838609d39314.jpg",
+    "Pasted image 20261019151917.png",
+    "Pasted image 20261019143336.png",
+    "Pasted image 20261019135734.png",
+    "01-Notes/01-Beginner/03-Python for Networking/00-Python_CheatSheet.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/00-HOLLY BIBLEY/SL7.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/00-HOLLY BIBLEY",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/03-Final_Configuration_2.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/02-Issues_&_Changes.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/03-Final_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/02-Issues_&_Changes.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/01-Switch_Configuration.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00-Reference_Configuration.md",
+    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00-Initial_Configuration.md",
+    "01-Notes/01-Beginner/03-Python for Networking/03_Python_Network_Programming_Intro.md",
+    "01-Notes/01-Beginner/03-Python for Networking/02_Guided_Project_FastAPI_Task_API.md",
+    "01-Notes/01-Beginner/03-Python for Networking/01_API_Fundamentals_Notes.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/03-Troubleshooting.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/02_New_Server_Info.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/09-Server-Diagnoses/01-Old_Server_Info.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/08-Switch_Configuration/00-Initial_Configuration.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/04-Shadowing.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/03-Access_Point_Setup.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/07-Setting_Up_Access_Point/02.2-Switch_Configuration.md",
@@ -247,29 +239,17 @@
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/ignition-perspective-workstation-master-guide.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/07-Mistakes_and_Stuff.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/01-Thin_Client_Setup.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/05-Setting_Up_A_Thin_Client/Thin-client-images/1000377763.jpg",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/README.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/Maintenance.md",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/04-Home-Assistant/01-The_Sonoff_POW_R2.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03.5-FireWall_Configuration (To be continued)/01-FireWall_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/05-FireWall_Configuration.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/04-Creating_VMs_Documentation.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/03-Server_Setup_Documentation.md",
-    "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/03-Adding_A_Server_To_A_Network/02-Switches_Documentation.md",
     "Pasted image 20261016084819.png~RF8f3afe1f.TMP",
     "Pasted image 20261016084819.png.~tmp",
-    "Pasted image 20261016084819.png",
-    "Pasted image 20261015161417.png",
-    "Pasted image 20261015161254.png",
-    "Pasted image 20261015161044.png",
-    "Pasted image 20261015160629.png",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/DHT22_Environmental_Monitor_&_OPC_UA_Server_Flow.json",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/DHT22_Environment_&_OPC_UA_Server_Flow.json",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration/flows (2).json",
     "01-Notes/01-Beginner/02-Industrial Networking/01-Tasks/06-RaspBerry_Pi_Configuration.zip",
     "01-Notes/Twin Jin",
     "01-Notes/course-15-secure-self-hosted-systems/theme/course.css",
-    "01-Notes/course-15-secure-self-hosted-systems/theme",
-    "01-Notes/course-15-secure-self-hosted-systems/task-manager/app/api/tasks/[id]/route.js"
+    "01-Notes/course-15-secure-self-hosted-systems/theme"
   ]
 }
