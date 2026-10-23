@@ -1,0 +1,195 @@
+{
+  "schema": "holly-bibley-project",
+  "version": 3,
+  "projectName": "MCC_Room",
+  "updatedAt": "2026-10-23T13:09:20.519Z",
+  "vlans": [
+    {
+      "id": "vlan-ar3naek8k",
+      "tag": "193",
+      "name": "Ignition",
+      "subnet": "192.168.193.0",
+      "gateway": "",
+      "notes": "",
+      "color": "#158c9b"
+    },
+    {
+      "id": "vlan-pi6eahbb2",
+      "tag": "191",
+      "name": "IND-SL5",
+      "subnet": "192.168.191.0",
+      "gateway": "",
+      "notes": "",
+      "color": "#9572cf"
+    }
+  ],
+  "devices": [
+    {
+      "id": "dev-xxx68ulks",
+      "type": "Other",
+      "hostname": "T0246",
+      "model": "SL7 SCADA ThinClient - Eng",
+      "managementIp": "",
+      "notes": "",
+      "x": 610,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-ar3naek8k",
+          "name": "",
+          "ip": "192.168.193.112",
+          "peerPort": "IND-SW-SL7MCC"
+        }
+      ]
+    },
+    {
+      "id": "dev-d3lmghsrj",
+      "type": "Other",
+      "hostname": "T0247",
+      "model": "SL7 SCADA ThinClient - Operator",
+      "managementIp": "",
+      "notes": "",
+      "x": 950,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-ar3naek8k",
+          "name": "",
+          "ip": "192.168.193.111",
+          "peerPort": "IND-SW-SL7MCC"
+        }
+      ]
+    },
+    {
+      "id": "dev-0znv9ti0v",
+      "type": "Desktop PC",
+      "hostname": "C7401-SL7-IBA",
+      "model": "IBA",
+      "managementIp": "",
+      "notes": "",
+      "x": 440,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-pi6eahbb2",
+          "name": "",
+          "ip": "192.168.191.42",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-08myl2ab6",
+      "type": "Virtual machine",
+      "hostname": "IND-SL7-ENG-PLC",
+      "model": "VM",
+      "managementIp": "192.168.191.50",
+      "notes": "",
+      "x": 880,
+      "displayMode": "per-vlan",
+      "parentHostId": "dev-zbtc9uns8",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-pi6eahbb2",
+          "name": "",
+          "ip": "",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-uv4fdb56s",
+      "type": "Virtual machine",
+      "hostname": "IND-SL7-ENG-Drives",
+      "model": "VM",
+      "managementIp": "192.168.191.51",
+      "notes": "",
+      "x": 1130,
+      "displayMode": "per-vlan",
+      "parentHostId": "dev-zbtc9uns8",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-pi6eahbb2",
+          "name": "",
+          "ip": "",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-zbtc9uns8",
+      "type": "ESXi host",
+      "hostname": "IND-SL7-ENG_Server",
+      "model": "VMWare ESXi host",
+      "managementIp": "",
+      "notes": "",
+      "x": 980,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-pi6eahbb2",
+          "name": "",
+          "ip": "",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-gt4rf3xie",
+      "type": "Firewall",
+      "hostname": "Virtual FireWall",
+      "model": "Firewall",
+      "managementIp": "",
+      "notes": "",
+      "x": 320,
+      "displayMode": "single",
+      "parentHostId": "dev-zbtc9uns8",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-ar3naek8k",
+          "name": "",
+          "ip": "192.168.193.1",
+          "peerPort": ""
+        },
+        {
+          "vlanId": "vlan-pi6eahbb2",
+          "name": "",
+          "ip": "192.168.191.1",
+          "peerPort": ""
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-iqgd7izm9",
+      "fromDeviceId": "dev-0znv9ti0v",
+      "toDeviceId": "dev-08myl2ab6",
+      "type": "RDP / Remote Desktop",
+      "label": "Remote session",
+      "protocolPort": "",
+      "notes": ""
+    },
+    {
+      "id": "conn-qj8q6uzm9",
+      "fromDeviceId": "dev-0znv9ti0v",
+      "toDeviceId": "dev-uv4fdb56s",
+      "type": "RDP / Remote Desktop",
+      "label": "Remote session",
+      "protocolPort": "",
+      "notes": ""
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "holly-bibley-project",
+  "version": 3,
+  "projectName": "Untitled logical network",
+  "updatedAt": "2026-10-23T14:17:51.381Z",
+  "vlans": [
+    {
+      "id": "vlan-wqw7m2orc",
+      "tag": "181",
+      "name": "IND-TLL",
+      "subnet": "",
+      "gateway": "",
+      "notes": "",
+      "color": "#c99a18"
+    }
+  ],
+  "devices": [
+    {
+      "id": "dev-ypjltexsf",
+      "type": "Desktop PC",
+      "hostname": "TLLES1",
+      "model": "",
+      "managementIp": "",
+      "notes": "",
+      "x": 560,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.2",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-g3rpsylve",
+      "type": "Desktop PC",
+      "hostname": "TLLOSS1",
+      "model": "",
+      "managementIp": "",
+      "notes": "",
+      "x": 780,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.3",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-vu0cwmdlv",
+      "type": "Desktop PC",
+      "hostname": "TLLOSC1",
+      "model": "",
+      "managementIp": "",
+      "notes": "",
+      "x": 1000,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.5",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-0cxw8kvqg",
+      "type": "Desktop PC",
+      "hostname": "TLLOSC2",
+      "model": "",
+      "managementIp": "",
+      "notes": "",
+      "x": 1220,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.6",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-do8v26stg",
+      "type": "Thin client",
+      "hostname": "TLLOSC1-TC",
+      "model": "ThinClient OSC1 Entry HMI",
+      "managementIp": "",
+      "notes": "",
+      "x": 1440,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.10",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-0juiulb21",
+      "type": "Thin client",
+      "hostname": "TLLOSC2-TC",
+      "model": "ThinClient OSC2 Exit HMI",
+      "managementIp": "",
+      "notes": "",
+      "x": 1660,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.9",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-zfxoe1ou6",
+      "type": "Desktop PC",
+      "hostname": "TLLGAUGE",
+      "model": "Gauge system/TLLGauge",
+      "managementIp": "",
+      "notes": "",
+      "x": 340,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.20",
+          "peerPort": ""
+        }
+      ]
+    },
+    {
+      "id": "dev-wj90q805s",
+      "type": "Desktop PC",
+      "hostname": "C5585",
+      "model": "IBA PDA",
+      "managementIp": "",
+      "notes": "",
+      "x": 1910,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.7",
+          "peerPort": "192.168.181.7"
+        }
+      ]
+    },
+    {
+      "id": "dev-e0ekvi8tr",
+      "type": "Desktop PC",
+      "hostname": "TLL-IBA-TC",
+      "model": "ThinClient IBA PDA",
+      "managementIp": "",
+      "notes": "",
+      "x": 2160,
+      "displayMode": "single",
+      "parentHostId": "",
+      "hostedDevices": [],
+      "interfaces": [
+        {
+          "vlanId": "vlan-wqw7m2orc",
+          "name": "",
+          "ip": "192.168.181.8",
+          "peerPort": ""
+        }
+      ]
+    }
+  ],
+  "connections": [],
+  "notes": ""
+}
