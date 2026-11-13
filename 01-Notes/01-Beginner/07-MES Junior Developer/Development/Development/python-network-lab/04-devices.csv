@@ -1,0 +1,5 @@
+hostname,ip_address,role,vlan,problems
+SW-LAB-01,192.168.10.2,switch,,missing vlan
+HMI-SIM-01,192.168.20.20,hmi,20,
+,192.168.10.5,switch,10,missing hostname
+PLC-SIM-01,192.168.20.30,plc-simulator,20,

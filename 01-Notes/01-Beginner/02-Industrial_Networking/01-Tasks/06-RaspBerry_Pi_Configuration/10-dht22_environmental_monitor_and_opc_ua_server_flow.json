@@ -1,0 +1,958 @@
+[
+    {
+        "id": "3d2a14e9d3bb6454",
+        "type": "tab",
+        "label": "DHT22 Environmental Monitor",
+        "disabled": false,
+        "info": "DHT22 -> Linux IIO -> Exec -> Parse -> Timestamp -> Validate -> FlowFuse Dashboard"
+    },
+    {
+        "id": "opcua_live_tab",
+        "type": "tab",
+        "label": "OPC UA Server - Live DHT22",
+        "disabled": false,
+        "info": "OPC UA server with live DHT22 updates, demo test values, and local client read-back tests."
+    },
+    {
+        "id": "d5e1045f475c214c",
+        "type": "ui-theme",
+        "name": "Dark Theme",
+        "colors": {
+            "surface": "#18191b",
+            "primary": "#0d74ce",
+            "bgPage": "#111113",
+            "groupBg": "#212225",
+            "groupOutline": "#363a3f"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "7a8920030d721e23",
+        "type": "ui-base",
+        "name": "Environment Monitor",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": true
+    },
+    {
+        "id": "20c88269870b6d9a",
+        "type": "ui-page",
+        "name": "Environment",
+        "ui": "7a8920030d721e23",
+        "path": "/environment",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "d5e1045f475c214c",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "tabs": [],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "4943608bb462ecb9",
+        "type": "ui-group",
+        "name": "Current Conditions",
+        "page": "20c88269870b6d9a",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "2d88d77ba0df47ac",
+        "type": "ui-group",
+        "name": "History (last hour)",
+        "page": "20c88269870b6d9a",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "opcua_live_endpoint",
+        "type": "OpcUa-Endpoint",
+        "name": "",
+        "endpoint": "opc.tcp://localhost:53880/UA/SimpleNodeRedServer",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "a8bdc3b46b6ed8db",
+        "type": "inject",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Get Reading",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "ceb7e335d1f2f7c1"
+            ]
+        ]
+    },
+    {
+        "id": "ceb7e335d1f2f7c1",
+        "type": "exec",
+        "z": "3d2a14e9d3bb6454",
+        "command": "printf 'temperature='; cat /sys/bus/iio/devices/iio:device0/in_temp_input; printf 'humidity='; cat /sys/bus/iio/devices/iio:device0/in_humidityrelative_input",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Read DHT22",
+        "x": 560,
+        "y": 180,
+        "wires": [
+            [
+                "8d10b8a2eee93a3d"
+            ],
+            [
+                "96392ace05cd8ee8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "8d10b8a2eee93a3d",
+        "type": "function",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Parse Sensor Data",
+        "func": "// Input: msg.payload is the raw text from the Exec node, e.g.\n//   temperature=25400\n//   humidity=48000\n// Output: msg.payload = { temperature: 25.4, humidity: 48 }\n// Property names are LOWERCASE on purpose: JavaScript is case-sensitive,\n// and the validation node reads payload.temperature / payload.humidity.\n\nconst lines = String(msg.payload).trim().split(\"\\n\");\n\nlet temperature;   // stays undefined if the line is missing or malformed\nlet humidity;\n\nfor (const line of lines) {\n    // Only accept exactly \"key=digits\" so half-written lines are ignored\n    const match = line.trim().match(/^(temperature|humidity)=(-?\\d+)$/);\n    if (!match) {\n        continue;\n    }\n    const key = match[1];\n    const scaled = Number(match[2]) / 1000;      // IIO uses a 1000x scale\n    const value = Math.round(scaled * 10) / 10;  // 1 decimal place\n\n    if (key === \"temperature\") {\n        temperature = value;\n    } else {\n        humidity = value;\n    }\n}\n\nmsg.payload = {\n    temperature: temperature,\n    humidity: humidity\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 180,
+        "wires": [
+            [
+                "b86179699613945c"
+            ]
+        ]
+    },
+    {
+        "id": "b86179699613945c",
+        "type": "function",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Add Timestamp",
+        "func": "// Stored as ISO 8601 in UTC (the trailing Z). Convert to local time only when displaying.\nmsg.payload.timestamp = new Date().toISOString();\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 180,
+        "wires": [
+            [
+                "601c3131c55eca1a"
+            ]
+        ]
+    },
+    {
+        "id": "601c3131c55eca1a",
+        "type": "function",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Validate Sensor Reading",
+        "func": "// TWO OUTPUTS:\n//   Output 1 = VALID   -> dashboard + debug\n//   Output 2 = INVALID -> error status + debug\n// return [msg, null]  sends msg out of output 1 only\n// return [null, msg]  sends msg out of output 2 only\n\nconst temperature = msg.payload.temperature;\nconst humidity = msg.payload.humidity;\n\nconst errors = [];\n\n// Number.isFinite() is false for undefined, null, NaN and Infinity,\n// and typeof check rejects strings and other non-numbers.\nconst tempIsNumber = typeof temperature === \"number\" && Number.isFinite(temperature);\nconst humIsNumber = typeof humidity === \"number\" && Number.isFinite(humidity);\n\nif (!tempIsNumber) {\n    errors.push(\"Invalid temperature\");\n} else if (temperature < -40 || temperature > 80) {\n    errors.push(\"Temperature outside expected range\");\n}\n\nif (!humIsNumber) {\n    errors.push(\"Invalid humidity\");\n} else if (humidity < 0 || humidity > 100) {\n    errors.push(\"Humidity outside expected range\");\n}\n\nif (errors.length > 0) {\n    msg.payload = {\n        valid: false,\n        errors: errors,\n        reading: msg.payload\n    };\n    return [null, msg];\n}\n\nmsg.payload.valid = true;\nmsg.payload.status = \"OK\";\n\nreturn [msg, null];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 180,
+        "wires": [
+            [
+                "611ffb1bcc77624e",
+                "4648a122c8abda90",
+                "1283aa4fb3204950"
+            ],
+            [
+                "6daa988ee7ac4ce2",
+                "6449b280ccc412b7"
+            ]
+        ]
+    },
+    {
+        "id": "611ffb1bcc77624e",
+        "type": "debug",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Debug: VALID",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1500,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6daa988ee7ac4ce2",
+        "type": "debug",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Debug: INVALID",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1500,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "96392ace05cd8ee8",
+        "type": "debug",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Debug: EXEC ERROR",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "4648a122c8abda90",
+        "type": "function",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Prepare Dashboard Messages",
+        "func": "// Takes ONE valid reading and splits it into four clean messages,\n// one per dashboard widget. Each widget reads msg.payload.\n//   Output 1 -> temperature gauge + chart  (number)\n//   Output 2 -> humidity gauge + chart     (number)\n//   Output 3 -> status text                (string)\n//   Output 4 -> last-updated text          (string)\n// msg.topic is the series name the charts use.\n\nconst reading = msg.payload;\n\nconst updated = new Date(reading.timestamp).toLocaleString(\"en-ZA\", {\n    timeZone: \"Africa/Johannesburg\",\n    hour12: false\n});\n\nreturn [\n    { payload: reading.temperature, topic: \"Temperature\" },\n    { payload: reading.humidity, topic: \"Humidity\" },\n    { payload: reading.status },\n    { payload: updated }\n];\n",
+        "outputs": 4,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1530,
+        "y": 180,
+        "wires": [
+            [
+                "256b87e9ea2ab753",
+                "3db946a3f209ba8f"
+            ],
+            [
+                "a8195dabe1c7df4a",
+                "4addb77c813031d3"
+            ],
+            [
+                "30068750ee3ff089"
+            ],
+            [
+                "b47990f87b7e9192"
+            ]
+        ]
+    },
+    {
+        "id": "6449b280ccc412b7",
+        "type": "function",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Build Error Status",
+        "func": "// Turns a rejected reading into a short status line for the dashboard.\n// The gauges keep their last valid value; only the status text changes.\nconst errors = msg.payload.errors || [\"Unknown error\"];\n\nreturn { payload: \"SENSOR ERROR: \" + errors.join(\"; \") };\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1510,
+        "y": 360,
+        "wires": [
+            [
+                "30068750ee3ff089"
+            ]
+        ]
+    },
+    {
+        "id": "256b87e9ea2ab753",
+        "type": "ui-gauge",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Temperature Gauge",
+        "group": "4943608bb462ecb9",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Temperature",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-10",
+                "color": "#3b82f6"
+            },
+            {
+                "from": "18",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "28",
+                "color": "#ffc800"
+            },
+            {
+                "from": "35",
+                "color": "#ea5353"
+            }
+        ],
+        "min": -10,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1820,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a8195dabe1c7df4a",
+        "type": "ui-gauge",
+        "z": "3d2a14e9d3bb6454",
+        "name": "Humidity Gauge",
+        "group": "4943608bb462ecb9",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": "% RH",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ffc800"
+            },
+            {
+                "from": "30",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "70",
+                "color": "#3b82f6"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1820,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "30068750ee3ff089",
+        "type": "ui-text",
+        "z": "3d2a14e9d3bb6454",
+        "group": "4943608bb462ecb9",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "System Status",
+        "label": "System Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1820,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "b47990f87b7e9192",
+        "type": "ui-text",
+        "z": "3d2a14e9d3bb6454",
+        "group": "4943608bb462ecb9",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "Last Updated",
+        "label": "Last Updated (SAST)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1820,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "3db946a3f209ba8f",
+        "type": "ui-chart",
+        "z": "3d2a14e9d3bb6454",
+        "group": "2d88d77ba0df47ac",
+        "name": "Temperature Chart",
+        "label": "Temperature (°C)",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": "",
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "line",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "1",
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#ea5353",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 4,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1820,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4addb77c813031d3",
+        "type": "ui-chart",
+        "z": "3d2a14e9d3bb6454",
+        "group": "2d88d77ba0df47ac",
+        "name": "Humidity Chart",
+        "label": "Humidity (% RH)",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "bins": "",
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "line",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "1",
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#3b82f6",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 4,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1820,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1283aa4fb3204950",
+        "type": "link out",
+        "z": "3d2a14e9d3bb6454",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "opcua_live_sensor_linkin"
+        ],
+        "x": 1295,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "opcua_live_server",
+        "type": "OpcUa-Server",
+        "z": "opcua_live_tab",
+        "port": "53880",
+        "name": "OPC UA Server (lab)",
+        "endpoint": "UA/SimpleNodeRedServer",
+        "usersFile": "",
+        "nodesetDir": "",
+        "autoAcceptUnknownCertificate": false,
+        "registerToDiscovery": false,
+        "constructDefaultAddressSpace": false,
+        "allowAnonymous": true,
+        "endpointNone": true,
+        "endpointSign": false,
+        "endpointSignEncrypt": false,
+        "endpointBasic128Rsa15": false,
+        "endpointBasic256": false,
+        "endpointBasic256Sha256": false,
+        "maxNodesPerBrowse": "",
+        "maxNodesPerHistoryReadEvents": "",
+        "maxNodesPerHistoryUpdateData": "",
+        "maxNodesPerWrite": "",
+        "maxNodesPerMethodCall": "",
+        "maxNodesPerRegisterNodes": "",
+        "maxNodesPerNodeManagement": "",
+        "maxMonitoredItemsPerCall": "",
+        "maxNodesPerHistoryUpdateEvents": "",
+        "maxNodesPerTranslateBrowsePathsToNodeIds": "",
+        "maxConnectionsPerEndpoint": "",
+        "maxMessageSize": "",
+        "maxBufferSize": "",
+        "maxSessions": "",
+        "x": 900,
+        "y": 220,
+        "wires": [
+            [
+                "opcua_live_server_debug"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_server_debug",
+        "type": "debug",
+        "z": "opcua_live_tab",
+        "name": "Server node output / errors",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "opcua_live_create_temperature",
+        "type": "inject",
+        "z": "opcua_live_tab",
+        "name": "1. Create Temperature (Double)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "ns=4;s=Temperature;datatype=Double",
+        "payload": "{\"opcuaCommand\":\"addVariable\"}",
+        "payloadType": "json",
+        "x": 300,
+        "y": 80,
+        "wires": [
+            [
+                "opcua_live_server"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_create_humidity",
+        "type": "inject",
+        "z": "opcua_live_tab",
+        "name": "2. Create Humidity (Double)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "6",
+        "topic": "ns=4;s=Humidity;datatype=Double",
+        "payload": "{\"opcuaCommand\":\"addVariable\"}",
+        "payloadType": "json",
+        "x": 300,
+        "y": 130,
+        "wires": [
+            [
+                "opcua_live_server"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_demo",
+        "type": "inject",
+        "z": "opcua_live_tab",
+        "name": "3. DEMO only — set 26.2 °C / 52 %",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "7",
+        "topic": "",
+        "payload": "[{\"messageType\":\"Variable\",\"namespace\":4,\"variableName\":\"Temperature\",\"datatype\":\"Double\",\"variableValue\":26.2},{\"messageType\":\"Variable\",\"namespace\":4,\"variableName\":\"Humidity\",\"datatype\":\"Double\",\"variableValue\":52}]",
+        "payloadType": "json",
+        "x": 330,
+        "y": 190,
+        "wires": [
+            [
+                "opcua_live_server"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_sensor_linkin",
+        "type": "link in",
+        "z": "opcua_live_tab",
+        "name": "LIVE DHT22 INPUT — link your sensor flow here",
+        "links": [
+            "1283aa4fb3204950"
+        ],
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "opcua_live_sensor_function"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_sensor_function",
+        "type": "function",
+        "z": "opcua_live_tab",
+        "name": "Validate and convert live DHT22 values",
+        "func": "// Expected msg.payload:\n// { temperature: 25.7, humidity: 95, timestamp: \"...\", valid: true, status: \"OK\" }\n\nconst data = msg.payload;\n\nif (!data || data.valid !== true) {\n    node.warn(\"OPC UA update skipped: sensor data is invalid or valid is not true.\");\n    return null;\n}\n\nconst temperature = Number(data.temperature);\nconst humidity = Number(data.humidity);\n\nif (!Number.isFinite(temperature) || !Number.isFinite(humidity)) {\n    node.warn(\"OPC UA update skipped: temperature or humidity is not numeric.\");\n    return null;\n}\n\n// DHT22 operating ranges: -40 to 80 °C and 0 to 100 % RH.\nif (temperature < -40 || temperature > 80 || humidity < 0 || humidity > 100) {\n    node.warn(\"OPC UA update skipped: sensor values are outside the DHT22 range.\");\n    return null;\n}\n\n// Keep metadata for the debug sidebar; the OPC UA server receives the array payload.\nmsg.sensorTimestamp = data.timestamp || null;\nmsg.sensorStatus = data.status || \"Unknown\";\nmsg.payload = [\n    {\n        messageType: \"Variable\",\n        namespace: 4,\n        variableName: \"Temperature\",\n        datatype: \"Double\",\n        variableValue: temperature\n    },\n    {\n        messageType: \"Variable\",\n        namespace: 4,\n        variableName: \"Humidity\",\n        datatype: \"Double\",\n        variableValue: humidity\n    }\n];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "opcua_live_server",
+                "opcua_live_sensor_debug"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_sensor_debug",
+        "type": "debug",
+        "z": "opcua_live_tab",
+        "name": "LIVE sensor -> OPC UA payload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 370,
+        "wires": []
+    },
+    {
+        "id": "opcua_live_read_temperature",
+        "type": "inject",
+        "z": "opcua_live_tab",
+        "name": "4. Read Temperature from server",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "8",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 330,
+        "y": 460,
+        "wires": [
+            [
+                "opcua_live_item_temperature"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_item_temperature",
+        "type": "OpcUa-Item",
+        "z": "opcua_live_tab",
+        "item": "ns=4;s=Temperature",
+        "datatype": "Double",
+        "value": "",
+        "name": "Temperature node",
+        "x": 600,
+        "y": 460,
+        "wires": [
+            [
+                "opcua_live_client"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_read_humidity",
+        "type": "inject",
+        "z": "opcua_live_tab",
+        "name": "5. Read Humidity from server",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "8",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 330,
+        "y": 520,
+        "wires": [
+            [
+                "opcua_live_item_humidity"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_item_humidity",
+        "type": "OpcUa-Item",
+        "z": "opcua_live_tab",
+        "item": "ns=4;s=Humidity",
+        "datatype": "Double",
+        "value": "",
+        "name": "Humidity node",
+        "x": 600,
+        "y": 520,
+        "wires": [
+            [
+                "opcua_live_client"
+            ]
+        ]
+    },
+    {
+        "id": "opcua_live_client",
+        "type": "OpcUa-Client",
+        "z": "opcua_live_tab",
+        "endpoint": "opcua_live_endpoint",
+        "action": "read",
+        "deadbandvalue": "",
+        "time": 10,
+        "timeUnit": "s",
+        "localfile": "",
+        "localkeyfile": "",
+        "useTransport": false,
+        "maxChunkCount": "",
+        "maxMessageSize": "",
+        "receiveBufferSize": "",
+        "sendBufferSize": "",
+        "setstatusandtime": false,
+        "keepsessionalive": false,
+        "name": "Read variable from local server",
+        "applicationName": "",
+        "applicationUri": "",
+        "x": 850,
+        "y": 490,
+        "wires": [
+            [
+                "opcua_live_read_debug"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "opcua_live_read_debug",
+        "type": "debug",
+        "z": "opcua_live_tab",
+        "name": "OPC UA read-back result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "targetType": "msg",
+        "x": 1110,
+        "y": 490,
+        "wires": []
+    },
+    {
+        "id": "bbbe555961f49f1b",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.33.0",
+            "node-red-contrib-opcua": "0.2.355"
+        }
+    }
+]

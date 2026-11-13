@@ -1,0 +1,22 @@
+/* Optional portfolio-blog enrichment for HTML blocks used throughout the course. */
+.course-hero { padding: clamp(2rem, 6vw, 4rem); border: 1px solid var(--border, #d8e1ec); border-radius: 24px; background: linear-gradient(135deg, var(--surface, #fff), var(--surface-alt, #eef7fa)); margin: 1.25rem 0 2rem; }
+.course-hero .eyebrow { font-size: .75rem; font-weight: 750; letter-spacing: .14em; opacity: .78; }
+.course-hero h1 { max-width: 18ch; font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.03; letter-spacing: -.045em; margin: .5rem 0 1rem; }
+.course-hero p:last-child { max-width: 68ch; font-size: 1.1rem; line-height: 1.7; }
+.grid { display: grid; gap: 1rem; margin: 1.25rem 0 1.75rem; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.card { border: 1px solid var(--border, #d8e1ec); border-radius: 16px; padding: 1.25rem; background: var(--surface, #fff); box-shadow: 0 8px 28px rgb(20 40 60 / 4%); }
+.card h3 { margin-top: 0; }
+.card > :last-child { margin-bottom: 0; }
+.callout { margin: 1.25rem 0; padding: 1rem 1.2rem; border: 1px solid var(--border, #d8e1ec); border-left-width: 4px; border-radius: 12px; background: var(--surface, #fff); }
+.callout-info { border-left-color: #1684a7; }
+.callout-warning { border-left-color: #cb8b13; }
+.callout-danger { border-left-color: #c0394b; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: .95rem; }
+thead th { text-align: left; background: var(--surface-alt, #f0f5fa); }
+th, td { padding: .7rem .8rem; border: 1px solid var(--border, #d8e1ec); vertical-align: top; }
+tr:nth-child(even) td { background: color-mix(in srgb, var(--surface, #fff) 90%, var(--surface-alt, #eef3f8)); }
+.timeline { padding-left: 1.35rem; }
+.timeline li { padding: .25rem 0 .85rem .35rem; }
+@media (max-width: 760px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } table { display: block; overflow-x: auto; white-space: normal; } }

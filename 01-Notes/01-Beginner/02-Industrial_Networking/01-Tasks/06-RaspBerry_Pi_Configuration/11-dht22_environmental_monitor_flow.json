@@ -1,0 +1,578 @@
+[
+    {
+        "id": "dht22_env_tab",
+        "type": "tab",
+        "label": "DHT22 Environmental Monitor",
+        "disabled": false,
+        "info": "DHT22 -> Linux IIO -> Exec -> Parse -> Timestamp -> Validate -> FlowFuse Dashboard"
+    },
+    {
+        "id": "ui_base_env",
+        "type": "ui-base",
+        "name": "Environment Monitor",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": true
+    },
+    {
+        "id": "ui_theme_env",
+        "type": "ui-theme",
+        "name": "Environment Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "ui_page_env",
+        "type": "ui-page",
+        "name": "Environment",
+        "ui": "ui_base_env",
+        "path": "/environment",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "ui_theme_env",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "ui_group_current",
+        "type": "ui-group",
+        "name": "Current Conditions",
+        "page": "ui_page_env",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "ui_group_history",
+        "type": "ui-group",
+        "name": "History (last hour)",
+        "page": "ui_page_env",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "inject_get_reading",
+        "type": "inject",
+        "z": "dht22_env_tab",
+        "name": "Get Reading",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "exec_read_dht22"
+            ]
+        ]
+    },
+    {
+        "id": "exec_read_dht22",
+        "type": "exec",
+        "z": "dht22_env_tab",
+        "command": "printf 'temperature='; cat /sys/bus/iio/devices/iio:device0/in_temp_input; printf 'humidity='; cat /sys/bus/iio/devices/iio:device0/in_humidityrelative_input",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Read DHT22",
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "fn_parse"
+            ],
+            [
+                "debug_exec_stderr"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "fn_parse",
+        "type": "function",
+        "z": "dht22_env_tab",
+        "name": "Parse Sensor Data",
+        "func": "// Input: msg.payload is the raw text from the Exec node, e.g.\n//   temperature=25400\n//   humidity=48000\n// Output: msg.payload = { temperature: 25.4, humidity: 48 }\n// Property names are LOWERCASE on purpose: JavaScript is case-sensitive,\n// and the validation node reads payload.temperature / payload.humidity.\n\nconst lines = String(msg.payload).trim().split(\"\\n\");\n\nlet temperature;   // stays undefined if the line is missing or malformed\nlet humidity;\n\nfor (const line of lines) {\n    // Only accept exactly \"key=digits\" so half-written lines are ignored\n    const match = line.trim().match(/^(temperature|humidity)=(-?\\d+)$/);\n    if (!match) {\n        continue;\n    }\n    const key = match[1];\n    const scaled = Number(match[2]) / 1000;      // IIO uses a 1000x scale\n    const value = Math.round(scaled * 10) / 10;  // 1 decimal place\n\n    if (key === \"temperature\") {\n        temperature = value;\n    } else {\n        humidity = value;\n    }\n}\n\nmsg.payload = {\n    temperature: temperature,\n    humidity: humidity\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 200,
+        "wires": [
+            [
+                "fn_timestamp"
+            ]
+        ]
+    },
+    {
+        "id": "fn_timestamp",
+        "type": "function",
+        "z": "dht22_env_tab",
+        "name": "Add Timestamp",
+        "func": "// Stored as ISO 8601 in UTC (the trailing Z). Convert to local time only when displaying.\nmsg.payload.timestamp = new Date().toISOString();\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 200,
+        "wires": [
+            [
+                "fn_validate"
+            ]
+        ]
+    },
+    {
+        "id": "fn_validate",
+        "type": "function",
+        "z": "dht22_env_tab",
+        "name": "Validate Sensor Reading",
+        "func": "// TWO OUTPUTS:\n//   Output 1 = VALID   -> dashboard + debug\n//   Output 2 = INVALID -> error status + debug\n// return [msg, null]  sends msg out of output 1 only\n// return [null, msg]  sends msg out of output 2 only\n\nconst temperature = msg.payload.temperature;\nconst humidity = msg.payload.humidity;\n\nconst errors = [];\n\n// Number.isFinite() is false for undefined, null, NaN and Infinity,\n// and typeof check rejects strings and other non-numbers.\nconst tempIsNumber = typeof temperature === \"number\" && Number.isFinite(temperature);\nconst humIsNumber = typeof humidity === \"number\" && Number.isFinite(humidity);\n\nif (!tempIsNumber) {\n    errors.push(\"Invalid temperature\");\n} else if (temperature < -40 || temperature > 80) {\n    errors.push(\"Temperature outside expected range\");\n}\n\nif (!humIsNumber) {\n    errors.push(\"Invalid humidity\");\n} else if (humidity < 0 || humidity > 100) {\n    errors.push(\"Humidity outside expected range\");\n}\n\nif (errors.length > 0) {\n    msg.payload = {\n        valid: false,\n        errors: errors,\n        reading: msg.payload\n    };\n    return [null, msg];\n}\n\nmsg.payload.valid = true;\nmsg.payload.status = \"OK\";\n\nreturn [msg, null];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 200,
+        "wires": [
+            [
+                "debug_valid",
+                "fn_dashboard"
+            ],
+            [
+                "debug_invalid",
+                "fn_error_status"
+            ]
+        ]
+    },
+    {
+        "id": "debug_valid",
+        "type": "debug",
+        "z": "dht22_env_tab",
+        "name": "Debug: VALID",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "debug_invalid",
+        "type": "debug",
+        "z": "dht22_env_tab",
+        "name": "Debug: INVALID",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "debug_exec_stderr",
+        "type": "debug",
+        "z": "dht22_env_tab",
+        "name": "Debug: EXEC ERROR",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "fn_dashboard",
+        "type": "function",
+        "z": "dht22_env_tab",
+        "name": "Prepare Dashboard Messages",
+        "func": "// Takes ONE valid reading and splits it into four clean messages,\n// one per dashboard widget. Each widget reads msg.payload.\n//   Output 1 -> temperature gauge + chart  (number)\n//   Output 2 -> humidity gauge + chart     (number)\n//   Output 3 -> status text                (string)\n//   Output 4 -> last-updated text          (string)\n// msg.topic is the series name the charts use.\n\nconst reading = msg.payload;\n\nconst updated = new Date(reading.timestamp).toLocaleString(\"en-ZA\", {\n    timeZone: \"Africa/Johannesburg\",\n    hour12: false\n});\n\nreturn [\n    { payload: reading.temperature, topic: \"Temperature\" },\n    { payload: reading.humidity, topic: \"Humidity\" },\n    { payload: reading.status },\n    { payload: updated }\n];\n",
+        "outputs": 4,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 200,
+        "wires": [
+            [
+                "gauge_temp",
+                "chart_temp"
+            ],
+            [
+                "gauge_hum",
+                "chart_hum"
+            ],
+            [
+                "text_status"
+            ],
+            [
+                "text_updated"
+            ]
+        ]
+    },
+    {
+        "id": "fn_error_status",
+        "type": "function",
+        "z": "dht22_env_tab",
+        "name": "Build Error Status",
+        "func": "// Turns a rejected reading into a short status line for the dashboard.\n// The gauges keep their last valid value; only the status text changes.\nconst errors = msg.payload.errors || [\"Unknown error\"];\n\nreturn { payload: \"SENSOR ERROR: \" + errors.join(\"; \") };\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 380,
+        "wires": [
+            [
+                "text_status"
+            ]
+        ]
+    },
+    {
+        "id": "gauge_temp",
+        "type": "ui-gauge",
+        "z": "dht22_env_tab",
+        "name": "Temperature Gauge",
+        "group": "ui_group_current",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Temperature",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-10",
+                "color": "#3b82f6"
+            },
+            {
+                "from": "18",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "28",
+                "color": "#ffc800"
+            },
+            {
+                "from": "35",
+                "color": "#ea5353"
+            }
+        ],
+        "min": -10,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1480,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "gauge_hum",
+        "type": "ui-gauge",
+        "z": "dht22_env_tab",
+        "name": "Humidity Gauge",
+        "group": "ui_group_current",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "units": "% RH",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ffc800"
+            },
+            {
+                "from": "30",
+                "color": "#5cd65c"
+            },
+            {
+                "from": "70",
+                "color": "#3b82f6"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1480,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "text_status",
+        "type": "ui-text",
+        "z": "dht22_env_tab",
+        "group": "ui_group_current",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "System Status",
+        "label": "System Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1480,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "text_updated",
+        "type": "ui-text",
+        "z": "dht22_env_tab",
+        "group": "ui_group_current",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "Last Updated",
+        "label": "Last Updated (SAST)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1480,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "chart_temp",
+        "type": "ui-chart",
+        "z": "dht22_env_tab",
+        "group": "ui_group_history",
+        "name": "Temperature Chart",
+        "label": "Temperature (°C)",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "false",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#ea5353",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 4,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1480,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "chart_hum",
+        "type": "ui-chart",
+        "z": "dht22_env_tab",
+        "group": "ui_group_history",
+        "name": "Humidity Chart",
+        "label": "Humidity (% RH)",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "false",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#3b82f6",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 4,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1480,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    }
+]
