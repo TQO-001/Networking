@@ -32,19 +32,5 @@ Short, do-it-now guides built from the tasks you have already done. Open a **gui
 - Thin client must auto-start: [[07-make_the_thin_client_start_on_its_own|Start on its own]]
 - TightVNC will not connect to the Pi: [[03-connect_with_tightvnc_wayvnc_fix|WayVNC fix]]
 
-## Practice tracker
-Tick a line the first time you do that job for real.
-- [ ] Basic switch setup end to end
-- [ ] Reloaded a switch safely
-- [ ] Backed up and restored a config
-- [ ] Added a VLAN to a trunk on both ends
-- [ ] Recovered an err-disabled port
-- [ ] Built a ThinPro USB and reimaged a thin client
-- [ ] Thin client auto-starts and survives a power cut
-- [ ] Installed ESXi and created a VM
-- [ ] Set up a Moxa master/slave pair
-- [ ] Installed Node-RED that starts on boot
-- [ ] Wired and powered an IE-3300
-
 ## Where the facts came from
 Everything is taken from the task notes in this vault (each guide lists its source notes at the bottom). Items marked ◇ come from general knowledge or HP's published documentation.
