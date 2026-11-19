@@ -41,29 +41,28 @@
 ---
 
 ## Network Overview
-
 ### Switch Summary
 
-| # | Switch | Model | IP Address | Ports | Up | UTP in use | Fiber in use | CDP Neighbors | Location |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 | [[#IND-SW-EDNL_SL7]] | IE-3000-4TC | 192.168.160.73 | 6 | 5 | 3 | 2 | 3 | [[#SL7 LV Room]] |
-| 2 | [[#IND-SW-SL7Mcc]] | IE-3200-8T2S | 192.168.160.112 | 10 | 7 | 7 | 0 | 2 | [[#SL7 Electric Room]] |
-| 3 | [[#IND-SW-EDNL-SL7Oper]] | IE-3300-8P2S | 192.168.160.119 | 10 | 2 | 2 | 0 | 1 | [[#SL7 Operating Desk]] |
-| 4 | [[#IND-SW-EDNL_TLL]] | IE-3000-8TC | 192.168.160.59 | 10 | 5 | 3 | 2 | 2 | — |
-| 5 | [[#IND-SW-EDNL_Dept34_PTTL]] | WS-C2960X-24TS-L | 192.168.160.84 | 28 | 11 | 7 | 4 | 4 | — |
-| 6 | [[#IND-SW-Dept34_Distr]] | IE-9320-22S2C4X | 192.168.160.117 | 28 | 2 | 0 | 2 | 2 | — |
-| 7 | [[#IND-SW-EDNL_PTTL]] | IE-3000-8TC | 192.168.160.70 | 10 | 10 | 8 | 2 | 3 | — |
-| 8 | [[#IND-SW-EDNL_CTLL5]] | IE-3000-8TC | 192.168.160.71 | 10 | 3 | 2 | 1 | 1 | — |
-| 9 | [[#IND-SW-EDNL_PTTL_PLC]] | IE-3000-8TC | 192.168.160.90 | 10 | 9 | 9 | 0 | 2 | — |
-| 10 | [[#IND-SW-EDNL_PTTL_PLC2]] | IE-3000-4TC | 192.168.160.124 | 6 | 2 | 2 | 0 | 1 | — |
-| 11 | [[#IND-SW-EDNL_SL5]] | IE-3000-8TC | 192.168.160.56 | 10 | 6 | 4 | 2 | 2 | — |
-| 12 | [[#IND-SW-EDNL_SL4]] | IE-3000-8TC | 192.168.160.55 | 10 | 4 | 2 | 2 | 2 | — |
-| 13 | [[#IND-SW-EDNL-SL2]] | IE-3000-8TC | 192.168.160.54 | 10 | 1 | 0 | 1 | 1 | — |
-| 14 | [[#IND-SW-EDNL_A17ControlRoom]] | IE-3000-8TC | 192.168.160.65 | 10 | 4 | 2 | 2 | 2 | — |
-| 15 | [[#IND-SW-EDNL_EXTCOOLINGTOWER]] | IE-3200-8T2S | 192.168.160.101 | 10 | 5 | 3 | 2 | 2 | — |
-| 16 | [[#IND-SW-EDNL_S5CoolingTowers]] | IE-3000-8TC | 192.168.160.31 | 10 | 6 | 4 | 2 | 2 | — |
-| 17 | [[#IND-SW-EDNL_S4CoolingTowers]] | IE-3000-8TC | 192.168.160.30 | 10 | 8 | 6 | 2 | 2 | — |
-| 18 | [[#IND-SW-EDNL-CM-Crane]] | IE-3300-8P2S | 192.168.160.126 | 10 | 1 | 0 | 1 | 1 | — |
+| #   | Switch                           | Model            | IP Address      | Ports | Up  | UTP in use | Fiber in use | CDP Neighbors | Location                |
+| --- | -------------------------------- | ---------------- | --------------- | ----- | --- | ---------- | ------------ | ------------- | ----------------------- |
+| 1   | [[#IND-SW-EDNL_SL7]]             | IE-3000-4TC      | 192.168.160.73  | 6     | 5   | 3          | 2            | 3             | [[#SL7 LV Room]]        |
+| 2   | [[#IND-SW-SL7Mcc]]               | IE-3200-8T2S     | 192.168.160.112 | 10    | 7   | 7          | 0            | 2             | [[#SL7 Electric Room]]  |
+| 3   | [[#IND-SW-EDNL-SL7Oper]]         | IE-3300-8P2S     | 192.168.160.119 | 10    | 2   | 2          | 0            | 1             | [[#SL7 Operating Desk]] |
+| 4   | [[#IND-SW-EDNL_TLL]]             | IE-3000-8TC      | 192.168.160.59  | 10    | 5   | 3          | 2            | 2             | —                       |
+| 5   | [[#IND-SW-EDNL_Dept34_PTTL]]     | WS-C2960X-24TS-L | 192.168.160.84  | 28    | 11  | 7          | 4            | 4             | —                       |
+| 6   | [[#IND-SW-Dept34_Distr]]         | IE-9320-22S2C4X  | 192.168.160.117 | 28    | 2   | 0          | 2            | 2             | —                       |
+| 7   | [[#IND-SW-EDNL_PTTL]]            | IE-3000-8TC      | 192.168.160.70  | 10    | 10  | 8          | 2            | 3             | —                       |
+| 8   | [[#IND-SW-EDNL_CTLL5]]           | IE-3000-8TC      | 192.168.160.71  | 10    | 3   | 2          | 1            | 1             | —                       |
+| 9   | [[#IND-SW-EDNL_PTTL_PLC]]        | IE-3000-8TC      | 192.168.160.90  | 10    | 9   | 9          | 0            | 2             | —                       |
+| 10  | [[#IND-SW-EDNL_PTTL_PLC2]]       | IE-3000-4TC      | 192.168.160.124 | 6     | 2   | 2          | 0            | 1             | —                       |
+| 11  | [[#IND-SW-EDNL_SL5]]             | IE-3000-8TC      | 192.168.160.56  | 10    | 6   | 4          | 2            | 2             | —                       |
+| 12  | [[#IND-SW-EDNL_SL4]]             | IE-3000-8TC      | 192.168.160.55  | 10    | 4   | 2          | 2            | 2             | —                       |
+| 13  | [[#IND-SW-EDNL-SL2]]             | IE-3000-8TC      | 192.168.160.54  | 10    | 1   | 0          | 1            | 1             | —                       |
+| 14  | [[#IND-SW-EDNL_A17ControlRoom]]  | IE-3000-8TC      | 192.168.160.65  | 10    | 4   | 2          | 2            | 2             | —                       |
+| 15  | [[#IND-SW-EDNL_EXTCOOLINGTOWER]] | IE-3200-8T2S     | 192.168.160.101 | 10    | 5   | 3          | 2            | 2             | —                       |
+| 16  | [[#IND-SW-EDNL_S5CoolingTowers]] | IE-3000-8TC      | 192.168.160.31  | 10    | 6   | 4          | 2            | 2             | —                       |
+| 17  | [[#IND-SW-EDNL_S4CoolingTowers]] | IE-3000-8TC      | 192.168.160.30  | 10    | 8   | 6          | 2            | 2             | —                       |
+| 18  | [[#IND-SW-EDNL-CM-Crane]]        | IE-3300-8P2S     | 192.168.160.126 | 10    | 1   | 0          | 1            | 1             | —                       |
 
 **Legend:** *Ports* = physical front-panel ports · *Up* = link up/up · *UTP* = copper twisted pair (RJ45) · *Fiber* = SFP / 1000BASE-X link · *—* = not documented yet.
 

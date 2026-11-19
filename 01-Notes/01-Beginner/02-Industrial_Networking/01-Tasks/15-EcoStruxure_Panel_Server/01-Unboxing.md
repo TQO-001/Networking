@@ -1,15 +1,17 @@
 ## 1.1 EcoStruxure Panel Server
+The **Schneider Electric EcoStruxure Panel Server Universal (PAS600L)** is a DIN-rail-mounted industrial IoT gateway and wireless data concentrator powered by **24 V DC**. It acts as the communication bridge inside an electrical switchboard—collecting data from wired and wireless field sensors/meters and translating it for upstream SCADA, PLC, Building Management Systems (BMS), or cloud software.
+
 ![[ecostruxure-panel-server-universal-wireless-concentrator-modbus-gateway-24-vdc-500x500.webp]]
 
 >Ecostructure Panel Server (Pas600l) - Universal Wireless, Concentrator Modbus Gateway 24 Vdc
 
 The **EcoStruxure Panel Server** by Schneider Electric South Africa is a high-performance, modular IoT gateway and energy server designed to connect smart power networks, wireless sensors, and field devices to edge control software or cloud applications. 
 
-### Key Features and Functions
-- **All-in-One Gateway:** Connects wired (Modbus RS485 / Modbus TCP/IP) and wireless (IEEE 802.15.4 / Wi-Fi) smart devices such as PowerTag Energy sensors, PowerLogic HeatTag, circuit breakers, and power meters. 
-- **Cybersecurity:** Built in compliance with IEC 62443-4-1 standards to ensure secure data transfer to local dashboards or cloud platforms like EcoStruxure Energy Hub and Facility Expert. 
-- **Embedded Web Pages:** Allows direct real-time monitoring, energy consumption comparison graphs, diagnostic tools, and configuration through a web browser. 
-- **Default Credentials:** Firmware version `v002.005.000` and later use the default username `SecurityAdmin` and password `AAAAAAAA`. 
+### What It Is (Core Functions)
+- **Modbus RTU to Modbus TCP/IP Gateway:** Bridges serial RS485 devices (up to 32 Modbus-SL meters/relays) onto an Ethernet network so modern IP-based SCADA/PLCs can poll them.
+- **Wireless Concentrator (IEEE 802.15.4):** Pairs wirelessly with Schneider smart devices—such as **PowerTag** energy sensors, **HeatTag** thermal/fire-prevention sensors, ambient temperature/humidity sensors, and circuit breaker auxiliaries—without running control wiring.
+- **Network Segregator (IT/OT Separation):** Features two RJ45 Ethernet ports (`ETH1` and `ETH2`) plus 2.4 GHz Wi-Fi. You can run them in **Switched Mode** (daisy-chaining) or **Separated Mode** (isolating downstream field devices on `ETH2` from your upstream plant/IT network on `ETH1`).
+- **Datalogger & Local Web Server:** Buffers up to 1 month of historical energy/sensor data (512 MB memory) and hosts built-in webpages for live diagnostics.
 
 Available Models
 - **Entry (PAS400):** Basic connectivity and gateway functions.
