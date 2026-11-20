@@ -1,4 +1,5 @@
 {
   "cssTheme": "Blue Topaz",
-  "accentColor": "#952dcd"
+  "accentColor": "#952dcd",
+  "showRibbon": true
 }
