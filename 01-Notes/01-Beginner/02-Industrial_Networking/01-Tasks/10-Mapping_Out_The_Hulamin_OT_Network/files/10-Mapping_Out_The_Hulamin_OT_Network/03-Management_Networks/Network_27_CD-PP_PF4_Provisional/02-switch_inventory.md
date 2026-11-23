@@ -1,0 +1,9 @@
+# Switch inventory - Network_27_CD-PP_PF4_Provisional
+
+[Network index](00-index.md)
+
+| Switch | Management IP | Role | Hardware model | Firmware | Ports total / up | Collection | Hops from head | Parent |
+|---|---|---|---|---|---|---|---|---|
+| [[IND-SW-CD-PP_PF4]] | 192.168.160.99 | Head | C9500-48Y4C (SwitchScribe) | Unknown | 10 / 9 | success | 0 | IND-SW-CD-CORE |
+
+Firmware is the version the switch advertised to its neighbours. Model is shown with its source; where SwitchScribe and the neighbours disagree, both are stated.
