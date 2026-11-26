@@ -76,7 +76,11 @@ Switch(config-if-range)# switchport mode access
 Switch(config-if-range)# switchport access vlan <id>
 Switch(config-if-range)# spanning-tree portfast
 ```
-- [ ] Uplinks to other switches are trunks. Open [[07-set_up_a_trunk_and_add_a_vlan_to_it|Set up a trunk / add a VLAN to it]].
+- [ ] Uplinks to other switches are trunks, all VLANs allowed. Open [[07-set_up_a_trunk_and_add_a_vlan_to_it|Set up a trunk / add a VLAN to it]].
+```Cisco
+Switch(config)# interface 
+Switch(config-if)# switchport mode trunk 
+```
 
 ## Part 6: Global settings your work configs also carried (optional, ask first)
 ```cisco
